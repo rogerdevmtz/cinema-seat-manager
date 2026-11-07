@@ -104,6 +104,7 @@ function renderContext(): void {
   element<HTMLImageElement>("hero-backdrop").src =
     `/posters/movie-${movie}.jpg`;
   element<HTMLImageElement>("hero-backdrop").alt = `Póster de ${movieTitles[movie]}`;
+  element("watch-trailer").setAttribute("aria-label", `Ver tráiler de ${movieTitles[movie]}`);
   element("page-title").textContent = movieTitles[movie];
   element("details-title").textContent = movieTitles[movie];
   element("hero-genre").textContent = movieGenres[movie];
