@@ -72,7 +72,7 @@ Las reservas y la última entrada se mantienen durante la visita, sin servidor n
 
 ## Plano ajustado al ejercicio
 
-Las 80 butacas tienen el mismo tipo. La matriz solo guarda 0 (libre) o 1 (ocupado); la selección pendiente se representa aparte hasta confirmar. No hay VIP, bloqueos ni restricciones de acompañantes. La web comparte el recuento y la búsqueda del primer par horizontal con la consola: 80 libres en sala vacía y 48 en el escenario parcial.
+Las 80 butacas tienen el mismo tipo. La matriz solo guarda 0 (libre) o 1 (ocupado); la selección pendiente se representa aparte hasta confirmar. No hay VIP, bloqueos ni restricciones de acompañantes. Los pasillos después de las columnas 2 y 7 y antes de la fila 5 son únicamente espacios visuales: no añaden ni eliminan plazas ni cambian la búsqueda horizontal del ejercicio. La web comparte el recuento y la búsqueda del primer par horizontal con la consola: 80 libres en sala vacía y 48 en el escenario parcial.
 
 ## Organización
 

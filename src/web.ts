@@ -155,12 +155,12 @@ function selectedSeatRow([row, column]: Position): string {
 /** Sincroniza el mapa de butacas y el resumen con la matriz y la selección. */
 function renderSeats(): void {
   const room = currentRoom();
-  const gridColumn = (column: number): number => column + 2;
+  const gridColumn = (column: number): number => column + 2 + (column >= 3 ? 1 : 0) + (column >= 8 ? 1 : 0);
   let html = "";
   for (let column = 0; column < 10; column++)
     html += `<span class="column-label" style="grid-column:${gridColumn(column)};grid-row:1" aria-hidden="true">${column}</span>`;
   for (let row = 0; row < room.length; row++) {
-    const gridRow = row + 2;
+    const gridRow = row + 2 + (row >= 5 ? 1 : 0);
     html += `<span class="row-label" style="grid-column:1;grid-row:${gridRow}" aria-hidden="true">${row}</span>`;
     for (let column = 0; column < room[row].length; column++) {
       const chosen = selected.some(
