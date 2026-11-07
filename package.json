@@ -1,16 +1,17 @@
 {
-  "name": "typescript-hello",
+  "name": "cinema-seat-manager",
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Hello World with Typescript using Vite and Tailwind CSS",
+  "description": "Gestor de asientos en TypeScript con consola y reto extra HTML/Tailwind",
   "scripts": {
     "start": "vite",
     "dev": "vite",
     "console": "tsx src/main.ts",
     "typecheck": "tsc --noEmit",
     "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "tsx tests/cinema.test.ts"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.2.1",
