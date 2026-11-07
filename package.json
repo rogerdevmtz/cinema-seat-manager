@@ -11,7 +11,7 @@
     "typecheck": "tsc --noEmit",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "test": "tsx tests/cinema.test.ts"
+    "test": "tsx tests/cinema.test.ts && tsx tests/seat-layout.test.ts"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.2.1",

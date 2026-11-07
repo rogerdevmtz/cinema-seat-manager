@@ -53,14 +53,30 @@ La sección «Probar los escenarios del ejercicio» sustituye los datos de la se
 
 Se puede operar con teclado (Tab, flechas, Inicio/Fin, Enter y Espacio). Se pueden retirar asientos individualmente desde el resumen. La selección muestra una marca además del color, hay foco visible y los avisos se anuncian a lectores de pantalla. En móvil la cartelera se desplaza horizontalmente y el resumen aparece después del mapa. Un acceso fijo permite revisar la reserva y se oculta al consultar el resumen.
 
+## Plazas accesibles y bloqueos (ampliación web)
+
+La sala conserva sus 8 × 10 plazas y su matriz de ocupación 0/1. El plano añade tipos mediante arreglos de coordenadas, sin objetos ni clases:
+
+- Silla de ruedas: fila 0, asientos 1 y 6.
+- Acompañantes vinculados: fila 0, asientos 2 y 7.
+- Bloqueados: fila 4, asientos 4 y 5, no reservables.
+
+La leyenda distingue seis categorías con símbolos además del color. Elegir un acompañante añade su plaza accesible si está libre. Se permite reservar la plaza de silla de ruedas sola; el acompañante debe confirmarse junto a ella en la misma operación. Retirar la plaza accesible retira también el acompañante seleccionado. Una plaza accesible ocupada no permite reservar su acompañante desde otra operación.
+
+«Encontrar 2 juntos» busca solo asientos normales. «Silla de ruedas + acompañante» busca la primera pareja accesible libre. Las dos búsquedas respetan ocupación y bloqueos. Se valida toda la selección antes de reservar para evitar confirmaciones parciales.
+
+Los contadores web excluyen los bloqueos: 78 plazas reservables en sala vacía y 47 libres en el escenario parcial. Los cuatro escenarios de consola y sus recuentos originales permanecen intactos. El plano accesible es una demostración, no una descripción certificada de un recinto real.
+
 ## Organización
 
 - `src/cinema.ts`: lógica central compartida, sin dependencias del navegador.
 - `src/main.ts`: entrada y demostración de consola.
+- `src/seat-layout.ts`: tipos de plaza, bloqueos, validación y búsquedas web.
 - `src/web.ts`: interfaz y eventos; utiliza las funciones de la lógica central.
 - `src/style.css`: Tailwind y estilos de la referencia.
 - `index.html`: estructura semántica de la web.
 - `tests/cinema.test.ts`: 23 comprobaciones de casos normales y límites.
+- `tests/seat-layout.test.ts`: 23 comprobaciones de accesibilidad, bloqueos y reserva conjunta.
 - `public/posters/`: pósteres ilustrativos de la cartelera.
 
 ## Evaluación

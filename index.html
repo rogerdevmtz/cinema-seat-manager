@@ -116,11 +116,6 @@
             >
           </div>
           <div class="room-toolbar">
-            <div class="legend">
-              <span><i class="mini-seat available"></i>Libre</span
-              ><span><i class="mini-seat occupied">×</i>Ocupado</span
-              ><span><i class="mini-seat chosen">✓</i>Seleccionado</span>
-            </div>
             <button id="find-pair" class="button pair-button">
               <svg
                 viewBox="0 0 24 24"
@@ -136,7 +131,53 @@
                 /></svg
               >Encontrar 2 juntos
             </button>
+            <button
+              id="find-accessible-pair"
+              class="button pair-button accessible-pair-button"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                width="18"
+                height="18"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <circle cx="12" cy="4" r="2" />
+                <path d="m10 7-1 7h7l3 6h3M10 10h7M7 10a6 6 0 1 0 7 9" /></svg
+              >Silla de ruedas + acompañante
+            </button>
           </div>
+          <div class="legend seat-legend" aria-label="Leyenda de asientos">
+            <span><i class="mini-seat available"></i>Disponible</span>
+            <span><i class="mini-seat chosen">✓</i>Seleccionado</span>
+            <span><i class="mini-seat occupied">×</i>Ocupado</span>
+            <span><i class="mini-seat blocked">／</i>Bloqueado</span>
+            <span
+              ><i class="mini-seat wheelchair"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <circle cx="12" cy="4" r="2" />
+                  <path
+                    d="m10 7-1 7h7l3 6h3M10 10h7M7 10a6 6 0 1 0 7 9"
+                  /></svg></i
+              >Silla de ruedas</span
+            >
+            <span><i class="mini-seat companion">A</i>Acompañante</span>
+          </div>
+          <p class="accessibility-note">
+            Acompañante: se reserva junto a su plaza para silla de ruedas.
+          </p>
           <div class="screen" aria-label="Pantalla de cine">
             <span>PANTALLA</span>
           </div>
@@ -228,12 +269,10 @@
           <div class="scenario-actions">
             <label class="sr-only" for="scenario">Escenario</label
             ><select id="scenario">
-              <option value="0">Sala vacía · 80 libres</option>
-              <option value="1" selected>
-                Sala parcialmente ocupada · 48 libres
-              </option>
-              <option value="2">Sala casi llena · 3 asientos aislados</option>
-              <option value="3">Sala llena · 0 libres</option></select
+              <option value="0">Sala vacía</option>
+              <option value="1" selected>Sala parcialmente ocupada</option>
+              <option value="2">Sala casi llena · asientos aislados</option>
+              <option value="3">Sala llena</option></select
             ><button id="load-scenario" class="button secondary">
               Cargar escenario
             </button>

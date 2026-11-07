@@ -1,11 +1,17 @@
 import "./style.css";
-import {
-  countSeats,
-  createScenario,
-  findAdjacentSeats,
-  reserveSeat,
-} from "./cinema";
+import { createScenario, reserveSeat } from "./cinema";
 import type { Position, Room } from "./cinema";
+import {
+  countBookableSeats,
+  findAccessiblePair,
+  findStandardPair,
+  getSeatKind,
+  validateSelection,
+  wheelchairFor,
+} from "./seat-layout";
+
+const wheelchairIcon =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="4" r="2"/><path d="m10 7-1 7h7l3 6h3M10 10h7M7 10a6 6 0 1 0 7 9"/></svg>';
 
 // Los datos propios se mantienen en arreglos. No se modelan reservas con objetos o clases.
 const movieTitles = [
@@ -96,8 +102,43 @@ function renderSeats(): void {
       const chosen = selected.some(
         (position) => position[0] === row && position[1] === column,
       );
-      const occupied = room[row][column] === 1;
-      html += `<button class="seat ${occupied ? "occupied" : chosen ? "chosen" : "available"}" data-row="${row}" data-column="${column}" aria-label="Fila ${row}, asiento ${column}: ${occupied ? "ocupado" : chosen ? "seleccionado" : "libre"}" aria-pressed="${chosen}" aria-disabled="${occupied}" title="Fila ${row} · Asiento ${column}"><span class="chair" aria-hidden="true"><span>${occupied ? "×" : chosen ? "✓" : ""}</span></span></button>`;
+      const kind = getSeatKind(row, column);
+      const blocked = kind === "blocked";
+      const occupied = !blocked && room[row][column] === 1;
+      const state = blocked
+        ? "blocked"
+        : occupied
+          ? "occupied"
+          : chosen
+            ? "chosen"
+            : "available";
+      const label = blocked
+        ? "bloqueado"
+        : occupied
+          ? "ocupado"
+          : chosen
+            ? "seleccionado"
+            : "libre";
+      const typeLabel =
+        kind === "wheelchair"
+          ? ", plaza para silla de ruedas"
+          : kind === "companion"
+            ? ", acompañante"
+            : "";
+      const symbol =
+        kind === "wheelchair"
+          ? `<span class="special-place">${wheelchairIcon}</span>`
+          : kind === "companion"
+            ? '<span class="special-place companion-symbol">A</span>'
+            : '<span class="chair"><span></span></span>';
+      const mark = blocked
+        ? '<span class="seat-state-mark">／</span>'
+        : occupied
+          ? '<span class="seat-state-mark">×</span>'
+          : chosen
+            ? '<span class="seat-state-mark">✓</span>'
+            : "";
+      html += `<button class="seat ${state} ${kind}" data-row="${row}" data-column="${column}" aria-label="Fila ${row}, asiento ${column}: ${label}${typeLabel}" aria-pressed="${chosen}" aria-disabled="${occupied || blocked}" title="Fila ${row} · Asiento ${column}: ${label}${typeLabel}"><span aria-hidden="true" class="seat-visual">${symbol}${mark}</span></button>`;
     }
   }
   element("seat-map").innerHTML = html;
@@ -106,7 +147,7 @@ function renderSeats(): void {
     ? selected
         .map(
           (position) =>
-            `<button class="seat-chip" data-remove-row="${position[0]}" data-remove-column="${position[1]}" aria-label="Retirar fila ${position[0]}, asiento ${position[1]}">F${position[0]} · A${position[1]}<span aria-hidden="true">×</span></button>`,
+            `<button class="seat-chip" data-remove-row="${position[0]}" data-remove-column="${position[1]}" aria-label="Retirar fila ${position[0]}, asiento ${position[1]}">${getSeatKind(position[0], position[1]) === "wheelchair" ? wheelchairIcon : getSeatKind(position[0], position[1]) === "companion" ? '<span class="chip-type" aria-hidden="true">A</span>' : ""}F${position[0]} · A${position[1]}<span aria-hidden="true">×</span></button>`,
         )
         .join("")
     : '<p class="muted text-sm">Elige tus asientos en el mapa.</p>';
@@ -117,7 +158,7 @@ function renderSeats(): void {
     ? `Confirmar ${selected.length === 1 ? "1 asiento" : `${selected.length} asientos`} →`
     : "Selecciona un asiento";
   element<HTMLButtonElement>("clear").disabled = !selected.length;
-  element("available-count").textContent = String(countSeats(room)[1]);
+  element("available-count").textContent = String(countBookableSeats(room));
   element("mobile-count").textContent =
     `${selected.length} ${selected.length === 1 ? "asiento" : "asientos"}`;
   updateMobileReview();
@@ -166,6 +207,14 @@ element("seat-map").addEventListener("click", (event) => {
   const column = Number(button.dataset.column);
   focusedRow = row;
   focusedColumn = column;
+  const kind = getSeatKind(row, column);
+  if (kind === "blocked") {
+    feedback(
+      `Fila ${row} · Asiento ${column}: bloqueado. No se puede reservar.`,
+      "error",
+    );
+    return;
+  }
   if (currentRoom()[row][column] === 1) {
     feedback(`Fila ${row} · Asiento ${column}: ocupado.`, "error");
     return;
@@ -173,8 +222,25 @@ element("seat-map").addEventListener("click", (event) => {
   const existing = selected.findIndex(
     (position) => position[0] === row && position[1] === column,
   );
-  if (existing >= 0) selected.splice(existing, 1);
-  else selected.push([row, column]);
+  let removedSeats = 0;
+  if (existing >= 0) removedSeats = removeSeat(row, column);
+  else {
+    const wheelchair = wheelchairFor(row, column);
+    if (wheelchair) {
+      if (currentRoom()[wheelchair[0]][wheelchair[1]] === 1) {
+        feedback(
+          "La plaza de silla de ruedas vinculada está ocupada. Elige otra pareja accesible.",
+          "error",
+        );
+        return;
+      }
+      if (
+        !selected.some((p) => p[0] === wheelchair[0] && p[1] === wheelchair[1])
+      )
+        selected.push(wheelchair);
+    }
+    selected.push([row, column]);
+  }
   renderSeats();
   element("seat-map")
     .querySelector<HTMLButtonElement>(
@@ -183,17 +249,23 @@ element("seat-map").addEventListener("click", (event) => {
     ?.focus();
   feedback(
     existing >= 0
-      ? `Fila ${row} · Asiento ${column} retirado.`
-      : `Fila ${row} · Asiento ${column} seleccionado.`,
+      ? removedSeats > 1
+        ? "Plaza para silla de ruedas y acompañante retirados."
+        : `Fila ${row} · Asiento ${column} retirado.`
+      : kind === "companion"
+        ? "Plaza para silla de ruedas y acompañante seleccionados."
+        : kind === "wheelchair"
+          ? `Fila ${row} · Plaza para silla de ruedas ${column} seleccionada.`
+          : `Fila ${row} · Asiento ${column} seleccionado.`,
   );
 });
 element("find-pair").addEventListener("click", () => {
-  const pair = findAdjacentSeats(currentRoom());
+  const pair = findStandardPair(currentRoom());
   if (!pair) {
     feedback(
-      countSeats(currentRoom())[1] === 0
+      countBookableSeats(currentRoom()) === 0
         ? "Sala completa. Prueba otra sesión."
-        : "No hay dos asientos juntos. Puedes elegirlos por separado.",
+        : "No hay dos asientos normales juntos. Puedes elegir plazas sueltas o una pareja accesible.",
       "error",
     );
     return;
@@ -204,6 +276,33 @@ element("find-pair").addEventListener("click", () => {
     `Fila ${pair[0][0]} · Asientos ${pair[0][1]} y ${pair[1][1]} seleccionados.`,
   );
 });
+element("find-accessible-pair").addEventListener("click", () => {
+  const pair = findAccessiblePair(currentRoom());
+  if (!pair) {
+    feedback(
+      "No queda una plaza de silla de ruedas con su acompañante libre. Prueba otra sesión.",
+      "error",
+    );
+    return;
+  }
+  selected = pair;
+  renderSeats();
+  feedback(
+    `Fila ${pair[0][0]} · Silla de ruedas ${pair[0][1]} y acompañante ${pair[1][1]} seleccionados.`,
+  );
+});
+
+/** Retira una plaza y, si es accesible, también su acompañante dependiente. */
+function removeSeat(row: number, column: number): number {
+  const before = selected.length;
+  selected = selected.filter((position) => {
+    if (position[0] === row && position[1] === column) return false;
+    const wheelchair = wheelchairFor(position[0], position[1]);
+    return !wheelchair || wheelchair[0] !== row || wheelchair[1] !== column;
+  });
+  return before - selected.length;
+}
+
 element("clear").addEventListener("click", () => {
   selected = [];
   renderSeats();
@@ -211,6 +310,11 @@ element("clear").addEventListener("click", () => {
 });
 element("book").addEventListener("click", () => {
   if (!selected.length) return;
+  const invalid = validateSelection(currentRoom(), selected);
+  if (invalid) {
+    feedback(invalid, "error");
+    return;
+  }
   const labels = selected
     .map((position) => `${position[0]} · ${position[1]}`)
     .join(", ");
@@ -219,7 +323,10 @@ element("book").addEventListener("click", () => {
   element("receipt-session").textContent =
     element("summary-session").textContent;
   element("receipt-seats").textContent = selected
-    .map((position) => `Fila ${position[0]} · Asiento ${position[1]}`)
+    .map(
+      (position) =>
+        `Fila ${position[0]} · ${getSeatKind(position[0], position[1]) === "wheelchair" ? "Silla de ruedas" : getSeatKind(position[0], position[1]) === "companion" ? "Acompañante" : "Asiento"} ${position[1]}`,
+    )
     .join(" / ");
   selected = [];
   renderSeats();
@@ -241,7 +348,7 @@ element("load-scenario").addEventListener("click", () => {
   selected = [];
   renderSeats();
   feedback(
-    `Escenario cargado. ${countSeats(currentRoom())[1]} asientos disponibles en esta sesión.`,
+    `Escenario cargado. ${countBookableSeats(currentRoom())} asientos disponibles en esta sesión.`,
   );
 });
 element("dismiss-feedback").addEventListener("click", () => {
@@ -324,9 +431,7 @@ element("selected-seats").addEventListener("click", (event) => {
   if (!button) return;
   const row = Number(button.dataset.removeRow);
   const column = Number(button.dataset.removeColumn);
-  selected = selected.filter(
-    (position) => position[0] !== row || position[1] !== column,
-  );
+  const removedSeats = removeSeat(row, column);
   renderSeats();
   const next =
     element("selected-seats").querySelector<HTMLButtonElement>("button");
@@ -335,7 +440,11 @@ element("selected-seats").addEventListener("click", (event) => {
     element("seat-map")
       .querySelector<HTMLButtonElement>('[tabindex="0"]')
       ?.focus();
-  feedback(`Fila ${row} · Asiento ${column} retirado.`);
+  feedback(
+    removedSeats > 1
+      ? "Plaza para silla de ruedas y acompañante retirados."
+      : `Fila ${row} · Asiento ${column} retirado.`,
+  );
 });
 element("close-receipt").addEventListener("click", () => {
   element<HTMLDialogElement>("booking-receipt").close();
