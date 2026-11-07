@@ -33,12 +33,14 @@ const movieGenres = [
   "Terror · Ciencia ficción",
 ];
 const dayNames = ["Sáb", "Dom", "Lun", "Mar", "Mié", "Jue", "Vie"];
+const showtimes = ["10:30", "18:00", "21:30"];
 const sessions: Room[] = [];
 for (let session = 0; session < 84; session++) sessions.push(createScenario(1));
 let movie = 0;
 let day = 0;
 let time = 1;
 let selected: Position[] = [];
+let previousSelection: [number, number, number, Position[]] | null = null;
 let lastTicket: Ticket | null = null;
 let ticketOpenedFromHeader = false;
 let focusedRow = 0;
@@ -61,12 +63,27 @@ function currentRoom(): Room {
 
 /** Actualiza el aviso persistente y accesible después de una operación. */
 function feedback(message: string, state = "info"): void {
+  previousSelection = null;
+  element("undo-session").hidden = true;
   element("feedback").className = `feedback ${state}`;
   element("dismiss-feedback").hidden = true;
   element("feedback-text").textContent = message;
   element("feedback").querySelector(".feedback-icon")!.innerHTML = icon(
     state === "success" ? "check" : state === "error" ? "ban" : "info",
   );
+  if (state === "error") revealImportantFeedback();
+}
+
+/** Acerca los errores y la acción Deshacer cuando el aviso queda fuera de la vista móvil. */
+function revealImportantFeedback(): void {
+  if (window.innerWidth > 760) return;
+  const notice = element("feedback");
+  const bounds = notice.getBoundingClientRect();
+  const reservedBottom = element("mobile-review").hidden ? 12 : 88;
+  if (bounds.top < 0 || bounds.bottom > window.innerHeight - reservedBottom) {
+    notice.classList.add("floating");
+    element("dismiss-feedback").hidden = false;
+  }
 }
 
 /** Dibuja la cartelera y las fechas, indicando el contexto seleccionado. */
@@ -101,12 +118,15 @@ function renderContext(): void {
   element("dates").innerHTML = dayNames
     .map(
       (name, index) =>
-        `<button class="date ${index === day ? "active" : ""}" data-day="${index}" aria-pressed="${index === day}" aria-label="${7 + index} de noviembre, ${name}"><span>Nov</span><strong>${String(7 + index).padStart(2, "0")}</strong><span>${name}</span></button>`,
+        `<button class="date ${index === day ? "active" : ""}" data-day="${index}" aria-pressed="${index === day}" aria-label="${7 + index} de noviembre, ${name}"><span>${name}</span><strong>${String(7 + index).padStart(2, "0")}</strong></button>`,
     )
     .join("");
+  element("time").innerHTML = showtimes.map((hour, index) =>
+    `<button class="showtime ${index === time ? "active" : ""}" data-time="${index}" aria-pressed="${index === time}" aria-label="Sesión de las ${hour}">${hour}</button>`,
+  ).join("");
   element("summary-movie").textContent = movieTitles[movie];
   element("summary-session").textContent =
-    `${7 + day} nov · ${element<HTMLSelectElement>("time").value} · Sala 01`;
+    `${7 + day} nov · ${showtimes[time]} · Sala 01`;
 }
 
 /** Sincroniza el mapa de butacas y el resumen con la matriz y la selección. */
@@ -166,29 +186,41 @@ function renderSeats(): void {
     ? selected
         .map(
           (position) =>
-            `<button class="seat-chip" data-remove-row="${position[0]}" data-remove-column="${position[1]}" aria-label="Retirar fila ${position[0]}, asiento ${position[1]}">${getSeatKind(position[0], position[1]) === "wheelchair" ? wheelchairIcon : getSeatKind(position[0], position[1]) === "companion" ? '<span class="chip-type" aria-hidden="true">A</span>' : ""}F${position[0]} · A${position[1]}${icon("close")}</button>`,
+            `<button class="seat-chip" data-remove-row="${position[0]}" data-remove-column="${position[1]}" aria-label="Retirar fila ${position[0]}, asiento ${position[1]}">${getSeatKind(position[0], position[1]) === "wheelchair" ? wheelchairIcon : getSeatKind(position[0], position[1]) === "companion" ? '<span class="chip-type" aria-hidden="true">A</span>' : icon("seats")}<span>Fila ${position[0]} · Asiento ${position[1]}</span>${icon("close")}</button>`,
         )
         .join("")
-    : '<p class="muted text-sm">Sin asientos seleccionados.</p>';
+    : `<div class="selection-empty">${icon("seats")}<p>Tu selección aparecerá aquí.</p></div>`;
   element("selection-count").textContent = String(selected.length);
   const book = element<HTMLButtonElement>("book");
   book.disabled = selected.length === 0;
-  book.textContent = selected.length
-    ? `Confirmar ${selected.length === 1 ? "1 asiento" : `${selected.length} asientos`} →`
+  book.innerHTML = selected.length
+    ? `Confirmar ${selected.length === 1 ? "1 asiento" : `${selected.length} asientos`}${icon("arrow-right")}`
     : "Confirmar reserva";
   element<HTMLButtonElement>("clear").disabled = !selected.length;
   element("available-count").textContent = String(countBookableSeats(room));
+  element("available-count").parentElement!.classList.toggle("sold-out", countBookableSeats(room) === 0);
   element("mobile-count").textContent =
     `${selected.length} ${selected.length === 1 ? "asiento" : "asientos"}`;
   updateMobileReview();
 }
 
 /** Cambia de sesión sin mezclar las reservas de películas, fechas u horas distintas. */
-function changeSession(): void {
+function changeSession(nextMovie = movie, nextDay = day, nextTime = time): void {
+  const previous: [number, number, number, Position[]] = [movie, day, time, [...selected]];
+  movie = nextMovie;
+  day = nextDay;
+  time = nextTime;
   selected = [];
   renderContext();
   renderSeats();
-  feedback("Sesión actualizada.");
+  feedback(previous[3].length
+    ? "Sesión cambiada. Se ha retirado tu selección anterior."
+    : `${7 + day} de noviembre · ${showtimes[time]}. Elige tus asientos.`);
+  if (previous[3].length) {
+    previousSelection = previous;
+    element("undo-session").hidden = false;
+    revealImportantFeedback();
+  }
 }
 
 element("movies").addEventListener("click", (event) => {
@@ -196,8 +228,7 @@ element("movies").addEventListener("click", (event) => {
     "[data-movie]",
   );
   if (!button || Number(button.dataset.movie) === movie) return;
-  movie = Number(button.dataset.movie);
-  changeSession();
+  changeSession(Number(button.dataset.movie));
   element("movies")
     .querySelector<HTMLButtonElement>(`[data-movie="${movie}"]`)
     ?.focus();
@@ -207,15 +238,26 @@ element("dates").addEventListener("click", (event) => {
     "[data-day]",
   );
   if (!button || Number(button.dataset.day) === day) return;
-  day = Number(button.dataset.day);
-  changeSession();
+  changeSession(movie, Number(button.dataset.day));
   element("dates")
     .querySelector<HTMLButtonElement>(`[data-day="${day}"]`)
     ?.focus();
 });
-element<HTMLSelectElement>("time").addEventListener("change", () => {
-  time = element<HTMLSelectElement>("time").selectedIndex;
-  changeSession();
+element("time").addEventListener("click", (event) => {
+  const button = (event.target as HTMLElement).closest<HTMLButtonElement>("[data-time]");
+  if (!button || Number(button.dataset.time) === time) return;
+  changeSession(movie, day, Number(button.dataset.time));
+  element("time").querySelector<HTMLButtonElement>(`[data-time="${time}"]`)?.focus();
+});
+
+/** Recupera la selección pendiente y su sesión tras un cambio accidental. */
+element("undo-session").addEventListener("click", () => {
+  if (!previousSelection) return;
+  [movie, day, time, selected] = previousSelection;
+  renderContext();
+  renderSeats();
+  feedback("Sesión y asientos recuperados.", "success");
+  element("book").focus({ preventScroll: true });
 });
 element("seat-map").addEventListener("click", (event) => {
   const button = (event.target as HTMLElement).closest<HTMLButtonElement>(
@@ -400,6 +442,10 @@ function updateSeatTabIndex(): void {
 
 /** Muestra el acceso móvil al resumen sin taparlo mientras se consulta. */
 function updateMobileReview(): void {
+  if (window.innerWidth > 760) {
+    element("feedback").classList.remove("floating");
+    element("dismiss-feedback").hidden = true;
+  }
   const summary = element("reservation-summary").getBoundingClientRect();
   const visible = summary.top < window.innerHeight - 90 && summary.bottom > 100;
   element("mobile-review").hidden = selected.length === 0 || visible;

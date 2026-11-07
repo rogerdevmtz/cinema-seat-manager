@@ -49,7 +49,7 @@ Interfaz HTML + Tailwind con la marca de R. Martínez y su azul `#0047FB`. En es
 4. Revisa el resumen y pulsa «Confirmar». Solo entonces se ocupan los asientos.
 5. Los avisos junto al mapa explican cada operación. La confirmación abre una entrada con película, sesión, asientos y referencia local. «Guardar entrada» descarga un SVG autónomo con el logo y los datos confirmados. «Mi entrada» recupera la última entrada de la visita, incluso al cambiar de película.
 
-Cada sesión de ejemplo mantiene su propia matriz durante la visita; cambiar de sesión borra la selección pendiente y conserva las reservas confirmadas. No hay servidor, pagos ni persistencia: al recargar se reinician todos los datos. La cartelera y las fechas son una demostración, no programación real de un cine.
+Los tres horarios se muestran como botones, con la sesión activa identificada. Cada sesión de ejemplo mantiene su propia matriz durante la visita; cambiar de película, fecha u hora retira la selección pendiente y conserva las reservas confirmadas. El aviso permite «Deshacer» para recuperar la sesión y sus asientos pendientes hasta la siguiente operación. En móvil, los errores y la acción «Deshacer» aparecen sobre el contenido si el aviso está fuera de la vista, sin duplicarlo ni tapar el botón de reserva. No hay servidor, pagos ni persistencia: al recargar se reinician todos los datos. La cartelera y las fechas son una demostración, no programación real de un cine.
 
 La sección «Probar los escenarios del ejercicio» sustituye los datos de la sesión actual, previa confirmación. Permite comprobar visualmente los cuatro casos de la consola.
 

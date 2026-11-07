@@ -86,7 +86,7 @@
         >
           <div class="session-heading">
             <h2 id="schedule-title">Tu sesión</h2>
-            <span>Noviembre</span>
+            <span>Noviembre 2026</span>
           </div>
           <div class="schedule-options">
             <div
@@ -95,13 +95,10 @@
               role="group"
               aria-label="Fechas"
             ></div>
-            <label class="session-field"
-              >Hora<select id="time">
-                <option>10:30</option>
-                <option selected>18:00</option>
-                <option>21:30</option>
-              </select></label
-            >
+            <div class="session-field">
+              <span id="time-label">Horarios</span>
+              <div id="time" class="showtimes" role="group" aria-labelledby="time-label"></div>
+            </div>
           </div>
         </section>
         <section
@@ -179,6 +176,7 @@
               ><svg class="icon"><use href="/icons.svg#info"></use></svg
             ></span>
             <p id="feedback-text">Selecciona una plaza en el mapa.</p>
+            <button id="undo-session" class="feedback-action" hidden>Deshacer</button>
             <button id="dismiss-feedback" aria-label="Cerrar aviso" hidden>
               ×
             </button>

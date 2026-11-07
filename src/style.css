@@ -6,7 +6,7 @@
   color-scheme: dark;
   font-synthesis: none;
   --panel: #10192b;
-  --line: #2c3c59;
+  --line: #253650;
   --muted: #b7c5dc;
   --accent: #0047fb;
   --light-blue: #a7c8ff;
@@ -89,7 +89,7 @@ summary:focus-visible {
 .panel {
   background: var(--panel);
   border: 1px solid var(--line);
-  border-radius: 11px;
+  border-radius: 8px;
 }
 .topbar {
   height: 62px;
@@ -156,6 +156,8 @@ summary:focus-visible {
 }
 .film-sidebar {
   overflow: hidden;
+  background: transparent;
+  border-color: transparent;
 }
 .preview-art {
   height: 132px;
@@ -167,7 +169,7 @@ summary:focus-visible {
   content: "";
   position: absolute;
   inset: 50% 0 0;
-  background: linear-gradient(transparent, #10192b);
+  background: linear-gradient(transparent, #080e1b);
 }
 .preview-art > img {
   display: block;
@@ -272,8 +274,8 @@ summary:focus-visible {
   grid-template-columns: 40px minmax(0, 1fr);
   gap: 10px;
   align-items: center;
-  background: #101d34;
-  border: 1px solid #304462;
+  background: transparent;
+  border: 1px solid transparent;
   border-radius: 7px;
   padding: 5px;
   text-align: left;
@@ -343,23 +345,25 @@ summary:focus-visible {
   min-width: 0;
 }
 .schedule {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  padding: 10px 12px;
+  display: grid;
+  gap: 8px;
+  padding: 8px 15px;
+  background: transparent;
+  border-color: transparent;
+  border-bottom-color: var(--line);
+  border-radius: 0;
 }
 .session-heading {
-  min-width: 59px;
-  flex-shrink: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
 }
 .session-heading h2 {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
 }
 .session-heading > span {
-  display: block;
-  margin-top: 6px;
-  font-size: 9px;
+  font-size: 11px;
   color: var(--muted);
 }
 .schedule-options {
@@ -376,15 +380,16 @@ summary:focus-visible {
   flex: 1;
 }
 .date {
-  border: 1px solid #304767;
-  background: #12223b;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
   color: #c8d8ef;
-  border-radius: 5px;
+  border-radius: 3px 3px 0 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1px;
+  gap: 3px;
   flex: 1;
   max-width: 48px;
   min-width: 29px;
@@ -392,7 +397,7 @@ summary:focus-visible {
   padding: 3px;
 }
 .date span {
-  font-size: 8px;
+  font-size: 11px;
   line-height: 1.2;
 }
 .date strong {
@@ -402,17 +407,37 @@ summary:focus-visible {
   font-variant-numeric: tabular-nums;
 }
 .date.active {
-  background: var(--accent);
-  border-color: #8fb3ff;
+  background: #0047fb1a;
+  border-color: #4985ff;
   color: white;
 }
 .session-field {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  font-size: 9px;
+  gap: 5px;
+  font-size: 11px;
   color: #c3d1e5;
   flex-shrink: 0;
+}
+.showtimes {
+  display: flex;
+  gap: 5px;
+}
+.showtime {
+  min-height: 34px;
+  padding: 5px 10px;
+  background: transparent;
+  color: #e1eafb;
+  border: 1px solid #627a9e;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+.showtime.active {
+  background: var(--accent);
+  border-color: #80aaff;
+  color: white;
 }
 select {
   border: 1px solid #657c9f;
@@ -423,9 +448,6 @@ select {
   padding: 5px 8px;
   font-size: 11px;
   cursor: pointer;
-}
-.session-field select {
-  width: 84px;
 }
 .seat-section {
   padding: 13px 15px;
@@ -458,6 +480,9 @@ select {
 }
 .availability strong {
   font-weight: 500;
+}
+.availability.sold-out > span {
+  background: #e3af86;
 }
 .room-toolbar {
   display: flex;
@@ -805,8 +830,8 @@ select {
   display: flex;
   align-items: center;
   gap: 8px;
-  border: 1px solid #4268a2;
-  background: #11294c;
+  border: 1px solid transparent;
+  background: transparent;
   border-radius: 6px;
   padding: 7px 9px;
   margin-top: 12px;
@@ -825,6 +850,23 @@ select {
   font-size: 10px;
   color: #dce9fd;
   line-height: 1.5;
+}
+.feedback-action {
+  margin-left: auto;
+  flex-shrink: 0;
+  color: #c5dcff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  min-height: 32px;
+  padding: 4px;
+  font-size: 12px;
+  border: 0;
+  background: transparent;
+}
+.feedback:has(.feedback-action:not([hidden])) {
+  padding-block: 2px;
+  background: #11294c;
+  border-color: #4268a2;
 }
 .feedback.success {
   background: #12332a;
@@ -846,6 +888,7 @@ select {
   padding: 17px;
   position: sticky;
   top: 16px;
+  border-top: 2px solid #4985ff;
 }
 .summary-heading {
   display: flex;
@@ -909,6 +952,20 @@ select {
   max-height: 280px;
   overflow: auto;
 }
+.selection-empty {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  color: #b7c5dc;
+  font-size: 12px;
+  line-height: 1.6;
+}
+.selection-empty > .icon {
+  width: 24px;
+  height: 24px;
+  color: #8aabd9;
+}
 .selected-seats > p {
   font-size: 11px;
   color: #bfcee5;
@@ -918,13 +975,18 @@ select {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 10px;
-  min-height: 31px;
-  padding: 6px 7px;
+  font-size: 12px;
+  min-height: 36px;
+  padding: 8px 10px;
   border: 1px solid #5989e0;
   border-radius: 5px;
   background: #143b8b;
   color: #e5eeff;
+  width: 100%;
+  text-align: left;
+}
+.seat-chip > .icon:last-child {
+  margin-left: auto;
 }
 .seat-chip > .icon {
   width: 12px;
@@ -943,7 +1005,8 @@ select {
 }
 .summary > .button {
   width: 100%;
-  min-height: 38px;
+  min-height: 42px;
+  font-size: 13px;
 }
 .summary #clear {
   margin-top: 5px;
@@ -1234,6 +1297,10 @@ dialog::backdrop {
     background: #25466f;
     border-color: #85a9dc;
   }
+  .showtime:hover:not(.active) {
+    background: #193458;
+    border-color: #b2cdff;
+  }
   .seat.available:hover {
     background: #294975;
     border-color: #c0d8ff;
@@ -1406,11 +1473,6 @@ dialog::backdrop {
   .date span {
     font-size: 9px;
   }
-  .session-field select {
-    width: 100px;
-    font-size: 13px;
-    min-height: 34px;
-  }
 }
 @media (max-width: 1220px) and (min-width: 1001px) {
   .workspace {
@@ -1467,11 +1529,6 @@ dialog::backdrop {
   }
   .schedule-options {
     gap: 8px;
-  }
-  .session-field select {
-    width: 69px;
-    font-size: 10px;
-    padding: 5px;
   }
   .summary {
     padding: 14px;
@@ -1714,10 +1771,6 @@ dialog::backdrop {
   .date {
     min-width: 26px;
   }
-  .session-field select {
-    width: 70px;
-    font-size: 10px;
-  }
   .brand-context > span:last-child {
     display: none;
   }
@@ -1880,12 +1933,6 @@ dialog::backdrop {
   }
   .session-field {
     font-size: 9px;
-  }
-  .session-field select {
-    width: 71px;
-    min-height: 31px;
-    font-size: 10px;
-    padding: 5px;
   }
   .seat-section {
     padding: 14px 9px;
@@ -2173,9 +2220,6 @@ dialog::backdrop {
   .schedule-options {
     gap: 7px;
   }
-  .session-field select {
-    width: 65px;
-  }
   .seat-heading h2 {
     font-size: 14px;
   }
@@ -2197,10 +2241,10 @@ dialog::backdrop {
 /* Ajuste de densidad para mantener el mapa completo y el texto legible. */
 @media (min-width: 1001px) and (max-width: 1699px) {
   .seat-map {
-    height: clamp(275px, 39dvh, 420px);
+    height: clamp(250px, 35dvh, 400px);
   }
   .seat-legend > span {
-    font-size: 10px;
+    font-size: 11px;
   }
   .feedback p {
     font-size: 11px;
@@ -2242,13 +2286,13 @@ dialog::backdrop {
     height: 22px;
   }
   .movie-copy h3 {
-    font-size: 12px;
+    font-size: 13px;
   }
   .movie-duration {
     font-size: 10px;
   }
   .date span {
-    font-size: 9px;
+    font-size: 11px;
   }
   .date strong {
     font-size: 15px;
@@ -2264,6 +2308,21 @@ dialog::backdrop {
   }
   .summary-note {
     font-size: 10px;
+  }
+  .film-genre,
+  .hero-meta,
+  .availability {
+    font-size: 11px;
+  }
+  .section-heading h2 {
+    font-size: 14px;
+  }
+  .seat-heading h2 {
+    font-size: 19px;
+  }
+  .selection-heading h3,
+  .summary #clear {
+    font-size: 12px;
   }
 }
 @media (max-width: 1220px) and (min-width: 1001px) {
@@ -2326,5 +2385,95 @@ dialog::backdrop {
   }
   .feedback {
     margin-top: 8px;
+  }
+}
+
+@media (min-width: 1001px) and (min-height: 761px) {
+  .preview-copy h1 {
+    font-size: 22px;
+  }
+}
+@media (max-width: 1220px) and (min-width: 761px) {
+  .showtime {
+    padding-inline: 7px;
+    font-size: 11px;
+  }
+}
+@media (max-width: 760px) {
+  .schedule {
+    padding: 8px 2px 14px;
+  }
+  .schedule-options {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  .session-heading h2 {
+    font-size: 15px;
+  }
+  .dates {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .date {
+    max-width: none;
+    min-height: 46px;
+  }
+  .date span {
+    font-size: 11px;
+  }
+  .session-field {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+  }
+  .showtime {
+    min-height: 42px;
+    padding-inline: 14px;
+    font-size: 13px;
+  }
+  .film-genre,
+  .hero-meta {
+    font-size: 11px;
+  }
+  .film-actions .button {
+    min-height: 38px;
+    font-size: 11px;
+  }
+  .feedback-action {
+    min-height: 44px;
+  }
+  .feedback.floating {
+    position: fixed;
+    z-index: 25;
+    left: 12px;
+    right: 12px;
+    bottom: max(12px, env(safe-area-inset-bottom));
+    margin: 0;
+    padding: 8px 10px;
+    align-items: center;
+    box-shadow: 0 8px 32px #0008;
+  }
+  .feedback.floating p {
+    flex: 1;
+    min-width: 0;
+    font-size: 12px;
+  }
+  body:has(.mobile-review:not([hidden])) .feedback.floating {
+    bottom: calc(84px + env(safe-area-inset-bottom));
+  }
+  #dismiss-feedback {
+    flex-shrink: 0;
+    min-width: 32px;
+    min-height: 44px;
+    font-size: 23px;
+    color: inherit;
+    background: transparent;
+    border: 0;
+  }
+  .seat-chip {
+    width: auto;
+    flex: 1 1 150px;
   }
 }
