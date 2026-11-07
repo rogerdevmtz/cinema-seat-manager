@@ -102,7 +102,8 @@ function revealImportantFeedback(): void {
 /** Dibuja la cartelera y las fechas, indicando el contexto seleccionado. */
 function renderContext(): void {
   element<HTMLImageElement>("hero-backdrop").src =
-    `/backdrops/movie-${movie}.jpg`;
+    `/posters/movie-${movie}.jpg`;
+  element<HTMLImageElement>("hero-backdrop").alt = `Póster de ${movieTitles[movie]}`;
   element("page-title").textContent = movieTitles[movie];
   element("details-title").textContent = movieTitles[movie];
   element("hero-genre").textContent = movieGenres[movie];
@@ -140,6 +141,19 @@ function renderContext(): void {
   element("summary-movie").textContent = movieTitles[movie];
   element("summary-session").textContent =
     `${7 + day} nov · ${showtimes[time]} · Sala 01`;
+}
+
+/** Presenta los datos de la plaza como una entrada; solo la cruz permite retirarla. */
+function selectedSeatRow([row, column]: Position): string {
+  const kind = getSeatKind(row, column);
+  const label = kind === "wheelchair" ? "Silla de ruedas" : kind === "companion" ? "Acompañante" : kind === "vip" ? "VIP" : "Estándar";
+  const symbol = kind === "wheelchair" ? wheelchairIcon : kind === "companion" ? '<span class="chip-type">A</span>' : kind === "vip" ? '<span class="chip-vip">VIP</span>' : icon("seats");
+  return `<div class="ticket-seat">
+    <span class="ticket-seat-kind" title="${label}"><span class="sr-only">${label}</span><span aria-hidden="true">${symbol}</span></span>
+    <span class="seat-coordinate"><span>Fila</span><strong>${row}</strong></span>
+    <span class="seat-coordinate"><span>Asiento</span><strong>${String(column).padStart(2, "0")}</strong></span>
+    <button class="seat-chip remove-seat" data-remove-row="${row}" data-remove-column="${column}" aria-label="Retirar fila ${row}, asiento ${column}">${icon("close")}</button>
+  </div>`;
 }
 
 /** Sincroniza el mapa de butacas y el resumen con la matriz y la selección. */
@@ -198,12 +212,7 @@ function renderSeats(): void {
   element("seat-map").innerHTML = html;
   updateSeatTabIndex();
   element("selected-seats").innerHTML = selected.length
-    ? selected
-        .map(
-          (position) =>
-            `<button class="seat-chip" data-remove-row="${position[0]}" data-remove-column="${position[1]}" aria-label="Retirar fila ${position[0]}, asiento ${position[1]}">${getSeatKind(position[0], position[1]) === "wheelchair" ? wheelchairIcon : getSeatKind(position[0], position[1]) === "companion" ? '<span class="chip-type" aria-hidden="true">A</span>' : getSeatKind(position[0], position[1]) === "vip" ? '<span class="chip-vip">VIP</span>' : icon("seats")}<span>Fila ${position[0]} · Asiento ${position[1]}</span>${icon("close")}</button>`,
-        )
-        .join("")
+    ? selected.map(selectedSeatRow).join("")
     : `<div class="selection-empty">${icon("seats")}<p>Selecciona tus asientos en el plano.</p></div>`;
   element("selection-count").textContent = String(selected.length);
   element("selection-count").hidden = selected.length === 0;

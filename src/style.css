@@ -2781,3 +2781,134 @@ dialog::backdrop {
   .seat-chip { font-size: 13px; flex: 1 1 100%; }
   .mobile-review strong, .mobile-review .button { font-size: 13px; }
 }
+
+/* Póster vertical, sala continua y resumen con estructura de entrada. */
+.film-sidebar {
+  background: transparent;
+  border-color: transparent;
+  border-radius: 0;
+}
+.film-sidebar .film-preview {
+  display: grid;
+  grid-template-columns: minmax(92px, 42%) minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+  padding: 10px 16px 20px;
+}
+.film-preview .preview-art {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #14223b;
+  box-shadow: 0 10px 25px #0005;
+}
+.film-preview .preview-art:after { display: none; }
+.film-preview .preview-art > img { width: 100%; height: 100%; object-fit: contain; object-position: center; }
+.film-preview .preview-format { top: 7px; bottom: auto; left: 7px; font-size: 8px; padding: 3px 4px; }
+.film-preview .preview-copy { padding: 0; }
+.film-preview .preview-copy h1 { font-size: 22px; line-height: 1.22; letter-spacing: -0.45px; }
+.film-preview .film-genre { font-size: 12px; line-height: 1.6; margin-top: 10px; }
+.film-preview .hero-meta { flex-wrap: wrap; gap: 5px 12px; font-size: 12px; }
+.film-preview .film-actions { margin-top: 14px; }
+.film-preview .film-actions .button { min-height: 38px; font-size: 12px; padding: 7px 10px; flex: initial; background: transparent; border-color: #405a7e; }
+.trailer-on-poster {
+  position: absolute;
+  z-index: 2;
+  bottom: 8px;
+  left: 8px;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 38px;
+  padding: 7px 5px;
+  border: 1px solid #b3d1ff;
+  border-radius: 6px;
+  background: #0a1a35ed;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+}
+.trailer-on-poster .icon { width: 16px; height: 16px; fill: #4d8aff; color: #a9caff; }
+.trailer-on-poster:focus-visible { outline-offset: -4px; }
+.seat-section {
+  background: transparent;
+  border: 0;
+  border-left: 1px solid #25354e;
+  border-radius: 0;
+}
+.summary {
+  border: 1px solid #344864;
+  border-radius: 12px;
+  background: #111e32;
+  box-shadow: 0 12px 30px #02061033;
+}
+.summary .summary-session { border: 0; margin-bottom: 0; padding-bottom: 0; }
+.ticket-divider { position: relative; border-top: 1px dashed #526780; margin: 22px -20px; }
+.ticket-divider:before, .ticket-divider:after {
+  content: "";
+  position: absolute;
+  top: -9px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #080e1b;
+}
+.ticket-divider:before { left: -10px; border-right: 1px solid #344864; }
+.ticket-divider:after { right: -10px; border-left: 1px solid #344864; }
+.selected-seats { display: block; min-height: 98px; max-height: 244px; padding: 13px 0 18px; scrollbar-width: thin; scrollbar-color: #465c7c transparent; }
+.ticket-seat { display: grid; grid-template-columns: 24px 1fr 1.2fr 36px; align-items: center; gap: 8px; padding: 9px 0; }
+.ticket-seat + .ticket-seat { border-top: 1px solid #293b55; }
+.ticket-seat-kind { position: relative; display: grid; place-items: center; color: #b8d6ff; }
+.ticket-seat-kind .icon { width: 20px; height: 20px; }
+.ticket-seat-kind .chip-type { width: 18px; height: 18px; font-size: 12px; }
+.seat-coordinate { display: flex; flex-direction: column; gap: 2px; }
+.seat-coordinate > span { font-size: 11px; color: #b7c7df; }
+.seat-coordinate > strong { font-size: 22px; line-height: 1.2; font-weight: 600; font-variant-numeric: tabular-nums; color: #f0f5ff; }
+.ticket-seat .remove-seat {
+  width: 36px;
+  height: 36px;
+  min-height: 36px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  color: #afc2df;
+}
+.ticket-seat .remove-seat > .icon { margin: 0; width: 17px; height: 17px; }
+@media (hover: hover) and (pointer: fine) {
+  .trailer-on-poster:hover { background: #0047fb; border-color: #d8e6ff; }
+  .trailer-on-poster:hover .icon { color: white; fill: white; }
+  .ticket-seat .remove-seat:hover { background: #253c5f; border-color: #54739f; color: white; }
+}
+@media (min-width: 1700px) {
+  .film-preview .preview-copy h1 { font-size: 25px; }
+}
+@media (min-width: 1001px) and (max-width: 1220px) {
+  .film-sidebar .film-preview { grid-template-columns: 82px minmax(0, 1fr); gap: 10px; padding-inline: 10px; }
+  .film-preview .preview-copy h1 { font-size: 18px; }
+  .trailer-on-poster { left: 4px; right: 4px; font-size: 11px; }
+}
+@media (max-width: 1000px) {
+  .film-sidebar .film-preview { grid-template-columns: 95px minmax(0, 1fr); padding: 0 12px 16px; }
+  .film-preview .preview-copy h1 { font-size: 21px; }
+}
+@media (max-width: 760px) {
+  .film-sidebar .film-preview { grid-template-columns: 108px minmax(0, 1fr); gap: 14px; }
+  .film-preview .preview-copy h1 { font-size: 22px; }
+  .seat-section { border-left: 0; border-top: 1px solid #25354e; padding-top: 20px; }
+  .trailer-on-poster { min-height: 42px; }
+  .ticket-seat { grid-template-columns: 27px 1fr 1fr 44px; gap: 12px; }
+  .ticket-seat .remove-seat { width: 44px; height: 44px; }
+}
+@media (max-width: 370px) {
+  .film-sidebar .film-preview { grid-template-columns: 94px minmax(0, 1fr); gap: 12px; }
+  .film-preview .preview-copy h1 { font-size: 21px; }
+  .trailer-on-poster { left: 5px; right: 5px; }
+}

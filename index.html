@@ -10,7 +10,7 @@
     />
     <title>R. Martínez · Cine</title>
     <link rel="icon" href="/r-martinez-icon.svg" />
-    <link rel="preload" as="image" href="/backdrops/movie-0.jpg" />
+    <link rel="preload" as="image" href="/posters/movie-0.jpg" />
   </head>
   <body>
     <a class="skip-link" href="#seats">Ir a los asientos</a>
@@ -48,12 +48,15 @@
           <div class="preview-art">
             <img
               id="hero-backdrop"
-              src="/backdrops/movie-0.jpg"
-              alt=""
-              width="1280"
-              height="720"
+              src="/posters/movie-0.jpg"
+              alt="Póster de Ant-Man and The Wasp: Quantumania"
+              width="500"
+              height="750"
               fetchpriority="high"
             /><span class="preview-format">2D · VOSE</span>
+            <button id="watch-trailer" class="trailer-on-poster">
+              <svg class="icon" aria-hidden="true"><use href="/icons.svg#play"></use></svg>Tráiler
+            </button>
           </div>
           <div class="preview-copy">
             <h1 id="page-title">Ant-Man and The Wasp: Quantumania</h1>
@@ -65,12 +68,7 @@
               <button id="show-film-info" class="button secondary">
                 <svg class="icon" aria-hidden="true">
                   <use href="/icons.svg#info"></use></svg
-                >Sinopsis</button
-              ><button id="watch-trailer" class="button secondary">
-                <svg class="icon" aria-hidden="true">
-                  <use href="/icons.svg#play"></use></svg
-                >Tráiler
-              </button>
+                >Sinopsis</button>
             </div>
           </div>
         </section>
@@ -192,6 +190,7 @@
         </div>
         <p id="summary-movie" class="summary-film-title"></p>
         <p id="summary-session" class="summary-session"></p>
+        <div class="ticket-divider" aria-hidden="true"></div>
         <div class="selection-heading">
           <h3>Asientos</h3>
           <span id="selection-count" class="count-badge">0</span>

@@ -41,7 +41,9 @@ Los datos del cine se representan con arreglos, matrices, tuplas y valores simpl
 
 Interfaz HTML + Tailwind con la marca de R. Martínez y su azul `#0047FB`. En escritorio, la distribución sigue tres pasos en una sola vista: película y sesión a la izquierda, las 80 plazas en el centro, y revisión de la reserva a la derecha. «Cambiar» abre la cartelera en un diálogo; elegir una película actualiza la ficha y el resumen. Volver a elegir la película actual conserva los asientos pendientes. Se ha verificado que cabe sin desplazamiento vertical en 1366 × 768. En móvil, el contenido se organiza en una sola página y el acceso al resumen permanece a mano al seleccionar.
 
-«Sinopsis» y «Tráiler» se abren en diálogos sobre la reserva. Las fichas incluyen duración, año, dirección y reparto. Los tráileres oficiales se cargan solo al pulsar y se detienen al cerrar; también hay un enlace directo a YouTube si el proveedor impide reproducirlos dentro de la web.
+La ficha muestra el póster vertical completo, con «Tráiler» integrado sobre la imagen. «Sinopsis» y «Tráiler» se abren en diálogos sobre la reserva. Las fichas incluyen duración, año, dirección y reparto. Los tráileres oficiales se cargan solo al pulsar y se detienen al cerrar; también hay un enlace directo a YouTube si el proveedor impide reproducirlos dentro de la web.
+
+El resumen tiene formato de entrada, con fila y asiento destacados. Cada cruz retira una plaza; pulsar sus datos no modifica la selección. Las selecciones largas se desplazan dentro del resumen para mantener visible la confirmación.
 
 1. Elige una película, una fecha y una hora de demostración.
 2. Pulsa una butaca libre para seleccionarla. Pulsa de nuevo para retirarla.
