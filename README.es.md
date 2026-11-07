@@ -39,19 +39,34 @@ Los datos del cine se representan con arreglos, matrices, tuplas y valores simpl
 
 ## Reto extra
 
-Interfaz HTML + Tailwind con el estilo de la referencia proporcionada: azul oscuro, acentos azules del logo de R. Martínez, fondo cinematográfico de la película seleccionada, cartelera, resumen lateral y pantalla curva. Conserva las dimensiones 8 × 10 y los índices desde cero exigidos por el proyecto.
+Interfaz HTML + Tailwind con la marca de R. Martínez y su azul `#0047FB`. En escritorio, la distribución reúne en una sola vista la película y cartelera a la izquierda, la sesión y las 80 plazas en el centro, y la entrada a la derecha. Se ha verificado que cabe sin desplazamiento vertical en 1366 × 768. En móvil, el contenido se organiza en una sola página y el acceso al resumen permanece a mano al seleccionar.
+
+«Sinopsis» y «Tráiler» se abren en diálogos sobre la reserva. Las fichas incluyen duración, año, dirección y reparto. Los tráileres oficiales se cargan solo al pulsar y se detienen al cerrar; también hay un enlace directo a YouTube si el proveedor impide reproducirlos dentro de la web.
 
 1. Elige una película, una fecha y una hora de demostración.
 2. Pulsa una butaca libre para seleccionarla. Pulsa de nuevo para retirarla.
 3. Puedes usar «Encontrar 2 juntos»: selecciona el primer par disponible y sustituye tu selección anterior.
 4. Revisa el resumen y pulsa «Confirmar». Solo entonces se ocupan los asientos.
-5. Los avisos junto al mapa explican cada operación. La confirmación abre un comprobante con película, sesión y asientos, que se cierra con el botón o Escape.
+5. Los avisos junto al mapa explican cada operación. La confirmación abre una entrada con película, sesión, asientos y referencia local. «Guardar entrada» descarga un SVG autónomo con el logo y los datos confirmados. «Mi entrada» recupera la última entrada de la visita, incluso al cambiar de película.
 
 Cada sesión de ejemplo mantiene su propia matriz durante la visita; cambiar de sesión borra la selección pendiente y conserva las reservas confirmadas. No hay servidor, pagos ni persistencia: al recargar se reinician todos los datos. La cartelera y las fechas son una demostración, no programación real de un cine.
 
 La sección «Probar los escenarios del ejercicio» sustituye los datos de la sesión actual, previa confirmación. Permite comprobar visualmente los cuatro casos de la consola.
 
 Se puede operar con teclado (Tab, flechas, Inicio/Fin, Enter y Espacio). Se pueden retirar asientos individualmente desde el resumen. La selección muestra una marca además del color, hay foco visible y los avisos se anuncian a lectores de pantalla. En móvil la cartelera se desplaza horizontalmente y el resumen aparece después del mapa. Un acceso fijo permite revisar la reserva y se oculta al consultar el resumen.
+
+## Fichas, tráileres y entradas
+
+Las sinopsis se han redactado en español a partir de fuentes oficiales. Datos y enlaces:
+
+- [Ant-Man and The Wasp: Quantumania — Disney](https://movies.disney.com/ant-man-and-the-wasp-quantumania).
+- [Avatar: The Way of Water — Avatar](https://www.avatar.com/movies/avatar-the-way-of-water).
+- [The Flash — DC](https://www.dc.com/theflash), [duración — Warner Bros.](https://www.warnerbros.co.jp/home_entertainment/91z6amj2f80/).
+- [M3GAN — Universal Pictures Home Entertainment](https://www.universalpicturesathome.com/movies/m3gan).
+
+Los vídeos pertenecen a los canales oficiales de Marvel Entertainment, Avatar, Warner Bros. Pictures y Universal Pictures. Su disponibilidad y reproducción dependen de YouTube y de la región del visitante.
+
+Las reservas y la última entrada se mantienen durante la visita, sin servidor ni pagos. La descarga sí se conserva como archivo. Todas las entradas indican que son de demostración y no permiten acceder a un cine real. No se simulan códigos QR ni validaciones de taquilla.
 
 ## Plazas accesibles y bloqueos (ampliación web)
 
@@ -72,11 +87,15 @@ Los contadores web excluyen los bloqueos: 78 plazas reservables en sala vacía y
 - `src/cinema.ts`: lógica central compartida, sin dependencias del navegador.
 - `src/main.ts`: entrada y demostración de consola.
 - `src/seat-layout.ts`: tipos de plaza, bloqueos, validación y búsquedas web.
+- `src/movie-details.ts`: fichas verificadas y tráileres oficiales.
+- `src/ticket.ts`: generación de entradas SVG con escape XML y ajuste de texto.
+- `public/icons.svg`: iconos vectoriales locales de trazo uniforme.
 - `src/web.ts`: interfaz y eventos; utiliza las funciones de la lógica central.
 - `src/style.css`: Tailwind y estilos de la referencia.
 - `index.html`: estructura semántica de la web.
 - `tests/cinema.test.ts`: 23 comprobaciones de casos normales y límites.
 - `tests/seat-layout.test.ts`: 23 comprobaciones de accesibilidad, bloqueos y reserva conjunta.
+- `tests/ticket.test.ts`: datos de entrada, escape XML, identificación de demostración y ajuste de 80 asientos.
 - `public/posters/`: pósteres ilustrativos de la cartelera.
 
 ## Evaluación

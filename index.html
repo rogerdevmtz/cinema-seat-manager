@@ -3,12 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#090d1d" />
+    <meta name="theme-color" content="#080e1b" />
     <meta
       name="description"
-      content="Elige tu película y reserva tus asientos en una sala de cine."
+      content="Elige una película, tu sesión y tus asientos. Una reserva de cine sencilla y accesible."
     />
-    <title>R. Martínez · Reserva de asientos</title>
+    <title>R. Martínez · Cine</title>
     <link rel="icon" href="/favicon.svg" />
     <link rel="preload" as="image" href="/backdrops/movie-0.jpg" />
   </head>
@@ -22,162 +22,138 @@
           width="247"
           height="73"
       /></a>
-      <nav aria-label="Navegación principal">
-        <a href="#billboard" class="nav-active">Cartelera</a
-        ><a href="#seats">Reservar</a>
-      </nav>
-      <span class="demo-badge"><span></span> Demo</span>
+      <div class="brand-context">
+        <span>CINE</span><span>Sala 01 · 80 plazas</span>
+      </div>
+      <div class="header-actions">
+        <span class="demo-badge"><span></span>Demo</span
+        ><button
+          id="open-ticket"
+          class="button secondary compact-button"
+          hidden
+        >
+          <svg class="icon" aria-hidden="true">
+            <use href="/icons.svg#ticket"></use></svg
+          >Mi entrada
+        </button>
+      </div>
     </header>
-    <main class="shell">
-      <section class="cinematic-hero" aria-labelledby="page-title">
-        <img
-          id="hero-backdrop"
-          class="hero-backdrop"
-          src="/backdrops/movie-0.jpg"
-          alt=""
-          width="1280"
-          height="720"
-          fetchpriority="high"
-        />
-        <div class="hero-shade" aria-hidden="true"></div>
-        <div class="hero-content">
-          <p class="hero-kicker"><span></span> EN CARTELERA</p>
-          <h1 id="page-title">Ant-Man and The Wasp: Quantumania</h1>
-          <p class="hero-meta">
-            <span id="hero-genre">Acción · Aventura</span
-            ><span class="hero-format">2D · VOSE</span>
-          </p>
-          <a href="#schedule" id="hero-reserve" class="button primary"
-            >Elegir asientos
-            <svg
-              viewBox="0 0 24 24"
-              width="18"
-              height="18"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.8"
-              aria-hidden="true"
+    <main class="workspace shell">
+      <aside class="film-sidebar panel" aria-label="Películas y ficha">
+        <section class="film-preview" aria-labelledby="page-title">
+          <div class="preview-art">
+            <img
+              id="hero-backdrop"
+              src="/backdrops/movie-0.jpg"
+              alt=""
+              width="1280"
+              height="720"
+              fetchpriority="high"
+            /><span class="preview-format">2D · VOSE</span>
+          </div>
+          <div class="preview-copy">
+            <h1 id="page-title">Ant-Man and The Wasp: Quantumania</h1>
+            <p id="hero-genre" class="film-genre"></p>
+            <p class="hero-meta">
+              <span id="hero-runtime"></span><span id="hero-year"></span>
+            </p>
+            <div class="film-actions">
+              <button id="show-film-info" class="button secondary">
+                <svg class="icon" aria-hidden="true">
+                  <use href="/icons.svg#info"></use></svg
+                >Sinopsis</button
+              ><button id="watch-trailer" class="button secondary">
+                <svg class="icon" aria-hidden="true">
+                  <use href="/icons.svg#play"></use></svg
+                >Tráiler
+              </button>
+            </div>
+          </div>
+        </section>
+        <section id="billboard" aria-labelledby="billboard-title">
+          <div class="section-heading">
+            <h2 id="billboard-title">Cartelera</h2>
+            <span id="hero-index">01 / 04</span>
+          </div>
+          <div id="movies" class="movies"></div>
+        </section>
+      </aside>
+      <div class="reservation-stage">
+        <section
+          id="schedule"
+          class="schedule panel"
+          aria-labelledby="schedule-title"
+        >
+          <div class="session-heading">
+            <h2 id="schedule-title">Tu sesión</h2>
+            <span>Noviembre</span>
+          </div>
+          <div class="schedule-options">
+            <div
+              id="dates"
+              class="dates"
+              role="group"
+              aria-label="Fechas"
+            ></div>
+            <label class="session-field"
+              >Hora<select id="time">
+                <option>10:30</option>
+                <option selected>18:00</option>
+                <option>21:30</option>
+              </select></label
             >
-              <path d="M5 12h14m-6-6 6 6-6 6" /></svg
-          ></a>
-        </div>
-        <div class="hero-bottom">
-          <span>SALA 01 <span>·</span> CINE INDEPENDIENTE</span
-          ><span id="hero-index">01 / 04</span>
-        </div>
-      </section>
-      <section id="billboard" aria-labelledby="billboard-title">
-        <div class="section-heading">
-          <div class="step-heading">
-            <span class="step-number">01</span>
-            <h2 id="billboard-title">Elige tu película</h2>
           </div>
-          <span class="section-note">4 películas en cartelera</span>
-        </div>
-        <div id="movies" class="movies"></div>
-      </section>
-      <section
-        id="schedule"
-        class="schedule panel"
-        aria-labelledby="schedule-title"
-      >
-        <div class="date-label">
-          <div class="step-heading">
-            <span class="step-number">02</span>
-            <h2 id="schedule-title">Fecha y hora</h2>
-          </div>
-          <p>Noviembre</p>
-        </div>
-        <div class="schedule-options">
-          <div id="dates" class="dates" role="group" aria-label="Fechas"></div>
-          <label class="session-field"
-            >Hora<select id="time">
-              <option>10:30</option>
-              <option selected>18:00</option>
-              <option>21:30</option>
-            </select></label
-          >
-        </div>
-      </section>
-      <div class="booking-layout">
+        </section>
         <section
           id="seats"
           class="seat-section panel"
           aria-labelledby="seats-title"
         >
           <div class="seat-heading">
-            <div class="step-heading">
-              <span class="step-number">03</span>
-              <h2 id="seats-title">Elige tus asientos</h2>
-            </div>
+            <h2 id="seats-title">Elige tus asientos</h2>
             <span class="availability"
-              ><span></span><strong id="available-count">48</strong> libres de
-              80</span
+              ><span></span
+              ><strong id="available-count">47</strong> disponibles</span
             >
           </div>
           <div class="room-toolbar">
             <button id="find-pair" class="button pair-button">
-              <svg
-                viewBox="0 0 24 24"
-                width="18"
-                height="18"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.6"
-                aria-hidden="true"
-              >
-                <path
-                  d="M3 13v6h8v-6M4 13V7h6v6M13 13v6h8v-6M14 13V7h6v6"
-                /></svg
-              >Encontrar 2 juntos
-            </button>
-            <button
+              <svg class="icon" aria-hidden="true">
+                <use href="/icons.svg#seats"></use></svg
+              >Encontrar 2 juntos</button
+            ><button
               id="find-accessible-pair"
               class="button pair-button accessible-pair-button"
             >
-              <svg
-                viewBox="0 0 24 24"
-                width="18"
-                height="18"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.8"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                aria-hidden="true"
-              >
-                <circle cx="12" cy="4" r="2" />
-                <path d="m10 7-1 7h7l3 6h3M10 10h7M7 10a6 6 0 1 0 7 9" /></svg
+              <svg class="icon" aria-hidden="true">
+                <use href="/icons.svg#wheelchair"></use></svg
               >Silla de ruedas + acompañante
             </button>
           </div>
           <div class="legend seat-legend" aria-label="Leyenda de asientos">
-            <span><i class="mini-seat available"></i>Disponible</span>
-            <span><i class="mini-seat chosen">✓</i>Seleccionado</span>
-            <span><i class="mini-seat occupied">×</i>Ocupado</span>
-            <span><i class="mini-seat blocked">／</i>Bloqueado</span>
-            <span
+            <span><i class="mini-seat available"></i>Disponible</span
+            ><span
+              ><i class="mini-seat chosen"
+                ><svg class="icon" aria-hidden="true">
+                  <use href="/icons.svg#check"></use></svg></i
+              >Seleccionado</span
+            ><span
+              ><i class="mini-seat occupied"
+                ><svg class="icon" aria-hidden="true">
+                  <use href="/icons.svg#lock"></use></svg></i
+              >Ocupado</span
+            ><span
+              ><i class="mini-seat blocked"
+                ><svg class="icon" aria-hidden="true">
+                  <use href="/icons.svg#ban"></use></svg></i
+              >Bloqueado</span
+            ><span
               ><i class="mini-seat wheelchair"
-                ><svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.8"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                >
-                  <circle cx="12" cy="4" r="2" />
-                  <path
-                    d="m10 7-1 7h7l3 6h3M10 10h7M7 10a6 6 0 1 0 7 9"
-                  /></svg></i
+                ><svg class="icon" aria-hidden="true">
+                  <use href="/icons.svg#wheelchair"></use></svg></i
               >Silla de ruedas</span
-            >
-            <span><i class="mini-seat companion">A</i>Acompañante</span>
+            ><span><i class="mini-seat companion">A</i>Acompañante</span>
           </div>
-          <p class="accessibility-note">
-            Acompañante: se reserva junto a su plaza para silla de ruedas.
-          </p>
           <div class="screen" aria-label="Pantalla de cine">
             <span>PANTALLA</span>
           </div>
@@ -188,9 +164,9 @@
             aria-label="Mapa de 80 asientos"
             aria-describedby="map-instructions"
           ></div>
-          <p id="map-instructions" class="map-instructions">
-            Filas 0–7 · Asientos 0–9
-            <span>También puedes usar las flechas del teclado.</span>
+          <p id="map-instructions" class="sr-only">
+            Filas 0 a 7 y asientos 0 a 9. Puedes usar las flechas del teclado.
+            Los acompañantes se reservan con su plaza de silla de ruedas.
           </p>
           <div
             id="feedback"
@@ -199,74 +175,23 @@
             aria-live="polite"
             aria-atomic="true"
           >
-            <span class="feedback-icon" aria-hidden="true">i</span>
-            <p id="feedback-text">Selecciona un asiento libre para empezar.</p>
+            <span class="feedback-icon" aria-hidden="true"
+              ><svg class="icon"><use href="/icons.svg#info"></use></svg
+            ></span>
+            <p id="feedback-text">Selecciona una plaza en el mapa.</p>
             <button id="dismiss-feedback" aria-label="Cerrar aviso" hidden>
               ×
             </button>
           </div>
         </section>
-        <aside
-          id="reservation-summary"
-          class="summary panel"
-          aria-labelledby="summary-title"
-        >
-          <div class="summary-heading">
-            <h2 id="summary-title">Tu reserva</h2>
-            <svg
-              viewBox="0 0 24 24"
-              width="22"
-              height="22"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-              aria-hidden="true"
-            >
-              <path
-                d="M3 5h18v5a2 2 0 0 0 0 4v5H3v-5a2 2 0 0 0 0-4zM15 5v14"
-                stroke-dasharray="3 2"
-              />
+        <details class="demo-controls">
+          <summary>
+            Probar escenarios
+            <svg class="icon" aria-hidden="true">
+              <use href="/icons.svg#arrow-right"></use>
             </svg>
-          </div>
-          <div class="summary-film">
-            <img
-              id="summary-poster"
-              src="/posters/movie-0.jpg"
-              alt=""
-              width="500"
-              height="750"
-            />
-            <div>
-              <p id="summary-movie"></p>
-              <span class="format-label">2D · VOSE</span>
-            </div>
-          </div>
-          <p id="summary-session" class="summary-session"></p>
-          <div class="selection-heading">
-            <h3>Asientos</h3>
-            <span id="selection-count" class="count-badge">0</span>
-          </div>
-          <div id="selected-seats" class="selected-seats"></div>
-          <button id="book" class="button primary" disabled>
-            Selecciona un asiento</button
-          ><button id="clear" class="button text-button" disabled>
-            Quitar todos
-          </button>
-          <p class="summary-note">Las reservas se reinician al recargar.</p>
-        </aside>
-      </div>
-      <details class="demo-controls panel">
-        <summary>
-          <span>Zona de pruebas</span
-          ><span
-            >Escenarios del ejercicio <span aria-hidden="true">＋</span></span
-          >
-        </summary>
-        <div class="demo-control-body">
-          <p>
-            Sustituye los asientos de esta sesión por un escenario de prueba.
-          </p>
-          <div class="scenario-actions">
+          </summary>
+          <div class="demo-control-body">
             <label class="sr-only" for="scenario">Escenario</label
             ><select id="scenario">
               <option value="0">Sala vacía</option>
@@ -277,28 +202,110 @@
               Cargar escenario
             </button>
           </div>
+        </details>
+      </div>
+      <aside
+        id="reservation-summary"
+        class="summary panel"
+        aria-labelledby="summary-title"
+      >
+        <div class="summary-heading">
+          <h2 id="summary-title">Tu entrada</h2>
+          <svg class="icon" aria-hidden="true">
+            <use href="/icons.svg#ticket"></use>
+          </svg>
         </div>
-      </details>
-      <footer id="about">
-        <a href="#" class="wordmark small" aria-label="R. Martínez, inicio"
-          ><img
-            src="/roger-martinez-logo-transparent.svg"
-            alt="R. Martínez"
-            width="247"
-            height="73"
-        /></a>
-        <p>
-          Cinema Seat Manager <span>Proyecto TypeScript · 4Geeks Academy</span>
-        </p>
-        <a href="#page-title">Volver arriba ↑</a>
-      </footer>
+        <p id="summary-movie" class="summary-film-title sr-only"></p>
+        <p id="summary-session" class="summary-session"></p>
+        <div class="selection-heading">
+          <h3>Asientos</h3>
+          <span id="selection-count" class="count-badge">0</span>
+        </div>
+        <div id="selected-seats" class="selected-seats"></div>
+        <button id="book" class="button primary" disabled>
+          Selecciona un asiento</button
+        ><button id="clear" class="button text-button" disabled>
+          Quitar todos
+        </button>
+        <p class="summary-note">Reserva gratuita · Demostración</p>
+      </aside>
     </main>
     <div id="mobile-review" class="mobile-review" hidden>
       <div><strong id="mobile-count">0 asientos</strong></div>
       <button id="review-selection" class="button primary">
-        Revisar reserva →
+        Revisar reserva<svg class="icon" aria-hidden="true">
+          <use href="/icons.svg#arrow-right"></use>
+        </svg>
       </button>
     </div>
+    <dialog
+      id="movie-info"
+      class="film-info-dialog"
+      aria-labelledby="details-title"
+    >
+      <header class="dialog-heading">
+        <div>
+          <span>FICHA DE LA PELÍCULA</span>
+          <h2 id="details-title"></h2>
+        </div>
+        <button
+          id="close-film-info"
+          class="icon-button"
+          aria-label="Cerrar sinopsis"
+        >
+          <svg class="icon" aria-hidden="true">
+            <use href="/icons.svg#close"></use>
+          </svg>
+        </button>
+      </header>
+      <div class="film-info-body">
+        <h3>Sinopsis</h3>
+        <p id="hero-synopsis"></p>
+        <dl>
+          <div>
+            <dt>Dirección</dt>
+            <dd id="movie-director"></dd>
+          </div>
+          <div>
+            <dt>Reparto</dt>
+            <dd id="movie-cast"></dd>
+          </div>
+        </dl>
+        <a id="movie-source" href="#" target="_blank" rel="noopener noreferrer"
+          >Ficha oficial<svg class="icon" aria-hidden="true">
+            <use href="/icons.svg#external"></use></svg
+        ></a>
+      </div>
+    </dialog>
+    <dialog
+      id="trailer-dialog"
+      class="trailer-dialog"
+      aria-labelledby="trailer-title"
+    >
+      <header class="dialog-heading">
+        <div>
+          <span>TRÁILER OFICIAL</span>
+          <h2 id="trailer-title"></h2>
+        </div>
+        <button
+          id="close-trailer"
+          class="icon-button"
+          aria-label="Cerrar tráiler"
+        >
+          <svg class="icon" aria-hidden="true">
+            <use href="/icons.svg#close"></use>
+          </svg>
+        </button>
+      </header>
+      <div id="trailer-player" class="trailer-player"></div>
+      <div class="trailer-footer">
+        <span>Vídeo del distribuidor</span
+        ><a id="trailer-external" target="_blank" rel="noopener noreferrer"
+          >Abrir en YouTube<svg class="icon" aria-hidden="true">
+            <use href="/icons.svg#external"></use></svg
+        ></a>
+      </div>
+    </dialog>
     <dialog
       id="booking-receipt"
       class="receipt"
@@ -306,17 +313,24 @@
       aria-describedby="receipt-description"
     >
       <div class="receipt-content">
-        <span class="receipt-check" aria-hidden="true">✓</span>
+        <span class="receipt-check" aria-hidden="true"
+          ><svg class="icon"><use href="/icons.svg#check"></use></svg
+        ></span>
         <h2 id="receipt-title">Reserva confirmada</h2>
-        <p id="receipt-description">Ya tienes tu sitio.</p>
+        <p id="receipt-description">Tu próxima sesión está lista.</p>
+        <p id="ticket-reference" class="ticket-reference"></p>
         <div class="receipt-ticket">
           <strong id="receipt-movie"></strong><span id="receipt-session"></span>
           <div><span>ASIENTOS</span><strong id="receipt-seats"></strong></div>
         </div>
         <p class="receipt-note">
-          Reserva de demostración. Se reinicia al recargar.
+          Entrada de demostración. Sin validez para acceso al cine.
         </p>
-        <button id="close-receipt" class="button primary">
+        <button id="download-ticket" class="button primary">
+          <svg class="icon" aria-hidden="true">
+            <use href="/icons.svg#download"></use></svg
+          >Guardar entrada</button
+        ><button id="close-receipt" class="button text-button">
           Volver a la sala
         </button>
       </div>

@@ -1,4 +1,7 @@
 import "./style.css";
+import { movieDetails } from "./movie-details";
+import { createTicketSvg } from "./ticket";
+import type { Ticket } from "./ticket";
 import { createScenario, reserveSeat } from "./cinema";
 import type { Position, Room } from "./cinema";
 import {
@@ -10,8 +13,11 @@ import {
   wheelchairFor,
 } from "./seat-layout";
 
-const wheelchairIcon =
-  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="4" r="2"/><path d="m10 7-1 7h7l3 6h3M10 10h7M7 10a6 6 0 1 0 7 9"/></svg>';
+/** Iconos vectoriales locales con el mismo trazo en todos los controles. */
+function icon(name: string): string {
+  return `<svg class="icon" aria-hidden="true"><use href="/icons.svg#${name}"></use></svg>`;
+}
+const wheelchairIcon = icon("wheelchair");
 
 // Los datos propios se mantienen en arreglos. No se modelan reservas con objetos o clases.
 const movieTitles = [
@@ -33,6 +39,8 @@ let movie = 0;
 let day = 0;
 let time = 1;
 let selected: Position[] = [];
+let lastTicket: Ticket | null = null;
+let ticketOpenedFromHeader = false;
 let focusedRow = 0;
 let focusedColumn = 0;
 
@@ -56,8 +64,9 @@ function feedback(message: string, state = "info"): void {
   element("feedback").className = `feedback ${state}`;
   element("dismiss-feedback").hidden = true;
   element("feedback-text").textContent = message;
-  element("feedback").querySelector(".feedback-icon")!.textContent =
-    state === "success" ? "✓" : state === "error" ? "!" : "i";
+  element("feedback").querySelector(".feedback-icon")!.innerHTML = icon(
+    state === "success" ? "check" : state === "error" ? "ban" : "info",
+  );
 }
 
 /** Dibuja la cartelera y las fechas, indicando el contexto seleccionado. */
@@ -65,15 +74,27 @@ function renderContext(): void {
   element<HTMLImageElement>("hero-backdrop").src =
     `/backdrops/movie-${movie}.jpg`;
   element("page-title").textContent = movieTitles[movie];
+  element("details-title").textContent = movieTitles[movie];
   element("hero-genre").textContent = movieGenres[movie];
+  const [duration, year, director, cast, synopsis, trailer, source] =
+    movieDetails[movie];
+  element("hero-runtime").innerHTML =
+    `${icon("clock")}<span>${duration}</span>`;
+  element("hero-year").textContent = year;
+  element("hero-synopsis").textContent = synopsis;
+  element("movie-director").textContent = director;
+  element("movie-cast").textContent = cast;
+  element<HTMLAnchorElement>("movie-source").href = source;
+  element<HTMLAnchorElement>("trailer-external").href =
+    `https://www.youtube.com/watch?v=${trailer}`;
   element("hero-index").textContent =
     `${String(movie + 1).padStart(2, "0")} / 04`;
   element("movies").innerHTML = movieTitles
     .map(
       (title, index) => `
     <button class="movie-card ${index === movie ? "active" : ""}" data-movie="${index}" aria-pressed="${index === movie}" aria-label="Elegir película: ${title}">
-      <div class="poster"><img src="/posters/movie-${index}.jpg" alt="Póster de ${title}" width="500" height="750" /><span class="movie-check" aria-hidden="true">✓</span></div>
-      <div class="movie-copy"><h3>${title}</h3><p>${movieGenres[index]}</p></div>
+      <div class="poster"><img src="/posters/movie-${index}.jpg" alt="Póster de ${title}" width="500" height="750" /><span class="movie-check" aria-hidden="true">${icon("check")}</span></div>
+      <div class="movie-copy"><h3>${title}</h3><span class="movie-duration">${icon("clock")}${movieDetails[index][0]}</span></div>
     </button>`,
     )
     .join("");
@@ -83,8 +104,6 @@ function renderContext(): void {
         `<button class="date ${index === day ? "active" : ""}" data-day="${index}" aria-pressed="${index === day}" aria-label="${7 + index} de noviembre, ${name}"><span>Nov</span><strong>${String(7 + index).padStart(2, "0")}</strong><span>${name}</span></button>`,
     )
     .join("");
-  element<HTMLImageElement>("summary-poster").src =
-    `/posters/movie-${movie}.jpg`;
   element("summary-movie").textContent = movieTitles[movie];
   element("summary-session").textContent =
     `${7 + day} nov · ${element<HTMLSelectElement>("time").value} · Sala 01`;
@@ -132,11 +151,11 @@ function renderSeats(): void {
             ? '<span class="special-place companion-symbol">A</span>'
             : '<span class="chair"><span></span></span>';
       const mark = blocked
-        ? '<span class="seat-state-mark">／</span>'
+        ? `<span class="seat-state-mark">${icon("ban")}</span>`
         : occupied
-          ? '<span class="seat-state-mark">×</span>'
+          ? `<span class="seat-state-mark">${icon("lock")}</span>`
           : chosen
-            ? '<span class="seat-state-mark">✓</span>'
+            ? `<span class="seat-state-mark">${icon("check")}</span>`
             : "";
       html += `<button class="seat ${state} ${kind}" data-row="${row}" data-column="${column}" aria-label="Fila ${row}, asiento ${column}: ${label}${typeLabel}" aria-pressed="${chosen}" aria-disabled="${occupied || blocked}" title="Fila ${row} · Asiento ${column}: ${label}${typeLabel}"><span aria-hidden="true" class="seat-visual">${symbol}${mark}</span></button>`;
     }
@@ -147,16 +166,16 @@ function renderSeats(): void {
     ? selected
         .map(
           (position) =>
-            `<button class="seat-chip" data-remove-row="${position[0]}" data-remove-column="${position[1]}" aria-label="Retirar fila ${position[0]}, asiento ${position[1]}">${getSeatKind(position[0], position[1]) === "wheelchair" ? wheelchairIcon : getSeatKind(position[0], position[1]) === "companion" ? '<span class="chip-type" aria-hidden="true">A</span>' : ""}F${position[0]} · A${position[1]}<span aria-hidden="true">×</span></button>`,
+            `<button class="seat-chip" data-remove-row="${position[0]}" data-remove-column="${position[1]}" aria-label="Retirar fila ${position[0]}, asiento ${position[1]}">${getSeatKind(position[0], position[1]) === "wheelchair" ? wheelchairIcon : getSeatKind(position[0], position[1]) === "companion" ? '<span class="chip-type" aria-hidden="true">A</span>' : ""}F${position[0]} · A${position[1]}${icon("close")}</button>`,
         )
         .join("")
-    : '<p class="muted text-sm">Elige tus asientos en el mapa.</p>';
+    : '<p class="muted text-sm">Sin asientos seleccionados.</p>';
   element("selection-count").textContent = String(selected.length);
   const book = element<HTMLButtonElement>("book");
   book.disabled = selected.length === 0;
   book.textContent = selected.length
     ? `Confirmar ${selected.length === 1 ? "1 asiento" : `${selected.length} asientos`} →`
-    : "Selecciona un asiento";
+    : "Confirmar reserva";
   element<HTMLButtonElement>("clear").disabled = !selected.length;
   element("available-count").textContent = String(countBookableSeats(room));
   element("mobile-count").textContent =
@@ -328,6 +347,16 @@ element("book").addEventListener("click", () => {
         `Fila ${position[0]} · ${getSeatKind(position[0], position[1]) === "wheelchair" ? "Silla de ruedas" : getSeatKind(position[0], position[1]) === "companion" ? "Acompañante" : "Asiento"} ${position[1]}`,
     )
     .join(" / ");
+  ticketOpenedFromHeader = false;
+  const reference = `RM-${crypto.randomUUID().slice(0, 8).toUpperCase()}`;
+  lastTicket = [
+    reference,
+    movieTitles[movie],
+    element("receipt-session").textContent || "",
+    element("receipt-seats").textContent || "",
+  ];
+  element("ticket-reference").textContent = reference;
+  element("open-ticket").hidden = false;
   selected = [];
   renderSeats();
   element<HTMLDialogElement>("booking-receipt").showModal();
@@ -377,11 +406,6 @@ function updateMobileReview(): void {
 }
 window.addEventListener("scroll", updateMobileReview, { passive: true });
 window.addEventListener("resize", updateMobileReview);
-element("hero-reserve").addEventListener("click", (event) => {
-  event.preventDefault();
-  element("schedule").scrollIntoView({ block: "start", behavior: "instant" });
-  element("time").focus({ preventScroll: true });
-});
 element("review-selection").addEventListener("click", () => {
   element("reservation-summary").scrollIntoView({
     block: "start",
@@ -450,9 +474,79 @@ element("close-receipt").addEventListener("click", () => {
   element<HTMLDialogElement>("booking-receipt").close();
 });
 element("booking-receipt").addEventListener("close", () => {
+  if (ticketOpenedFromHeader) {
+    element("open-ticket").focus();
+    return;
+  }
   element("seat-map")
     .querySelector<HTMLButtonElement>('[tabindex="0"]')
     ?.focus();
+});
+
+element("show-film-info").addEventListener("click", () =>
+  element<HTMLDialogElement>("movie-info").showModal(),
+);
+element("close-film-info").addEventListener("click", () =>
+  element<HTMLDialogElement>("movie-info").close(),
+);
+element("movie-info").addEventListener("close", () =>
+  element("show-film-info").focus(),
+);
+
+/** Abre el tráiler solicitado y elimina el reproductor al cerrar para detenerlo. */
+element("watch-trailer").addEventListener("click", () => {
+  element("trailer-title").textContent = movieTitles[movie];
+  element("trailer-player").innerHTML =
+    `<iframe title="Tráiler oficial de ${movieTitles[movie]}" src="https://www.youtube-nocookie.com/embed/${movieDetails[movie][5]}?autoplay=1&rel=0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`;
+  element<HTMLDialogElement>("trailer-dialog").showModal();
+});
+element("close-trailer").addEventListener("click", () =>
+  element<HTMLDialogElement>("trailer-dialog").close(),
+);
+element("trailer-dialog").addEventListener("close", () => {
+  element("trailer-player").replaceChildren();
+  element("watch-trailer").focus();
+});
+
+/** Recupera la última entrada de la visita sin confirmar ni duplicar reservas. */
+element("open-ticket").addEventListener("click", () => {
+  if (!lastTicket) return;
+  ticketOpenedFromHeader = true;
+  element("ticket-reference").textContent = lastTicket[0];
+  element("receipt-movie").textContent = lastTicket[1];
+  element("receipt-session").textContent = lastTicket[2];
+  element("receipt-seats").textContent = lastTicket[3];
+  element<HTMLDialogElement>("booking-receipt").showModal();
+});
+
+/** Descarga una entrada SVG autónoma, conservando la referencia y los asientos confirmados. */
+element("download-ticket").addEventListener("click", async () => {
+  if (!lastTicket) return;
+  const confirmed = [...lastTicket] as Ticket;
+  const button = element<HTMLButtonElement>("download-ticket");
+  button.disabled = true;
+  try {
+    let logo = "";
+    try {
+      const response = await fetch("/roger-martinez-logo-transparent.svg");
+      if (response.ok)
+        logo = `data:image/svg+xml,${encodeURIComponent(await response.text())}`;
+    } catch {
+      /* La entrada tiene una marca de texto si no se puede cargar el logo. */
+    }
+    const url = URL.createObjectURL(
+      new Blob([createTicketSvg(confirmed, logo)], {
+        type: "image/svg+xml;charset=utf-8",
+      }),
+    );
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `entrada-${confirmed[0]}.svg`;
+    link.click();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+  } finally {
+    button.disabled = false;
+  }
 });
 
 renderContext();
