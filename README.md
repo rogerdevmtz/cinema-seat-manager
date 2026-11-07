@@ -70,27 +70,15 @@ Los vídeos pertenecen a los canales oficiales de Marvel Entertainment, Avatar, 
 
 Las reservas y la última entrada se mantienen durante la visita, sin servidor ni pagos. La descarga sí se conserva como archivo. Todas las entradas indican que son de demostración y no permiten acceder a un cine real. No se simulan códigos QR ni validaciones de taquilla.
 
-## Plazas accesibles y bloqueos (ampliación web)
+## Plano ajustado al ejercicio
 
-La sala conserva sus 8 × 10 plazas y su matriz de ocupación 0/1. El plano añade tipos mediante arreglos de coordenadas, sin objetos ni clases:
-
-- Silla de ruedas: fila 0, asientos 1 y 6.
-- Acompañantes vinculados: fila 0, asientos 2 y 7.
-- Bloqueados: fila 4, asientos 4 y 5, no reservables.
-- VIP: 15 plazas del bloque central, filas 5–7 y asientos 3–7. La categoría aparece en el plano, resumen y entrada; la reserva de demostración sigue siendo gratuita.
-- Pasillos: después de las columnas 2 y 7 y antes de la fila 5. Son espacios visuales: se mantienen exactamente 8 filas × 10 plazas, con índices desde cero.
-
-La leyenda muestra directamente disponible, seleccionado, ocupado, bloqueado, VIP, silla de ruedas y acompañante, con símbolos además del color y sin encabezados redundantes. Elegir un acompañante añade su plaza accesible si está libre. Se permite reservar la plaza de silla de ruedas sola; el acompañante debe confirmarse junto a ella en la misma operación. Retirar la plaza accesible retira también el acompañante seleccionado. Una plaza accesible ocupada no permite reservar su acompañante desde otra operación.
-
-«Encontrar 2 juntos» busca butacas estándar o VIP dentro del mismo bloque, sin atravesar pasillos. «Silla de ruedas + acompañante» busca la primera pareja accesible libre. Las dos búsquedas respetan ocupación y bloqueos. Se valida toda la selección antes de reservar para evitar confirmaciones parciales.
-
-Los contadores web excluyen los bloqueos: 78 plazas reservables en sala vacía y 47 libres en el escenario parcial. Los cuatro escenarios de consola y sus recuentos originales permanecen intactos. El plano accesible es una demostración, no una descripción certificada de un recinto real.
+Las 80 butacas tienen el mismo tipo. La matriz solo guarda 0 (libre) o 1 (ocupado); la selección pendiente se representa aparte hasta confirmar. No hay VIP, bloqueos ni restricciones de acompañantes. La web comparte el recuento y la búsqueda del primer par horizontal con la consola: 80 libres en sala vacía y 48 en el escenario parcial.
 
 ## Organización
 
 - `src/cinema.ts`: lógica central compartida, sin dependencias del navegador.
 - `src/main.ts`: entrada y demostración de consola.
-- `src/seat-layout.ts`: tipos de plaza, bloqueos, validación y búsquedas web.
+- `src/seat-layout.ts`: validación de la selección y acceso a la lógica compartida.
 - `src/movie-details.ts`: fichas verificadas y tráileres oficiales.
 - `src/ticket.ts`: generación de entradas SVG con escape XML y ajuste de texto.
 - `public/icons.svg`: iconos vectoriales locales de trazo uniforme.
@@ -98,7 +86,7 @@ Los contadores web excluyen los bloqueos: 78 plazas reservables en sala vacía y
 - `src/style.css`: Tailwind y estilos de la referencia.
 - `index.html`: estructura semántica de la web.
 - `tests/cinema.test.ts`: 23 comprobaciones de casos normales y límites.
-- `tests/seat-layout.test.ts`: 29 comprobaciones de accesibilidad, bloqueos, reserva conjunta, VIP y pasillos.
+- `tests/seat-layout.test.ts`: recuentos de escenarios, búsqueda compartida y validación previa de la selección.
 - `tests/ticket.test.ts`: datos de entrada, escape XML, identificación de demostración y ajuste de 80 asientos.
 - `public/posters/`: pósteres ilustrativos de la cartelera.
 

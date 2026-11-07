@@ -2965,3 +2965,7 @@ dialog::backdrop {
 
 /* Leyenda compacta sin encabezados redundantes. */
 .seat-legend .legend-group { display: block; }
+
+/* Ochenta butacas del mismo tipo, sin zonas ni restricciones adicionales. */
+.seat-map { grid-template-columns: 15px repeat(10, minmax(0, 1fr)); grid-template-rows: 14px repeat(8, minmax(0, 1fr)); }
+.seat-map::before { content: none; }
