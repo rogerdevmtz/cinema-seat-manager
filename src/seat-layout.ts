@@ -1,7 +1,9 @@
 import { findAdjacentSeats, isValidPosition } from "./cinema";
 import type { Position, Room } from "./cinema";
 
-export type SeatKind = "standard" | "wheelchair" | "companion" | "blocked";
+export type SeatKind = "standard" | "vip" | "wheelchair" | "companion" | "blocked";
+// Tres bloques de butacas, separados por pasillos después de las columnas 2 y 7.
+const seatBlocks: [number, number][] = [[0, 3], [3, 8], [8, 10]];
 // Metadatos del plano en arreglos de coordenadas; la ocupación sigue siendo 0/1.
 const wheelchairPlaces: Position[] = [
   [0, 1],
@@ -24,6 +26,7 @@ export function getSeatKind(row: number, column: number): SeatKind {
     return "companion";
   if (blockedPlaces.some((p) => p[0] === row && p[1] === column))
     return "blocked";
+  if (row >= 5 && row <= 7 && column >= 3 && column <= 7) return "vip";
   return "standard";
 }
 
@@ -47,14 +50,20 @@ export function countBookableSeats(room: Room): number {
   return available;
 }
 
-/** Busca una pareja normal sin asignar plazas accesibles, acompañantes o bloqueos. */
+/** Busca dos butacas estándar o VIP juntas, sin atravesar pasillos ni asignar plazas accesibles. */
 export function findStandardPair(room: Room): [Position, Position] | null {
   const candidates: Room = room.map((seats, row) =>
     seats.map((seat, column) =>
-      getSeatKind(row, column) === "standard" ? seat : 1,
+      ["standard", "vip"].includes(getSeatKind(row, column)) ? seat : 1,
     ),
   );
-  return findAdjacentSeats(candidates);
+  for (let row = 0; row < candidates.length; row++) {
+    for (const [start, end] of seatBlocks) {
+      const pair = findAdjacentSeats([candidates[row].slice(start, end)]);
+      if (pair) return [[row, start + pair[0][1]], [row, start + pair[1][1]]];
+    }
+  }
+  return null;
 }
 
 /** Devuelve la primera plaza de silla de ruedas con su acompañante libre. */

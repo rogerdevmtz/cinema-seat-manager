@@ -97,6 +97,24 @@ check(
   findAccessiblePair(onlyAccessible) !== null,
   "Plazas accesibles siguen reservables",
 );
+const acrossAisle = createScenario(3);
+acrossAisle[1][2] = 0;
+acrossAisle[1][3] = 0;
+check(findStandardPair(acrossAisle) === null, "No unir plazas a través del primer pasillo");
+acrossAisle[1][7] = 0;
+acrossAisle[1][8] = 0;
+check(findStandardPair(acrossAisle) === null, "No unir plazas a través del segundo pasillo");
+const onlyVip = createScenario(3);
+onlyVip[6][3] = 0;
+onlyVip[6][4] = 0;
+check(JSON.stringify(findStandardPair(onlyVip)) === "[[6,3],[6,4]]", "Buscar una pareja VIP disponible");
+check(validateSelection(onlyVip, [[6,3],[6,4]]) === null, "Permitir reserva VIP libre");
+check(validateSelection(onlyVip, [[6,5]])?.includes("ocupado") === true, "Respetar ocupación VIP");
+let vipCount = 0;
+for (let row = 0; row < 8; row++)
+  for (let column = 0; column < 10; column++)
+    if (getSeatKind(row, column) === "vip") vipCount++;
+check(vipCount === 15 && getSeatKind(4,3) === "standard", "15 plazas VIP dentro de las 80 plazas originales");
 console.log(
   `✓ ${checks} comprobaciones de plazas accesibles y bloqueos superadas.`,
 );

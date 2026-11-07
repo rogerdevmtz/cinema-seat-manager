@@ -621,6 +621,12 @@ select {
   color: #d6f6ff;
   font-weight: 700;
 }
+.mini-seat.vip {
+  background: #c5cde0;
+  border: 1px solid #e1d3b0;
+  color: #17243b;
+  font-weight: 700;
+}
 .mini-seat .icon {
   width: 11px;
   height: 11px;
@@ -639,10 +645,10 @@ select {
 .screen:before {
   content: "";
   position: absolute;
-  inset: 0 -10% -100px;
-  border-top: 2px solid #367cff;
-  border-radius: 50% 50% 0 0;
-  background: linear-gradient(#0047fb21, transparent 65%);
+  inset: 0;
+  clip-path: polygon(0 0, 100% 0, 97% 100%, 3% 100%);
+  background: #34445e;
+  border-top: 2px solid #7895bb;
 }
 .screen > span {
   position: relative;
@@ -650,7 +656,7 @@ select {
   margin-top: 12px;
   font-size: 8px;
   letter-spacing: 0.25em;
-  color: #b1d1ff;
+  color: #eef3fd;
 }
 .seat-map {
   height: clamp(220px, 31dvh, 340px);
@@ -664,9 +670,6 @@ select {
   align-items: center;
   max-width: 900px;
   margin: auto;
-}
-.seat-map > :nth-child(11n + 7) {
-  grid-column: 8;
 }
 .row-label,
 .column-label {
@@ -2475,5 +2478,102 @@ dialog::backdrop {
   .seat-chip {
     width: auto;
     flex: 1 1 150px;
+  }
+}
+
+/* El plano conserva 8 × 10 plazas; los pasillos solo añaden espacio entre bloques. */
+.seat-map {
+  position: relative;
+  grid-template-columns: 15px repeat(3, minmax(0, 1fr)) clamp(12px, 2vw, 28px) repeat(5, minmax(0, 1fr)) clamp(12px, 2vw, 28px) repeat(2, minmax(0, 1fr));
+  grid-template-rows: 14px repeat(5, minmax(0, 1fr)) 18px repeat(3, minmax(0, 1fr));
+  gap: 2px;
+}
+.seat-map::before {
+  content: "";
+  grid-column: 6 / 11;
+  grid-row: 8 / 11;
+  align-self: stretch;
+  border: 1px solid #5d6e89;
+  border-radius: 5px;
+  background: #1a2940;
+  pointer-events: none;
+}
+.seat-map > * {
+  position: relative;
+  z-index: 1;
+}
+.vip-zone-label {
+  grid-column: 6 / 11;
+  grid-row: 7;
+  justify-self: center;
+  color: #e2cfaa;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+}
+.seat-map .chair {
+  width: 24px;
+  height: 22px;
+  border-radius: 2px;
+  box-shadow: inset 0 -2px #657592;
+}
+.seat-map .chair:before {
+  left: 3px;
+  right: 3px;
+  top: -2px;
+  height: 19px;
+  border-width: 1px;
+  border-radius: 2px;
+}
+.seat.vip .chair > span {
+  position: absolute;
+  z-index: 1;
+  inset: 0 0 auto;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #17243b;
+}
+.seat.vip.chosen .chair > span,
+.seat.vip.occupied .chair > span {
+  color: #e0e9f7;
+}
+.seat.vip .seat-state-mark {
+  left: auto;
+  right: -1px;
+  top: -4px;
+  transform: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #34496a;
+  border: 1px solid #b6c8df;
+}
+.seat.vip.chosen .seat-state-mark {
+  background: var(--accent);
+}
+.seat.vip .seat-state-mark .icon {
+  width: 8px;
+  height: 8px;
+}
+.chip-vip {
+  color: #fff0cc;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+@media (max-width: 760px) {
+  .seat-map {
+    grid-template-columns: 12px repeat(3, minmax(0, 1fr)) 10px repeat(5, minmax(0, 1fr)) 10px repeat(2, minmax(0, 1fr));
+    column-gap: 0;
+  }
+  .seat-map .chair {
+    width: 21px;
+  }
+  .seat-map .seat-visual {
+    width: 23px;
+  }
+  .seat-map .special-place {
+    width: 21px;
   }
 }

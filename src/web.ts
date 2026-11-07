@@ -132,11 +132,13 @@ function renderContext(): void {
 /** Sincroniza el mapa de butacas y el resumen con la matriz y la selección. */
 function renderSeats(): void {
   const room = currentRoom();
-  let html = '<span class="grid-corner" aria-hidden="true"></span>';
+  const gridColumn = (column: number): number => column + 2 + (column >= 3 ? 1 : 0) + (column >= 8 ? 1 : 0);
+  let html = '<span class="vip-zone-label" aria-hidden="true">VIP</span>';
   for (let column = 0; column < 10; column++)
-    html += `<span class="column-label" aria-hidden="true">${column}</span>`;
+    html += `<span class="column-label" style="grid-column:${gridColumn(column)};grid-row:1" aria-hidden="true">${column}</span>`;
   for (let row = 0; row < room.length; row++) {
-    html += `<span class="row-label" aria-hidden="true">${row}</span>`;
+    const gridRow = row + 2 + (row >= 5 ? 1 : 0);
+    html += `<span class="row-label" style="grid-column:1;grid-row:${gridRow}" aria-hidden="true">${row}</span>`;
     for (let column = 0; column < room[row].length; column++) {
       const chosen = selected.some(
         (position) => position[0] === row && position[1] === column,
@@ -163,13 +165,13 @@ function renderSeats(): void {
           ? ", plaza para silla de ruedas"
           : kind === "companion"
             ? ", acompañante"
-            : "";
+            : kind === "vip" ? ", VIP" : "";
       const symbol =
         kind === "wheelchair"
           ? `<span class="special-place">${wheelchairIcon}</span>`
           : kind === "companion"
             ? '<span class="special-place companion-symbol">A</span>'
-            : '<span class="chair"><span></span></span>';
+            : `<span class="chair"><span>${kind === "vip" ? "V" : ""}</span></span>`;
       const mark = blocked
         ? `<span class="seat-state-mark">${icon("ban")}</span>`
         : occupied
@@ -177,7 +179,7 @@ function renderSeats(): void {
           : chosen
             ? `<span class="seat-state-mark">${icon("check")}</span>`
             : "";
-      html += `<button class="seat ${state} ${kind}" data-row="${row}" data-column="${column}" aria-label="Fila ${row}, asiento ${column}: ${label}${typeLabel}" aria-pressed="${chosen}" aria-disabled="${occupied || blocked}" title="Fila ${row} · Asiento ${column}: ${label}${typeLabel}"><span aria-hidden="true" class="seat-visual">${symbol}${mark}</span></button>`;
+      html += `<button class="seat ${state} ${kind}" style="grid-column:${gridColumn(column)};grid-row:${gridRow}" data-row="${row}" data-column="${column}" aria-label="Fila ${row}, asiento ${column}: ${label}${typeLabel}" aria-pressed="${chosen}" aria-disabled="${occupied || blocked}" title="Fila ${row} · Asiento ${column}: ${label}${typeLabel}"><span aria-hidden="true" class="seat-visual">${symbol}${mark}</span></button>`;
     }
   }
   element("seat-map").innerHTML = html;
@@ -186,7 +188,7 @@ function renderSeats(): void {
     ? selected
         .map(
           (position) =>
-            `<button class="seat-chip" data-remove-row="${position[0]}" data-remove-column="${position[1]}" aria-label="Retirar fila ${position[0]}, asiento ${position[1]}">${getSeatKind(position[0], position[1]) === "wheelchair" ? wheelchairIcon : getSeatKind(position[0], position[1]) === "companion" ? '<span class="chip-type" aria-hidden="true">A</span>' : icon("seats")}<span>Fila ${position[0]} · Asiento ${position[1]}</span>${icon("close")}</button>`,
+            `<button class="seat-chip" data-remove-row="${position[0]}" data-remove-column="${position[1]}" aria-label="Retirar fila ${position[0]}, asiento ${position[1]}">${getSeatKind(position[0], position[1]) === "wheelchair" ? wheelchairIcon : getSeatKind(position[0], position[1]) === "companion" ? '<span class="chip-type" aria-hidden="true">A</span>' : getSeatKind(position[0], position[1]) === "vip" ? '<span class="chip-vip">VIP</span>' : icon("seats")}<span>Fila ${position[0]} · Asiento ${position[1]}</span>${icon("close")}</button>`,
         )
         .join("")
     : `<div class="selection-empty">${icon("seats")}<p>Tu selección aparecerá aquí.</p></div>`;
@@ -317,7 +319,7 @@ element("seat-map").addEventListener("click", (event) => {
         ? "Plaza para silla de ruedas y acompañante seleccionados."
         : kind === "wheelchair"
           ? `Fila ${row} · Plaza para silla de ruedas ${column} seleccionada.`
-          : `Fila ${row} · Asiento ${column} seleccionado.`,
+          : `Fila ${row} · Asiento ${kind === "vip" ? "VIP " : ""}${column} seleccionado.`,
   );
 });
 element("find-pair").addEventListener("click", () => {
@@ -326,7 +328,7 @@ element("find-pair").addEventListener("click", () => {
     feedback(
       countBookableSeats(currentRoom()) === 0
         ? "Sala completa. Prueba otra sesión."
-        : "No hay dos asientos normales juntos. Puedes elegir plazas sueltas o una pareja accesible.",
+        : "No hay dos butacas juntas. Puedes elegir plazas sueltas o una pareja accesible.",
       "error",
     );
     return;
@@ -386,7 +388,7 @@ element("book").addEventListener("click", () => {
   element("receipt-seats").textContent = selected
     .map(
       (position) =>
-        `Fila ${position[0]} · ${getSeatKind(position[0], position[1]) === "wheelchair" ? "Silla de ruedas" : getSeatKind(position[0], position[1]) === "companion" ? "Acompañante" : "Asiento"} ${position[1]}`,
+        `Fila ${position[0]} · ${getSeatKind(position[0], position[1]) === "wheelchair" ? "Silla de ruedas" : getSeatKind(position[0], position[1]) === "companion" ? "Acompañante" : getSeatKind(position[0], position[1]) === "vip" ? "Asiento VIP" : "Asiento"} ${position[1]}`,
     )
     .join(" / ");
   ticketOpenedFromHeader = false;
