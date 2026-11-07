@@ -39,7 +39,7 @@ Los datos del cine se representan con arreglos, matrices, tuplas y valores simpl
 
 ## Reto extra
 
-Interfaz HTML + Tailwind con la marca de R. Martínez y su azul `#0047FB`. En escritorio, la distribución reúne en una sola vista la película y cartelera a la izquierda, la sesión y las 80 plazas en el centro, y la entrada a la derecha. Se ha verificado que cabe sin desplazamiento vertical en 1366 × 768. En móvil, el contenido se organiza en una sola página y el acceso al resumen permanece a mano al seleccionar.
+Interfaz HTML + Tailwind con la marca de R. Martínez y su azul `#0047FB`. En escritorio, la distribución sigue tres pasos en una sola vista: película y sesión a la izquierda, las 80 plazas en el centro, y revisión de la reserva a la derecha. «Cambiar» abre la cartelera en un diálogo; elegir una película actualiza la ficha y el resumen. Volver a elegir la película actual conserva los asientos pendientes. Se ha verificado que cabe sin desplazamiento vertical en 1366 × 768. En móvil, el contenido se organiza en una sola página y el acceso al resumen permanece a mano al seleccionar.
 
 «Sinopsis» y «Tráiler» se abren en diálogos sobre la reserva. Las fichas incluyen duración, año, dirección y reparto. Los tráileres oficiales se cargan solo al pulsar y se detienen al cerrar; también hay un enlace directo a YouTube si el proveedor impide reproducirlos dentro de la web.
 
@@ -51,9 +51,9 @@ Interfaz HTML + Tailwind con la marca de R. Martínez y su azul `#0047FB`. En es
 
 Los tres horarios se muestran como botones, con la sesión activa identificada. Cada sesión de ejemplo mantiene su propia matriz durante la visita; cambiar de película, fecha u hora retira la selección pendiente y conserva las reservas confirmadas. El aviso permite «Deshacer» para recuperar la sesión y sus asientos pendientes hasta la siguiente operación. En móvil, los errores y la acción «Deshacer» aparecen sobre el contenido si el aviso está fuera de la vista, sin duplicarlo ni tapar el botón de reserva. No hay servidor, pagos ni persistencia: al recargar se reinician todos los datos. La cartelera y las fechas son una demostración, no programación real de un cine.
 
-La sección «Probar los escenarios del ejercicio» sustituye los datos de la sesión actual, previa confirmación. Permite comprobar visualmente los cuatro casos de la consola.
+El botón «Demo» abre los escenarios del ejercicio en un diálogo separado de la reserva. Cargar un escenario sustituye los datos de la sesión actual, previa confirmación. Permite comprobar visualmente los cuatro casos de la consola.
 
-Se puede operar con teclado (Tab, flechas, Inicio/Fin, Enter y Espacio). Se pueden retirar asientos individualmente desde el resumen. La selección muestra una marca además del color, hay foco visible y los avisos se anuncian a lectores de pantalla. En móvil la cartelera se desplaza horizontalmente y el resumen aparece después del mapa. Un acceso fijo permite revisar la reserva y se oculta al consultar el resumen.
+Se puede operar con teclado (Tab, flechas, Inicio/Fin, Enter y Espacio). Se pueden retirar asientos individualmente desde el resumen. La selección muestra una marca además del color, hay foco visible y los avisos se anuncian a lectores de pantalla. En móvil se mantiene el orden película y sesión → mapa → resumen. La cartelera se abre con «Cambiar» y el resumen aparece después del mapa. Un acceso fijo permite revisar la reserva y se oculta al consultar el resumen.
 
 ## Fichas, tráileres y entradas
 

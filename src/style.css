@@ -2525,6 +2525,136 @@ dialog::backdrop {
 @media (min-width: 1001px) and (max-width: 1699px) {
   .seat-legend { padding-block: 7px; }
 }
+
+/* Reserva en una vista: contexto a la izquierda, plano central y revisión a la derecha. */
+.journey-heading h2, .seat-heading h2, .summary-heading h2 {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.step-number {
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: 1px solid #5778a8;
+  background: #142b50;
+  color: #c8dcff;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+.film-sidebar { background: var(--panel); border-color: var(--line); }
+.film-step-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  gap: 8px;
+}
+.film-step-heading h2 { font-size: 14px; font-weight: 600; }
+.change-movie {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: transparent;
+  color: #b4d0ff;
+  border: 0;
+  border-radius: 4px;
+  padding: 6px 0 6px 5px;
+  min-height: 32px;
+  font-size: 12px;
+}
+.change-movie .icon { width: 14px; height: 14px; }
+.preview-art { height: 130px; }
+.preview-art:after { background: linear-gradient(transparent, var(--panel)); }
+.preview-copy h1 { font-size: 21px; line-height: 1.25; }
+.film-sidebar .schedule {
+  display: block;
+  margin: 0 13px;
+  padding: 12px 0 15px;
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+.film-sidebar .session-heading { justify-content: space-between; margin: 0 0 10px; gap: 5px; }
+.film-sidebar .session-heading h2 { font-size: 12px; font-weight: 600; }
+.film-sidebar .session-heading > span { font-size: 10px; }
+.film-sidebar .schedule-options { flex-direction: column; align-items: stretch; gap: 12px; }
+.film-sidebar .dates { gap: 2px; }
+.film-sidebar .date { min-width: 0; max-width: none; height: 44px; }
+.film-sidebar .session-field { gap: 7px; }
+.film-sidebar .showtimes { gap: 6px; }
+.film-sidebar .showtime { flex: 1; min-height: 38px; padding-inline: 4px; }
+.seat-section { padding-top: 15px; }
+.seat-heading h2 { font-size: 18px; }
+.seat-legend { border-top: 0; margin-top: 12px; gap: 7px 9px; }
+.seat-legend > span:nth-child(5) { border-left: 1px solid #435674; padding-left: 10px; }
+.room-toolbar { justify-content: space-between; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); }
+.room-toolbar .button { background: transparent; border-color: #435d85; color: #cbddf7; }
+.room-toolbar .accessible-pair-button { color: #b2e5f1; border-color: #3b697e; }
+.feedback.idle { visibility: hidden; }
+.summary-heading h2 { font-size: 16px; }
+.summary-heading > .icon { display: none; }
+.summary-film-title { font-size: 14px; line-height: 1.5; margin-top: 19px; font-weight: 600; }
+.summary-session { font-size: 12px; }
+.summary-note { margin-top: 12px; }
+.demo-badge { background: transparent; border: 0; padding: 8px; min-height: 32px; border-radius: 4px; text-decoration: underline dotted; text-underline-offset: 4px; }
+.movie-picker { max-width: 760px; }
+.movie-picker #billboard { padding: 20px; border: 0; }
+.movie-picker .section-heading { display: none; }
+.movie-picker .movies { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; overflow: visible; }
+.movie-picker .movie-card { grid-template-columns: 76px minmax(0, 1fr); gap: 14px; padding: 10px; border-color: #3c5478; background: #0d1728; }
+.movie-picker .movie-card.active { border-color: #75a3ff; background: #132e5e; }
+.movie-picker .poster { height: 110px; }
+.movie-picker .movie-copy h3 { font-size: 14px; line-height: 1.5; }
+.movie-picker .movie-duration { font-size: 12px; margin-top: 10px; }
+.movie-picker .movie-check { width: 20px; height: 20px; top: 4px; right: 4px; }
+.movie-picker .movie-check .icon { width: 13px; height: 13px; }
+.demo-dialog { max-width: 480px; }
+.demo-dialog-body { padding: 20px; }
+.demo-dialog-body > p { font-size: 13px; line-height: 1.6; color: var(--muted); margin-bottom: 12px; }
+.demo-dialog .demo-control-body { flex-direction: column; gap: 12px; }
+.demo-dialog select, .demo-dialog .button { font-size: 13px; min-height: 42px; }
+@media (min-width: 1001px) {
+  .seat-map { height: clamp(290px, calc(100dvh - 374px), 520px); }
+}
+@media (max-width: 1220px) and (min-width: 1001px) {
+  .film-step-heading { padding-inline: 10px; }
+  .film-step-heading h2 { font-size: 12px; }
+  .change-movie { font-size: 11px; }
+  .preview-copy h1 { font-size: 18px; }
+}
+@media (max-width: 1000px) {
+  .film-sidebar { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .film-step-heading { grid-column: 1 / -1; }
+  .film-sidebar .schedule { margin: 0 12px; padding-top: 0; border-top: 0; }
+  .film-sidebar .film-preview { grid-template-columns: 85px minmax(0, 1fr); padding-top: 0; }
+  .preview-art { height: 120px; }
+  .preview-copy h1 { font-size: 18px; }
+}
+@media (max-width: 760px) {
+  .film-sidebar { display: block; }
+  .film-sidebar .film-preview { grid-template-columns: 85px minmax(0, 1fr); }
+  .film-sidebar .schedule { padding: 12px 0 16px; border-top: 1px solid var(--line); }
+  .film-sidebar .session-field { flex-direction: column; align-items: stretch; }
+  .film-sidebar .session-field > span { display: none; }
+  .film-sidebar .showtime { min-height: 42px; }
+  .change-movie { min-height: 40px; }
+  .seat-heading h2 { font-size: 16px; }
+  .seat-heading .step-number { width: 23px; height: 23px; }
+  .seat-legend { margin-top: 10px; padding-top: 0; gap: 7px 10px; }
+  .seat-legend > span:nth-child(5) { border-left: 0; padding-left: 0; }
+  .room-toolbar { gap: 6px; margin-top: 12px; }
+  .room-toolbar .button { min-height: 40px; }
+  .movie-picker .movies { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .movie-picker #billboard { padding: 14px; }
+  .movie-picker .movie-card { grid-template-columns: 54px minmax(0, 1fr); padding: 8px; gap: 12px; }
+  .movie-picker .poster { height: 78px; }
+  .movie-picker .movie-copy h3 { font-size: 13px; }
+  .movie-picker .movie-duration { font-size: 11px; margin-top: 7px; }
+}
 @media (max-width: 760px) {
   .seat-map .seat-visual { width: 26px; height: 27px; }
   .seat-map .cinema-chair { width: 27px; height: 29px; }

@@ -204,14 +204,16 @@ function renderSeats(): void {
             `<button class="seat-chip" data-remove-row="${position[0]}" data-remove-column="${position[1]}" aria-label="Retirar fila ${position[0]}, asiento ${position[1]}">${getSeatKind(position[0], position[1]) === "wheelchair" ? wheelchairIcon : getSeatKind(position[0], position[1]) === "companion" ? '<span class="chip-type" aria-hidden="true">A</span>' : getSeatKind(position[0], position[1]) === "vip" ? '<span class="chip-vip">VIP</span>' : icon("seats")}<span>Fila ${position[0]} · Asiento ${position[1]}</span>${icon("close")}</button>`,
         )
         .join("")
-    : `<div class="selection-empty">${icon("seats")}<p>Tu selección aparecerá aquí.</p></div>`;
+    : `<div class="selection-empty">${icon("seats")}<p>Selecciona tus asientos en el plano.</p></div>`;
   element("selection-count").textContent = String(selected.length);
+  element("selection-count").hidden = selected.length === 0;
   const book = element<HTMLButtonElement>("book");
   book.disabled = selected.length === 0;
   book.innerHTML = selected.length
     ? `Confirmar ${selected.length === 1 ? "1 asiento" : `${selected.length} asientos`}${icon("arrow-right")}`
     : "Confirmar reserva";
   element<HTMLButtonElement>("clear").disabled = !selected.length;
+  element("clear").hidden = !selected.length;
   element("available-count").textContent = String(countBookableSeats(room));
   element("available-count").parentElement!.classList.toggle("sold-out", countBookableSeats(room) === 0);
   element("mobile-count").textContent =
@@ -238,15 +240,21 @@ function changeSession(nextMovie = movie, nextDay = day, nextTime = time): void 
   }
 }
 
+element("change-movie").addEventListener("click", () => {
+  element<HTMLDialogElement>("movie-picker").showModal();
+  element("movies").querySelector<HTMLButtonElement>('[aria-pressed="true"]')?.focus();
+});
+element("close-movie-picker").addEventListener("click", () => {
+  element<HTMLDialogElement>("movie-picker").close();
+});
+element("movie-picker").addEventListener("close", () => element("change-movie").focus());
 element("movies").addEventListener("click", (event) => {
   const button = (event.target as HTMLElement).closest<HTMLButtonElement>(
     "[data-movie]",
   );
-  if (!button || Number(button.dataset.movie) === movie) return;
-  changeSession(Number(button.dataset.movie));
-  element("movies")
-    .querySelector<HTMLButtonElement>(`[data-movie="${movie}"]`)
-    ?.focus();
+  if (!button) return;
+  if (Number(button.dataset.movie) !== movie) changeSession(Number(button.dataset.movie));
+  element<HTMLDialogElement>("movie-picker").close();
 });
 element("dates").addEventListener("click", (event) => {
   const button = (event.target as HTMLElement).closest<HTMLButtonElement>(
@@ -433,10 +441,15 @@ element("load-scenario").addEventListener("click", () => {
   sessions[sessionIndex()] = createScenario(scenario);
   selected = [];
   renderSeats();
+  element<HTMLDialogElement>("demo-dialog").close();
   feedback(
     `Escenario cargado. ${countBookableSeats(currentRoom())} asientos disponibles en esta sesión.`,
   );
 });
+
+element("open-demo").addEventListener("click", () => element<HTMLDialogElement>("demo-dialog").showModal());
+element("close-demo").addEventListener("click", () => element<HTMLDialogElement>("demo-dialog").close());
+element("demo-dialog").addEventListener("close", () => element("open-demo").focus());
 element("dismiss-feedback").addEventListener("click", () => {
   element("feedback").classList.remove("floating");
   element("dismiss-feedback").hidden = true;

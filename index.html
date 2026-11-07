@@ -26,7 +26,7 @@
         <span>CINE</span><span>Sala 01 · 80 plazas</span>
       </div>
       <div class="header-actions">
-        <span class="demo-badge"><span></span>Demo</span
+        <button id="open-demo" class="demo-badge" aria-label="Opciones de la demostración"><span></span>Demo</button
         ><button
           id="open-ticket"
           class="button secondary compact-button"
@@ -39,7 +39,11 @@
       </div>
     </header>
     <main class="workspace shell">
-      <aside class="film-sidebar panel" aria-label="Películas y ficha">
+      <aside class="film-sidebar panel" aria-label="Película y sesión">
+        <div class="journey-heading film-step-heading">
+          <h2><span class="step-number" aria-hidden="true">1</span>Película y sesión</h2>
+          <button id="change-movie" class="change-movie" aria-label="Cambiar película">Cambiar<svg class="icon" aria-hidden="true"><use href="/icons.svg#arrow-right"></use></svg></button>
+        </div>
         <section class="film-preview" aria-labelledby="page-title">
           <div class="preview-art">
             <img
@@ -70,22 +74,13 @@
             </div>
           </div>
         </section>
-        <section id="billboard" aria-labelledby="billboard-title">
-          <div class="section-heading">
-            <h2 id="billboard-title">Cartelera</h2>
-            <span id="hero-index">01 / 04</span>
-          </div>
-          <div id="movies" class="movies"></div>
-        </section>
-      </aside>
-      <div class="reservation-stage">
         <section
           id="schedule"
-          class="schedule panel"
+          class="schedule"
           aria-labelledby="schedule-title"
         >
           <div class="session-heading">
-            <h2 id="schedule-title">Tu sesión</h2>
+            <h2 id="schedule-title">Fecha y hora</h2>
             <span>Noviembre 2026</span>
           </div>
           <div class="schedule-options">
@@ -101,32 +96,22 @@
             </div>
           </div>
         </section>
+      </aside>
+      <div class="reservation-stage">
+
         <section
           id="seats"
           class="seat-section panel"
           aria-labelledby="seats-title"
         >
           <div class="seat-heading">
-            <h2 id="seats-title">Elige tus asientos</h2>
+            <h2 id="seats-title"><span class="step-number" aria-hidden="true">2</span>Elige tus asientos</h2>
             <span class="availability"
               ><span></span
               ><strong id="available-count">47</strong> disponibles</span
             >
           </div>
-          <div class="room-toolbar">
-            <button id="find-pair" class="button pair-button">
-              <svg class="icon" aria-hidden="true">
-                <use href="/icons.svg#seats"></use></svg
-              >Encontrar 2 juntos</button
-            ><button
-              id="find-accessible-pair"
-              class="button pair-button accessible-pair-button"
-            >
-              <svg class="icon" aria-hidden="true">
-                <use href="/icons.svg#wheelchair"></use></svg
-              >Silla de ruedas + acompañante
-            </button>
-          </div>
+
           <div class="legend seat-legend" aria-label="Leyenda de asientos">
             <span><i class="mini-seat available"></i>Disponible</span
             ><span
@@ -162,6 +147,20 @@
             aria-label="Mapa de 80 asientos"
             aria-describedby="map-instructions"
           ></div>
+          <div class="room-toolbar">
+            <button id="find-pair" class="button pair-button">
+              <svg class="icon" aria-hidden="true">
+                <use href="/icons.svg#seats"></use></svg
+              >Encontrar 2 juntos</button
+            ><button
+              id="find-accessible-pair"
+              class="button pair-button accessible-pair-button"
+            >
+              <svg class="icon" aria-hidden="true">
+                <use href="/icons.svg#wheelchair"></use></svg
+              >Silla de ruedas + acompañante
+            </button>
+          </div>
           <p id="map-instructions" class="sr-only">
             Filas 0 a 7 y asientos 0 a 9. Puedes usar las flechas del teclado.
             Los acompañantes se reservan con su plaza de silla de ruedas.
@@ -169,7 +168,7 @@
           </p>
           <div
             id="feedback"
-            class="feedback"
+            class="feedback idle"
             role="status"
             aria-live="polite"
             aria-atomic="true"
@@ -177,32 +176,14 @@
             <span class="feedback-icon" aria-hidden="true"
               ><svg class="icon"><use href="/icons.svg#info"></use></svg
             ></span>
-            <p id="feedback-text">Selecciona una plaza en el mapa.</p>
+            <p id="feedback-text"></p>
             <button id="undo-session" class="feedback-action" hidden>Deshacer</button>
             <button id="dismiss-feedback" aria-label="Cerrar aviso" hidden>
               ×
             </button>
           </div>
         </section>
-        <details class="demo-controls">
-          <summary>
-            Probar escenarios
-            <svg class="icon" aria-hidden="true">
-              <use href="/icons.svg#arrow-right"></use>
-            </svg>
-          </summary>
-          <div class="demo-control-body">
-            <label class="sr-only" for="scenario">Escenario</label
-            ><select id="scenario">
-              <option value="0">Sala vacía</option>
-              <option value="1" selected>Sala parcialmente ocupada</option>
-              <option value="2">Sala casi llena · asientos aislados</option>
-              <option value="3">Sala llena</option></select
-            ><button id="load-scenario" class="button secondary">
-              Cargar escenario
-            </button>
-          </div>
-        </details>
+
       </div>
       <aside
         id="reservation-summary"
@@ -210,12 +191,12 @@
         aria-labelledby="summary-title"
       >
         <div class="summary-heading">
-          <h2 id="summary-title">Tu entrada</h2>
+          <h2 id="summary-title"><span class="step-number" aria-hidden="true">3</span>Tu reserva</h2>
           <svg class="icon" aria-hidden="true">
             <use href="/icons.svg#ticket"></use>
           </svg>
         </div>
-        <p id="summary-movie" class="summary-film-title sr-only"></p>
+        <p id="summary-movie" class="summary-film-title"></p>
         <p id="summary-session" class="summary-session"></p>
         <div class="selection-heading">
           <h3>Asientos</h3>
@@ -238,6 +219,35 @@
         </svg>
       </button>
     </div>
+    <dialog id="demo-dialog" class="demo-dialog" aria-labelledby="demo-title">
+      <header class="dialog-heading"><h2 id="demo-title">Escenarios de prueba</h2><button id="close-demo" class="icon-button" aria-label="Cerrar opciones de demostración"><svg class="icon" aria-hidden="true"><use href="/icons.svg#close"></use></svg></button></header>
+      <div class="demo-dialog-body"><p>Se aplican a la sesión seleccionada.</p>
+          <div class="demo-control-body">
+            <label class="sr-only" for="scenario">Escenario</label
+            ><select id="scenario">
+              <option value="0">Sala vacía</option>
+              <option value="1" selected>Sala parcialmente ocupada</option>
+              <option value="2">Sala casi llena · asientos aislados</option>
+              <option value="3">Sala llena</option></select
+            ><button id="load-scenario" class="button secondary">
+              Cargar escenario
+            </button>
+          </div>
+</div>
+    </dialog>
+    <dialog id="movie-picker" class="movie-picker" aria-labelledby="picker-title">
+      <header class="dialog-heading">
+        <h2 id="picker-title">Elige una película</h2>
+        <button id="close-movie-picker" class="icon-button" aria-label="Cerrar cartelera"><svg class="icon" aria-hidden="true"><use href="/icons.svg#close"></use></svg></button>
+      </header>
+        <section id="billboard" aria-labelledby="billboard-title">
+          <div class="section-heading">
+            <h2 id="billboard-title">Cartelera</h2>
+            <span id="hero-index">01 / 04</span>
+          </div>
+          <div id="movies" class="movies"></div>
+        </section>
+    </dialog>
     <dialog
       id="movie-info"
       class="film-info-dialog"
