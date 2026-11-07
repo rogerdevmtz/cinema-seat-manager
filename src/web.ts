@@ -153,21 +153,6 @@ function selectedSeatRow([row, column]: Position): string {
   </div>`;
 }
 
-/** Mantiene el progreso sincronizado con la confirmación visible. */
-function updateBookingProgress(confirmed = false): void {
-  const steps = document.querySelectorAll<HTMLElement>(".progress-step");
-  steps.forEach((step, index) => {
-    const current = index === (confirmed ? 2 : 1);
-    step.classList.toggle("current", current);
-    step.classList.toggle("complete", index < (confirmed ? 2 : 1));
-    if (current) step.setAttribute("aria-current", "step");
-    else step.removeAttribute("aria-current");
-    const dot = step.querySelector(".progress-dot");
-    if (dot) dot.textContent = index < (confirmed ? 2 : 1) ? "✓" : String(index + 1);
-  });
-  document.querySelectorAll(".progress-line")[1]?.classList.toggle("complete", confirmed);
-}
-
 /** Sincroniza el mapa de butacas y el resumen con la matriz y la selección. */
 function renderSeats(): void {
   const room = currentRoom();
@@ -362,7 +347,6 @@ element("book").addEventListener("click", () => {
   selected = [];
   renderSeats();
   element<HTMLDialogElement>("booking-receipt").showModal();
-  updateBookingProgress(true);
   feedback(
     `Reserva confirmada. Tus asientos: ${labels}. ¡Disfruta de la película!`,
     "success",
@@ -482,7 +466,6 @@ element("close-receipt").addEventListener("click", () => {
   element<HTMLDialogElement>("booking-receipt").close();
 });
 element("booking-receipt").addEventListener("close", () => {
-  updateBookingProgress();
   if (ticketOpenedFromHeader) {
     element("open-ticket").focus();
     return;
@@ -526,7 +509,6 @@ element("open-ticket").addEventListener("click", () => {
   element("receipt-session").textContent = lastTicket[2];
   element("receipt-seats").textContent = lastTicket[3];
   element<HTMLDialogElement>("booking-receipt").showModal();
-  updateBookingProgress(true);
 });
 
 /** Descarga una entrada SVG autónoma, conservando la referencia y los asientos confirmados. */
