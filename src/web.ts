@@ -64,10 +64,11 @@ function element<T extends HTMLElement>(id: string): T {
   return found as T;
 }
 
-/** Devuelve el índice y la matriz de la sesión de demostración actual. */
+/** Calcula el índice de la sesión de demostración actual. */
 function sessionIndex(): number {
   return movie * 21 + day * 3 + time;
 }
+/** Obtiene la matriz de asientos de la sesión actual. */
 function currentRoom(): Room {
   return sessions[sessionIndex()];
 }

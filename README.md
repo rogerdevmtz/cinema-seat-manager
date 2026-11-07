@@ -1,124 +1,85 @@
 # Cinema Seat Manager
 
-Proyecto de 4Geeks Academy basado en la plantilla oficial [typescript-hello](https://github.com/4GeeksAcademy/typescript-hello). Incluye el programa de consola evaluable y el reto extra con HTML, Tailwind CSS y TypeScript.
+Gestor de reservas de cine desarrollado con **TypeScript**, basado en la plantilla oficial de 4Geeks Academy. Incluye el programa de consola del ejercicio y una interfaz responsive con **HTML y Tailwind CSS** como reto extra.
 
-## Requisitos y ejecución
+**80 plazas · Matriz 8 × 10 · Reserva por coordenadas · Búsqueda de asientos contiguos**
 
-Instala Node.js 22 o superior y npm. Desde esta carpeta:
+## Vista previa
 
-```sh
-npm install
-npm run console
-npm run start
-```
+### Escritorio
 
-`console` muestra los cuatro escenarios en la terminal. `start` abre el servidor de desarrollo; visita la dirección que muestre la terminal, normalmente http://localhost:5173.
+Ficha de película, mapa completo y reserva en una sola vista.
 
-```sh
-npm test
-npm run typecheck
-npm run build
-npm run preview
-```
+![Interfaz de escritorio con las 80 butacas, pasillos visuales y dos asientos seleccionados](docs/screenshots/desktop.png)
 
-Las pruebas comprueban la lógica; `typecheck` valida TypeScript; `build` genera la web en `dist`; `preview` sirve esa versión.
+### Móvil
 
-## Requisitos implementados
+Película y sesión, elección de butacas y revisión de la reserva. Capturas reales a 390 px de ancho.
 
-- Matriz de 8 filas × 10 asientos, con 0 = libre y 1 = ocupado.
-- Inicialización mediante una función, con filas independientes.
-- Consola con L/X e índices de filas 0–7 y columnas 0–9.
-- Reserva por coordenadas, validación de disponibilidad y mensajes de éxito/error.
-- Validación adicional de coordenadas negativas, decimales, no finitas o fuera de rango.
-- Recuento que devuelve [ocupados, disponibles].
-- Búsqueda del primer par libre horizontal: de arriba abajo y de izquierda a derecha. Devuelve dos coordenadas o null. Buscar no modifica la sala.
-- Cuatro escenarios reproducibles: vacía (80 libres), parcial (48 libres), casi llena (3 libres aislados) y llena (0 libres).
-- Funciones comentadas, parámetros y retornos tipados, bucles y condicionales.
+<p>
+  <img src="docs/screenshots/mobile-session.png" width="250" alt="Móvil: película, fecha y horario" />
+  <img src="docs/screenshots/mobile-seats.png" width="250" alt="Móvil: 80 butacas y acceso a revisar la reserva" />
+  <img src="docs/screenshots/mobile-reservation.png" width="250" alt="Móvil: resumen de los asientos y confirmación" />
+</p>
 
-Los datos del cine se representan con arreglos, matrices, tuplas y valores simples. No se usan clases ni objetos para modelar asientos o reservas. Los objetos del navegador (DOM/eventos) y la configuración original de las herramientas son APIs del entorno, no el modelo de datos del ejercicio.
+## Ejecutar el proyecto
 
-## Reto extra
-
-Interfaz HTML + Tailwind con la marca de R. Martínez y su azul `#0047FB`. La composición sigue la referencia visual aportada: tres paneles alineados directamente bajo la cabecera. En escritorio, la distribución sigue tres pasos en una sola vista: película y sesión a la izquierda, las 80 plazas en el centro, y revisión de la reserva a la derecha. «Cambiar» abre la cartelera en un diálogo; elegir una película actualiza la ficha y el resumen. Volver a elegir la película actual conserva los asientos pendientes. Se ha verificado que cabe sin desplazamiento vertical en 1366 × 768. En móvil, el contenido se organiza en una sola página y el acceso al resumen permanece a mano al seleccionar.
-
-La ficha muestra el póster vertical completo, con un botón circular de reproducción centrado sobre su borde inferior. La pantalla conserva una línea curva sin brillo y un halo azul suave y difuminado; las acciones auxiliares tienen menor énfasis que la selección y la confirmación. «Sinopsis» y «Tráiler» se abren en diálogos sobre la reserva. Las fichas incluyen duración, año, dirección y reparto. Los tráileres oficiales se cargan solo al pulsar y se detienen al cerrar; también hay un enlace directo a YouTube si el proveedor impide reproducirlos dentro de la web.
-
-El resumen incluye una miniatura sincronizada con la película, el total gratuito de demostración y pequeñas entradas con fila y asiento destacados. La leyenda comparte fila con la búsqueda de parejas cuando hay espacio; las butacas tienen volumen suave y la selección se aplica sobre su silueta. Cada cruz retira una plaza; pulsar sus datos no modifica la selección. Las selecciones largas se desplazan dentro del resumen para mantener visible la confirmación.
-
-1. Elige una película, una fecha y una hora de demostración.
-2. Pulsa una butaca libre para seleccionarla. Pulsa de nuevo para retirarla.
-3. Puedes usar «Encontrar 2 juntos»: selecciona el primer par disponible y sustituye tu selección anterior.
-4. Revisa el resumen y pulsa «Confirmar». Solo entonces se ocupan los asientos.
-5. Los avisos junto al mapa explican cada operación. La confirmación abre una entrada con película, sesión, asientos y referencia local. «Guardar entrada» descarga un SVG autónomo con el logo y los datos confirmados. «Mi entrada» recupera la última entrada de la visita, incluso al cambiar de película.
-
-Los tres horarios se muestran como botones, con la sesión activa identificada. Cada sesión de ejemplo mantiene su propia matriz durante la visita; cambiar de película, fecha u hora retira la selección pendiente y conserva las reservas confirmadas. El aviso permite «Deshacer» para recuperar la sesión y sus asientos pendientes hasta la siguiente operación. En móvil, los errores y la acción «Deshacer» aparecen sobre el contenido si el aviso está fuera de la vista, sin duplicarlo ni tapar el botón de reserva. No hay servidor, pagos ni persistencia: al recargar se reinician todos los datos. La cartelera y las fechas son una demostración, no programación real de un cine.
-
-El botón «Demo» abre los escenarios del ejercicio en un diálogo separado de la reserva. Cargar un escenario sustituye los datos de la sesión actual, previa confirmación. Permite comprobar visualmente los cuatro casos de la consola.
-
-Se puede operar con teclado (Tab, flechas, Inicio/Fin, Enter y Espacio). Se pueden retirar asientos individualmente desde el resumen. La selección muestra una marca además del color, hay foco visible y los avisos se anuncian a lectores de pantalla. En móvil se mantiene el orden película y sesión → mapa → resumen. La cartelera se abre con «Cambiar» y el resumen aparece después del mapa. Un acceso fijo permite revisar la reserva y se oculta cuando el botón de confirmación está completamente visible. El enlace de salto sitúa el foco en el mapa, y los controles móviles pequeños tienen un área de pulsación ampliada.
-
-## Fichas, tráileres y entradas
-
-Las sinopsis se han redactado en español a partir de fuentes oficiales. Datos y enlaces:
-
-- [Ant-Man and The Wasp: Quantumania — Disney](https://movies.disney.com/ant-man-and-the-wasp-quantumania).
-- [Avatar: The Way of Water — Avatar](https://www.avatar.com/movies/avatar-the-way-of-water).
-- [The Flash — DC](https://www.dc.com/theflash), [duración — Warner Bros.](https://www.warnerbros.co.jp/home_entertainment/91z6amj2f80/).
-- [M3GAN — Universal Pictures Home Entertainment](https://www.universalpicturesathome.com/movies/m3gan).
-
-Los vídeos pertenecen a los canales oficiales de Marvel Entertainment, Avatar, Warner Bros. Pictures y Universal Pictures. Su disponibilidad y reproducción dependen de YouTube y de la región del visitante.
-
-Las reservas y la última entrada se mantienen durante la visita, sin servidor ni pagos. La descarga sí se conserva como archivo. Todas las entradas indican que son de demostración y no permiten acceder a un cine real. No se simulan códigos QR ni validaciones de taquilla.
-
-## Plano ajustado al ejercicio
-
-Las 80 butacas tienen el mismo tipo. La matriz solo guarda 0 (libre) o 1 (ocupado); la selección pendiente se representa aparte hasta confirmar. No hay VIP, bloqueos ni restricciones de acompañantes. Los pasillos después de las columnas 2 y 7 y antes de la fila 5 son únicamente espacios visuales: no añaden ni eliminan plazas ni cambian la búsqueda horizontal del ejercicio. La web comparte el recuento y la búsqueda del primer par horizontal con la consola: 80 libres en sala vacía y 48 en el escenario parcial.
-
-## Organización
-
-- `src/cinema.ts`: lógica central compartida, sin dependencias del navegador.
-- `src/main.ts`: entrada y demostración de consola.
-- `src/seat-layout.ts`: validación de la selección y acceso a la lógica compartida.
-- `src/movie-details.ts`: fichas verificadas y tráileres oficiales.
-- `src/ticket.ts`: generación de entradas SVG con escape XML y ajuste de texto.
-- `public/icons.svg`: iconos vectoriales locales de trazo uniforme.
-- `src/web.ts`: interfaz y eventos; utiliza las funciones de la lógica central.
-- `src/style.css`: Tailwind y estilos base.
-- `src/reference.css`: composición y adaptación responsive de la referencia actual.
-- `index.html`: estructura semántica de la web.
-- `tests/cinema.test.ts`: 23 comprobaciones de casos normales y límites.
-- `tests/seat-layout.test.ts`: recuentos de escenarios, búsqueda compartida y validación previa de la selección.
-- `tests/ticket.test.ts`: datos de entrada, escape XML, identificación de demostración y ajuste de 80 asientos.
-- `public/posters/`: pósteres ilustrativos de la cartelera.
-
-## Evaluación
-
-La funcionalidad de consola demuestra matriz bidimensional, funciones con retorno, condicionales, bucles, búsqueda horizontal, legibilidad y mensajes claros. La interfaz web es el reto extra y no forma parte de los criterios de evaluación del enunciado.
-
-## Entrega
-
-Ver [lista de verificación frente al enunciado oficial](./ENTREGA.md).
-
-Repositorio público de entrega: [rogerdevmtz/cinema-seat-manager](https://github.com/rogerdevmtz/cinema-seat-manager).
-
-Entrega ese enlace al instructor siguiendo sus indicaciones. El código está subido a la rama `main`, con el historial de la plantilla y los commits del proyecto.
-
-Para obtener una copia:
+Requisitos: **Node.js 22 o superior** y npm.
 
 ```sh
 git clone https://github.com/rogerdevmtz/cinema-seat-manager.git
 cd cinema-seat-manager
-npm install
-npm run console
-npm run start
+npm ci
 ```
 
-No es necesario publicar la web para cumplir la entrega. Las reservas de la interfaz son temporales y se reinician al recargar.
+| Comando | Uso |
+| --- | --- |
+| `npm run console` | Ejecuta los cuatro escenarios del ejercicio en la terminal. |
+| `npm run start` | Inicia la web; abre la dirección que indique Vite, normalmente `http://localhost:5173`. |
+| `npm test` | Comprueba la lógica, la selección y la generación de entradas. |
+| `npm run typecheck` | Valida los tipos de TypeScript. |
+| `npm run build` | Genera la web para producción en `dist/`. |
+| `npm run preview` | Permite revisar la compilación localmente. Requiere ejecutar `build` antes. |
 
-## Dependencias de la plantilla
+## Funcionalidad del ejercicio
 
-Se conserva Vite 5 de la plantilla oficial. Se aplicaron las correcciones compatibles disponibles; `npm audit` mantiene dos avisos de herramientas de desarrollo (Vite/esbuild) que requieren cambiar de versión principal. No se ha realizado esa migración para mantener el stack solicitado. El servidor de desarrollo debe utilizarse en local.
+La sala se representa exclusivamente con una matriz numérica: **0 = disponible**, **1 = ocupado**. Las filas van de 0 a 7 y las columnas de 0 a 9.
 
-## Créditos
+| Función | Comportamiento |
+| --- | --- |
+| `createRoom()` | Inicializa las ocho filas independientes con diez asientos libres cada una. |
+| `printRoom(room)` | Imprime `L`/`X` con índices de fila y columna. |
+| `reserveSeat(room, row, column)` | Valida las coordenadas y la disponibilidad, reserva y devuelve un mensaje. |
+| `countSeats(room)` | Devuelve `[ocupados, disponibles]`. |
+| `findAdjacentSeats(room)` | Devuelve el primer par horizontal libre, por fila y columna, o `null`. No modifica la sala. |
 
-Plantilla: ehiber y colaboradores de 4Geeks Academy. Referencia visual: captura aportada por el usuario. Pósteres y fondos cinematográficos obtenidos de TMDB para ilustrar el prototipo educativo; los derechos corresponden a sus respectivos titulares. Logo de R. Martínez aportado por el usuario; azul principal muestreado de la referencia: `#0047FB`. Este prototipo no representa un sistema real de venta.
+La consola demuestra sala vacía, parcialmente ocupada, casi llena con asientos aislados y completamente llena. Las funciones usan arreglos, parámetros tipados, retornos, condicionales y bucles; no se modelan asientos con objetos ni clases.
+
+## Reto extra: reserva visual
+
+1. Elige la película con **Cambiar** y selecciona fecha y horario.
+2. Pulsa una butaca libre o **Encontrar 2 juntos**.
+3. Revisa las plazas y pulsa **Confirmar**. La selección se convierte entonces en ocupación.
+4. Guarda la entrada en SVG o vuelve a consultarla desde **Mi entrada**.
+
+Incluye sinopsis, tráiler bajo demanda, retirada individual de plazas y **Deshacer** al cambiar una sesión con selección pendiente. **Demo** permite cargar los cuatro escenarios. El mapa admite Tab, flechas, Inicio/Fin, Enter y Espacio; los avisos se anuncian a lectores de pantalla.
+
+Los pasillos son espacios visuales después de las columnas 2 y 7 y antes de la fila 5. Conservan las **80 plazas** y la búsqueda por coordenadas del enunciado. La selección pendiente se guarda aparte: la matriz sigue teniendo solo valores 0 y 1.
+
+Es una demostración sin servidor ni pagos. Cada sesión conserva sus reservas durante la visita; recargar reinicia los datos. Las fechas son ilustrativas y las entradas no permiten acceder a un cine real.
+
+## Código y entrega
+
+- [src/cinema.ts](src/cinema.ts): lógica central compartida.
+- [src/main.ts](src/main.ts): demostración por consola.
+- [src/web.ts](src/web.ts): interfaz y eventos.
+- [src/seat-layout.ts](src/seat-layout.ts): validación previa de la selección.
+- [src/ticket.ts](src/ticket.ts): entrada SVG; [src/movie-details.ts](src/movie-details.ts): fichas y tráileres.
+- [src/style.css](src/style.css) y [src/reference.css](src/reference.css): Tailwind, estilos y adaptación responsive.
+- [tests/](tests/): comprobaciones de lógica, selección y entradas.
+
+La [verificación de entrega](ENTREGA.md) relaciona los requisitos y criterios oficiales con el código y las comprobaciones realizadas. La web es el reto opcional; la evaluación se centra en la lógica y la consola.
+
+**Enlace para entregar:** [github.com/rogerdevmtz/cinema-seat-manager](https://github.com/rogerdevmtz/cinema-seat-manager). El repositorio es público. Solo queda enviarlo al instructor o pegarlo en la plataforma según sus indicaciones; el enunciado no exige publicar la web.
+
+[Créditos, fuentes y notas de dependencias](docs/CREDITOS.md).
