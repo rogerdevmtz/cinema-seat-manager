@@ -2661,3 +2661,123 @@ dialog::backdrop {
   .seat.vip .seat-state-mark { width: 12px; height: 12px; right: -1px; }
   .seat.vip .seat-state-mark .icon { width: 8px; height: 8px; }
 }
+
+/* Escala de lectura y proporciones de la reserva. */
+.panel { border-color: #2c3c56; border-radius: 12px; }
+.film-step-heading { padding: 14px 16px; }
+.film-step-heading h2 { font-size: 15px; }
+.change-movie { font-size: 13px; }
+.preview-art { height: 164px; }
+.preview-copy { padding: 5px 16px 16px; }
+.preview-copy h1 { font-size: 25px; line-height: 1.22; letter-spacing: -0.6px; }
+.film-genre { font-size: 13px; margin-top: 10px; }
+.hero-meta { font-size: 12px; gap: 14px; margin-top: 8px; }
+.preview-format { font-size: 10px; padding: 4px 7px; left: 16px; }
+.film-actions { margin-top: 16px; }
+.film-actions .button { font-size: 13px; min-height: 42px; }
+.film-sidebar .schedule { margin-inline: 16px; padding-block: 14px 17px; }
+.film-sidebar .session-heading h2 { font-size: 14px; }
+.film-sidebar .session-heading > span { font-size: 11px; }
+.film-sidebar .date { height: 48px; gap: 4px; }
+.film-sidebar .date span { font-size: 12px; }
+.film-sidebar .date strong { font-size: 17px; }
+.film-sidebar .date.active { background: #132d55; }
+.film-sidebar .session-field { font-size: 12px; }
+.film-sidebar .showtime { font-size: 14px; min-height: 44px; border-radius: 6px; }
+.seat-section { padding: 18px; }
+.seat-heading h2 { font-size: 21px; letter-spacing: -0.4px; }
+.availability { font-size: 12px; }
+.step-number { width: 27px; height: 27px; font-size: 13px; }
+.seat-legend {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+  padding: 12px 0;
+  margin: 12px 0 0;
+  border-bottom: 1px solid var(--line);
+}
+.legend-group { display: grid; grid-template-columns: 85px minmax(0, 1fr); align-items: center; gap: 12px; }
+.legend-label { color: #aebfda; font-size: 11px; font-weight: 500; }
+.legend-items { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 15px; }
+.legend-items > span { display: inline-flex; align-items: center; gap: 6px; color: #dce6f5; font-size: 12px; white-space: nowrap; min-height: 24px; }
+.room-toolbar .button { min-height: 38px; font-size: 12px; }
+.feedback p { font-size: 12px; line-height: 1.5; }
+.feedback { min-height: 38px; margin-top: 10px; }
+.row-label, .column-label { font-size: 11px; }
+.summary { padding: 20px; border-top-color: #4985ff; }
+.summary-heading h2 { font-size: 18px; }
+.summary-film-title { font-size: 16px; line-height: 1.5; margin-top: 22px; }
+.summary-session { font-size: 13px; margin-top: 9px; padding-bottom: 20px; }
+.selection-heading h3 { font-size: 13px; }
+.count-badge { font-size: 12px; min-width: 26px; height: 26px; }
+.selection-empty { font-size: 13px; line-height: 1.7; }
+.seat-chip { font-size: 13px; min-height: 42px; gap: 9px; border-radius: 6px; }
+.seat-chip > .icon { width: 14px; height: 14px; }
+.chip-vip { font-size: 10px; }
+.summary > .button { min-height: 46px; font-size: 14px; border-radius: 7px; }
+.summary #clear { font-size: 12px; }
+.summary-note { font-size: 11px; }
+.brand-context > span:last-child { font-size: 12px; }
+.demo-badge { font-size: 12px; }
+@media (min-width: 1221px) {
+  .workspace { grid-template-columns: clamp(280px, 22vw, 350px) minmax(0, 1fr) clamp(270px, 21vw, 320px); gap: 18px; padding: 18px 24px; }
+  .seat-map { height: clamp(260px, calc(100dvh - 452px), 520px); }
+}
+@media (min-width: 1001px) and (max-width: 1220px) {
+  .film-step-heading { padding-inline: 10px; }
+  .film-step-heading h2 { font-size: 12px; }
+  .change-movie { font-size: 11px; }
+  .preview-copy h1 { font-size: 22px; }
+  .seat-heading { flex-wrap: wrap; }
+  .legend-group { grid-template-columns: 1fr; gap: 4px; }
+  .legend-items { gap: 5px 12px; }
+  .seat-heading h2 { font-size: 18px; }
+  .seat-map { height: 290px; }
+}
+@media (min-width: 1001px) and (max-height: 760px) {
+  .workspace { padding-block: 12px; }
+  .preview-art { height: 130px; }
+  .preview-copy h1 { font-size: 23px; }
+  .film-actions { margin-top: 12px; }
+  .film-sidebar .schedule { padding-block: 12px; }
+  .seat-section { padding: 14px 16px; }
+  .seat-heading h2 { font-size: 19px; }
+}
+@media (max-width: 1000px) {
+  .preview-copy { padding: 0; }
+  .preview-art { height: 132px; }
+  .preview-copy h1 { font-size: 21px; }
+  .film-sidebar .film-preview { grid-template-columns: 90px minmax(0, 1fr); }
+  .seat-heading { flex-wrap: wrap; gap: 8px; }
+  .legend-group { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+  .legend-items { gap: 7px 12px; }
+  .room-toolbar .button { width: 100%; }
+}
+@media (max-width: 760px) {
+  .workspace { padding: 12px; gap: 14px; }
+  .film-step-heading { padding: 12px; }
+  .film-step-heading h2 { font-size: 14px; }
+  .change-movie { font-size: 12px; }
+  .film-sidebar .film-preview { grid-template-columns: 84px minmax(0, 1fr); }
+  .preview-copy h1 { font-size: 21px; }
+  .film-genre, .hero-meta { font-size: 12px; }
+  .preview-format { left: 4px; font-size: 8px; padding: 3px; }
+  .film-actions { gap: 6px; margin-top: 12px; }
+  .film-actions .button { font-size: 12px; padding: 8px 6px; }
+  .film-sidebar .schedule { margin-inline: 12px; }
+  .film-sidebar .date { height: 48px; }
+  .seat-section { padding: 15px 10px; }
+  .seat-heading h2 { font-size: 18px; }
+  .availability { font-size: 11px; }
+  .seat-legend { gap: 12px; padding-block: 12px; }
+  .legend-label { font-size: 12px; }
+  .legend-items { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px 10px; }
+  .legend-items > span { font-size: 12px; gap: 7px; }
+  .legend-group:last-child .legend-items { display: flex; flex-wrap: wrap; gap: 7px 12px; }
+  .room-toolbar .button { min-height: 44px; font-size: 12px; }
+  .feedback p { font-size: 12px; }
+  .summary { padding: 20px; }
+  .seat-chip { font-size: 13px; flex: 1 1 100%; }
+  .mobile-review strong, .mobile-review .button { font-size: 13px; }
+}

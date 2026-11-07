@@ -113,29 +113,23 @@
           </div>
 
           <div class="legend seat-legend" aria-label="Leyenda de asientos">
-            <span><i class="mini-seat available"></i>Disponible</span
-            ><span
-              ><i class="mini-seat chosen"
-                ><svg class="icon" aria-hidden="true">
-                  <use href="/icons.svg#check"></use></svg></i
-              >Seleccionado</span
-            ><span
-              ><i class="mini-seat occupied"
-                ><svg class="icon" aria-hidden="true">
-                  <use href="/icons.svg#lock"></use></svg></i
-              >Ocupado</span
-            ><span
-              ><i class="mini-seat blocked"
-                ><svg class="icon" aria-hidden="true">
-                  <use href="/icons.svg#ban"></use></svg></i
-              >Bloqueado</span
-            ><span
-              ><i class="mini-seat wheelchair"
-                ><svg class="icon" aria-hidden="true">
-                  <use href="/icons.svg#wheelchair"></use></svg></i
-              >Silla de ruedas</span
-            ><span><i class="mini-seat companion">A</i>Acompañante</span>
-            <span><i class="mini-seat vip">V</i>VIP</span>
+            <div class="legend-group" role="group" aria-labelledby="legend-status-label">
+              <span id="legend-status-label" class="legend-label">Estado</span>
+              <div class="legend-items">
+                <span><i class="mini-seat available" aria-hidden="true"></i>Disponible</span>
+                <span><i class="mini-seat chosen" aria-hidden="true"></i>Seleccionado</span>
+                <span><i class="mini-seat occupied" aria-hidden="true"></i>Ocupado</span>
+                <span><i class="mini-seat blocked" aria-hidden="true"><svg class="icon"><use href="/icons.svg#ban"></use></svg></i>Bloqueado</span>
+              </div>
+            </div>
+            <div class="legend-group" role="group" aria-labelledby="legend-type-label">
+              <span id="legend-type-label" class="legend-label">Tipo de plaza</span>
+              <div class="legend-items">
+                <span><i class="mini-seat vip" aria-hidden="true">V</i>VIP</span>
+                <span><i class="mini-seat wheelchair" aria-hidden="true"><svg class="icon"><use href="/icons.svg#wheelchair"></use></svg></i>Silla de ruedas</span>
+                <span><i class="mini-seat companion" aria-hidden="true">A</i>Acompañante</span>
+              </div>
+            </div>
           </div>
           <div class="screen" aria-label="Pantalla de cine">
             <span>PANTALLA</span>

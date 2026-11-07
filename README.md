@@ -78,7 +78,7 @@ La sala conserva sus 8 × 10 plazas y su matriz de ocupación 0/1. El plano aña
 - VIP: 15 plazas del bloque central, filas 5–7 y asientos 3–7. La categoría aparece en el plano, resumen y entrada; la reserva de demostración sigue siendo gratuita.
 - Pasillos: después de las columnas 2 y 7 y antes de la fila 5. Son espacios visuales: se mantienen exactamente 8 filas × 10 plazas, con índices desde cero.
 
-La leyenda distingue siete categorías con símbolos además del color. Elegir un acompañante añade su plaza accesible si está libre. Se permite reservar la plaza de silla de ruedas sola; el acompañante debe confirmarse junto a ella en la misma operación. Retirar la plaza accesible retira también el acompañante seleccionado. Una plaza accesible ocupada no permite reservar su acompañante desde otra operación.
+La leyenda separa «Estado» (disponible, seleccionado, ocupado, bloqueado) de «Tipo de plaza» (VIP, silla de ruedas, acompañante), con símbolos además del color. Elegir un acompañante añade su plaza accesible si está libre. Se permite reservar la plaza de silla de ruedas sola; el acompañante debe confirmarse junto a ella en la misma operación. Retirar la plaza accesible retira también el acompañante seleccionado. Una plaza accesible ocupada no permite reservar su acompañante desde otra operación.
 
 «Encontrar 2 juntos» busca butacas estándar o VIP dentro del mismo bloque, sin atravesar pasillos. «Silla de ruedas + acompañante» busca la primera pareja accesible libre. Las dos búsquedas respetan ocupación y bloqueos. Se valida toda la selección antes de reservar para evitar confirmaciones parciales.
 
