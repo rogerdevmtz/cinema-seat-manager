@@ -1,4 +1,4 @@
-/* Composición de la referencia: tres paneles continuos y una reserva visible. */
+/* Composición de reserva: ficha, plano y resumen. */
 body { background: #050e1c; background-image: radial-gradient(ellipse at 50% 100%, #07325b35, transparent 65%); }
 .topbar { height: 62px; background: #071322; border-bottom: 1px solid #24415f; padding-inline: 30px; }
 .progress-line.complete { background: #3187ff; }
@@ -140,7 +140,7 @@ body { background: #050e1c; background-image: radial-gradient(ellipse at 50% 100
   .seat-section.panel { height: 100%; }
 }
 
-/* Pasillos de la referencia: solo espacio visual, dentro de las mismas 80 plazas. */
+/* Pasillos visuales dentro de las mismas 80 plazas. */
 .seat-map {
   grid-template-columns: 15px repeat(3, minmax(0, 1fr)) clamp(10px, 1.6vw, 26px) repeat(5, minmax(0, 1fr)) clamp(10px, 1.6vw, 26px) repeat(2, minmax(0, 1fr));
   grid-template-rows: 16px repeat(5, minmax(0, 1fr)) 16px repeat(3, minmax(0, 1fr));

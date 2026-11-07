@@ -2963,7 +2963,7 @@ dialog::backdrop {
   .screen > span { margin-top: 18px; }
 }
 
-/* Leyenda compacta sin encabezados redundantes. */
+/* Leyenda de disponibilidad. */
 .seat-legend .legend-group { display: block; }
 
 /* Ochenta butacas del mismo tipo, sin zonas ni restricciones adicionales. */

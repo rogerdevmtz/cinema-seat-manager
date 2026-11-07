@@ -2,7 +2,9 @@
 
 Gestor de reservas de cine desarrollado con **TypeScript**, basado en la plantilla oficial de 4Geeks Academy. Incluye el programa de consola del ejercicio y una interfaz responsive con **HTML y Tailwind CSS** como reto extra.
 
-**80 plazas · Matriz 8 × 10 · Reserva por coordenadas · Búsqueda de asientos contiguos**
+**Dirección de diseño y marca: R. Martínez · [rogerdevmtz](https://github.com/rogerdevmtz)**
+
+80 plazas · Matriz 8 × 10 · Reserva por coordenadas · Búsqueda de asientos contiguos
 
 ## Vista previa
 
@@ -14,7 +16,7 @@ Ficha de película, mapa completo y reserva en una sola vista.
 
 ### Móvil
 
-Película y sesión, elección de butacas y revisión de la reserva. Capturas reales a 390 px de ancho.
+Película y sesión, elección de butacas y resumen de la reserva. Vista móvil de 390 px de ancho.
 
 <p>
   <img src="docs/screenshots/mobile-session.png" width="250" alt="Móvil: película, fecha y horario" />

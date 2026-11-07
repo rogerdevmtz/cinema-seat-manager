@@ -1,6 +1,6 @@
 # Validación del proyecto
 
-Revisión del **7 de noviembre de 2026**, contrastada con el [enunciado oficial de 4Geeks Academy](https://github.com/4GeeksAcademy/ai-engineering-syllabus/blob/main/content/projects/seats-management-typescript/README.es.md).
+Correspondencia con el [enunciado oficial de 4Geeks Academy](https://github.com/4GeeksAcademy/ai-engineering-syllabus/blob/main/content/projects/seats-management-typescript/README.es.md).
 
 ## Requisitos del reto
 
@@ -44,10 +44,9 @@ La interfaz web es el reto extra opcional y no forma parte de los criterios de e
 
 Estos son los valores **antes** de las reservas de demostración que ejecuta la consola.
 
-- **Instalación:** verificada desde una copia limpia del repositorio, con el archivo de bloqueo de dependencias.
 - **Pruebas:** 23 comprobaciones de lógica central, comprobaciones de selección y escenarios, y pruebas de contenido, escape XML y ajuste de la entrada SVG.
 - **Web:** selección y retirada de plazas, reserva y recuento, búsqueda de parejas, cambios de sesión y deshacer, escenarios, sinopsis, apertura/cierre del tráiler y descarga de entrada.
-- **Responsive y teclado:** revisión en escritorio de 1024–1920 px, tableta de 768/820 px y móvil de 320–414 px; 80 botones, pasillos visuales, foco, flechas, avisos y acceso móvil a la confirmación. Sin desbordamiento horizontal; las 80 plazas y la reserva caben en escritorio desde 1280 × 720.
-- **Capturas:** [escritorio](docs/screenshots/desktop.png), [sesión móvil](docs/screenshots/mobile-session.png), [mapa móvil](docs/screenshots/mobile-seats.png) y [reserva móvil](docs/screenshots/mobile-reservation.png), tomadas de la aplicación actual.
+- **Responsive y teclado:** compatibilidad comprobada en escritorio de 1024–1920 px, tableta de 768/820 px y móvil de 320–414 px; 80 botones, pasillos visuales, foco, flechas, avisos y acceso móvil a la confirmación. Sin desbordamiento horizontal; las 80 plazas y la reserva caben en escritorio desde 1280 × 720.
+- **Capturas:** [escritorio](docs/screenshots/desktop.png), [sesión móvil](docs/screenshots/mobile-session.png), [mapa móvil](docs/screenshots/mobile-seats.png) y [reserva móvil](docs/screenshots/mobile-reservation.png).
 
 Las notas sobre las herramientas de desarrollo y los vídeos externos están en [créditos y dependencias](docs/CREDITOS.md).
