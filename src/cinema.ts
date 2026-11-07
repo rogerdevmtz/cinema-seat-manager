@@ -14,14 +14,27 @@ export function createRoom(): Room {
 }
 
 /** Valida coordenadas enteras dentro de la matriz. */
-export function isValidPosition(room: Room, row: number, column: number): boolean {
-  return Number.isInteger(row) && Number.isInteger(column) && row >= 0 && row < room.length && column >= 0 && column < room[row].length;
+export function isValidPosition(
+  room: Room,
+  row: number,
+  column: number,
+): boolean {
+  return (
+    Number.isInteger(row) &&
+    Number.isInteger(column) &&
+    row >= 0 &&
+    row < room.length &&
+    column >= 0 &&
+    column < room[row].length
+  );
 }
 
 /** Reserva un asiento disponible y devuelve un mensaje del resultado. */
 export function reserveSeat(room: Room, row: number, column: number): string {
-  if (!isValidPosition(room, row, column)) return "Reserva fallida: fila o asiento fuera de rango. Usa filas 0–7 y asientos 0–9.";
-  if (room[row][column] === 1) return `Reserva fallida: el asiento ${row}, ${column} ya está ocupado.`;
+  if (!isValidPosition(room, row, column))
+    return "Reserva fallida: fila o asiento fuera de rango. Usa filas 0–7 y asientos 0–9.";
+  if (room[row][column] === 1)
+    return `Reserva fallida: el asiento ${row}, ${column} ya está ocupado.`;
   room[row][column] = 1;
   return `Reserva confirmada: fila ${row}, asiento ${column}.`;
 }
@@ -43,7 +56,11 @@ export function countSeats(room: Room): [occupied: number, available: number] {
 export function findAdjacentSeats(room: Room): [Position, Position] | null {
   for (let row = 0; row < room.length; row++) {
     for (let column = 0; column < room[row].length - 1; column++) {
-      if (room[row][column] === 0 && room[row][column + 1] === 0) return [[row, column], [row, column + 1]];
+      if (room[row][column] === 0 && room[row][column + 1] === 0)
+        return [
+          [row, column],
+          [row, column + 1],
+        ];
     }
   }
   return null;
@@ -54,7 +71,8 @@ export function printRoom(room: Room): void {
   console.log("    0 1 2 3 4 5 6 7 8 9");
   for (let row = 0; row < room.length; row++) {
     let line = `${row} | `;
-    for (let column = 0; column < room[row].length; column++) line += (room[row][column] === 0 ? "L" : "X") + " ";
+    for (let column = 0; column < room[row].length; column++)
+      line += (room[row][column] === 0 ? "L" : "X") + " ";
     console.log(line.trimEnd());
   }
 }
@@ -64,7 +82,8 @@ export function createScenario(scenario: number): Room {
   const room = createRoom();
   for (let row = 0; row < 8; row++) {
     for (let column = 0; column < 10; column++) {
-      if (scenario === 1 && (row * 3 + column * 7) % 5 < 2) room[row][column] = 1;
+      if (scenario === 1 && (row * 3 + column * 7) % 5 < 2)
+        room[row][column] = 1;
       if (scenario === 2 || scenario === 3) room[row][column] = 1;
     }
   }

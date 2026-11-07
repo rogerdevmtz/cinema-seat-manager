@@ -69,24 +69,25 @@ La funcionalidad de consola demuestra matriz bidimensional, funciones con retorn
 
 ## Entrega
 
-1. Crea un repositorio **público** en tu cuenta de GitHub.
-2. Sustituye el remoto de la plantilla por el de tu repositorio:
+Repositorio público de entrega: [rogerdevmtz/cinema-seat-manager](https://github.com/rogerdevmtz/cinema-seat-manager).
+
+Entrega ese enlace al instructor siguiendo sus indicaciones. El código está subido a la rama `main`, con el historial de la plantilla y los commits del proyecto.
+
+Para obtener una copia:
 
 ```sh
-git remote set-url origin https://github.com/TU_USUARIO/cinema-seat-manager.git
+git clone https://github.com/rogerdevmtz/cinema-seat-manager.git
+cd cinema-seat-manager
+npm install
+npm run console
+npm run start
 ```
 
-3. Revisa y guarda tus cambios, y súbelos a tu rama:
+No es necesario publicar la web para cumplir la entrega. Las reservas de la interfaz son temporales y se reinician al recargar.
 
-```sh
-git add .
-git commit -m "Complete cinema seat manager and web challenge"
-git push -u origin HEAD
-```
+## Dependencias de la plantilla
 
-4. Comprueba que el enlace es accesible sin iniciar sesión y entrégalo al instructor siguiendo sus indicaciones.
-
-No es necesario publicar la web para cumplir la entrega. No subas `node_modules`, archivos `.env` ni credenciales. El repositorio local conserva la procedencia de la plantilla; su remoto deberá sustituirse antes de subir código.
+Se conserva Vite 5 de la plantilla oficial. Se aplicaron las correcciones compatibles disponibles; `npm audit` mantiene dos avisos de herramientas de desarrollo (Vite/esbuild) que requieren cambiar de versión principal. No se ha realizado esa migración para mantener el stack solicitado. El servidor de desarrollo debe utilizarse en local.
 
 ## Créditos
 
