@@ -38,10 +38,17 @@
         </button>
       </div>
     </header>
+    <nav class="booking-progress" aria-label="Progreso de la reserva">
+      <span class="progress-step complete"><span class="progress-dot" aria-hidden="true">✓</span>Película y sesión</span>
+      <span class="progress-line complete" aria-hidden="true"></span>
+      <span class="progress-step current" aria-current="step"><span class="progress-dot" aria-hidden="true">2</span>Elige tus asientos</span>
+      <span class="progress-line" aria-hidden="true"></span>
+      <span class="progress-step"><span class="progress-dot" aria-hidden="true">3</span>Confirmación</span>
+    </nav>
     <main class="workspace shell">
       <aside class="film-sidebar panel" aria-label="Película y sesión">
         <div class="journey-heading film-step-heading">
-          <h2><span class="step-number" aria-hidden="true">1</span>Película y sesión</h2>
+          <h2><span class="step-number" aria-hidden="true">1</span>Tu película</h2>
           <button id="change-movie" class="change-movie" aria-label="Cambiar película">Cambiar<svg class="icon" aria-hidden="true"><use href="/icons.svg#arrow-right"></use></svg></button>
         </div>
         <section class="film-preview" aria-labelledby="page-title">
@@ -64,14 +71,16 @@
             <p class="hero-meta">
               <span id="hero-runtime"></span><span id="hero-year"></span>
             </p>
+            <p id="preview-synopsis" class="preview-synopsis"></p>
             <div class="film-actions">
               <button id="show-film-info" class="button secondary">
                 <svg class="icon" aria-hidden="true">
                   <use href="/icons.svg#info"></use></svg
-                >Sinopsis</button>
+                >Ver más</button>
             </div>
           </div>
         </section>
+        <div class="cinema-location"><svg class="icon" aria-hidden="true"><use href="/icons.svg#location"></use></svg><span>Cine independiente <span>· Sala 01</span></span></div>
         <section
           id="schedule"
           class="schedule"
@@ -103,22 +112,13 @@
           aria-labelledby="seats-title"
         >
           <div class="seat-heading">
-            <h2 id="seats-title"><span class="step-number" aria-hidden="true">2</span>Elige tus asientos</h2>
+            <h2 id="seats-title"><span class="step-number" aria-hidden="true">2</span><svg class="icon" aria-hidden="true"><use href="/icons.svg#seats"></use></svg>Elige tus asientos</h2>
             <span class="availability"
               ><span></span
               ><strong id="available-count">48</strong> disponibles</span
             >
           </div>
 
-          <div class="legend seat-legend" aria-label="Leyenda de asientos">
-            <div class="legend-group" role="group" aria-label="Disponibilidad">
-              <div class="legend-items">
-                <span><i class="mini-seat available" aria-hidden="true"></i>Disponible</span>
-                <span><i class="mini-seat chosen" aria-hidden="true"></i>Seleccionado</span>
-                <span><i class="mini-seat occupied" aria-hidden="true"></i>Ocupado</span>
-              </div>
-            </div>
-          </div>
           <div class="screen" aria-label="Pantalla de cine">
             <span>PANTALLA</span>
           </div>
@@ -135,6 +135,15 @@
                 <use href="/icons.svg#seats"></use></svg
               >Encontrar 2 juntos</button
             >
+          </div>
+          <div class="legend seat-legend" aria-label="Leyenda de asientos">
+            <div class="legend-group" role="group" aria-label="Disponibilidad">
+              <div class="legend-items">
+                <span><i class="mini-seat available" aria-hidden="true"></i>Disponible</span>
+                <span><i class="mini-seat chosen" aria-hidden="true"></i>Seleccionado</span>
+                <span><i class="mini-seat occupied" aria-hidden="true"></i>Ocupado</span>
+              </div>
+            </div>
           </div>
           <p id="map-instructions" class="sr-only">
             Filas 0 a 7 y asientos 0 a 9. Puedes usar las flechas del teclado.
@@ -169,14 +178,19 @@
             <use href="/icons.svg#ticket"></use>
           </svg>
         </div>
+        <div class="reservation-film">
+        <img id="summary-poster" src="/posters/movie-0.jpg" alt="" width="80" height="120" />
+        <div>
         <p id="summary-movie" class="summary-film-title"></p>
         <p id="summary-session" class="summary-session"></p>
+        </div></div>
         <div class="ticket-divider" aria-hidden="true"></div>
         <div class="selection-heading">
           <h3>Asientos</h3>
           <span id="selection-count" class="count-badge">0</span>
         </div>
         <div id="selected-seats" class="selected-seats"></div>
+        <div class="reservation-total"><span>Total</span><strong>Gratis</strong></div>
         <button id="book" class="button primary" disabled>
           Selecciona un asiento</button
         ><button id="clear" class="button text-button" disabled>

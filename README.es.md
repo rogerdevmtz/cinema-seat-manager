@@ -39,11 +39,11 @@ Los datos del cine se representan con arreglos, matrices, tuplas y valores simpl
 
 ## Reto extra
 
-Interfaz HTML + Tailwind con la marca de R. Martínez y su azul `#0047FB`. En escritorio, la distribución sigue tres pasos en una sola vista: película y sesión a la izquierda, las 80 plazas en el centro, y revisión de la reserva a la derecha. «Cambiar» abre la cartelera en un diálogo; elegir una película actualiza la ficha y el resumen. Volver a elegir la película actual conserva los asientos pendientes. Se ha verificado que cabe sin desplazamiento vertical en 1366 × 768. En móvil, el contenido se organiza en una sola página y el acceso al resumen permanece a mano al seleccionar.
+Interfaz HTML + Tailwind con la marca de R. Martínez y su azul `#0047FB`. La composición sigue la referencia visual aportada: progreso de reserva en la parte superior y tres paneles alineados. En escritorio, la distribución sigue tres pasos en una sola vista: película y sesión a la izquierda, las 80 plazas en el centro, y revisión de la reserva a la derecha. «Cambiar» abre la cartelera en un diálogo; elegir una película actualiza la ficha y el resumen. Volver a elegir la película actual conserva los asientos pendientes. Se ha verificado que cabe sin desplazamiento vertical en 1366 × 768. En móvil, el contenido se organiza en una sola página y el acceso al resumen permanece a mano al seleccionar.
 
 La ficha muestra el póster vertical completo, con un botón circular de reproducción centrado sobre su borde inferior. La pantalla conserva una línea curva sin brillo y un halo azul suave y difuminado; las acciones auxiliares tienen menor énfasis que la selección y la confirmación. «Sinopsis» y «Tráiler» se abren en diálogos sobre la reserva. Las fichas incluyen duración, año, dirección y reparto. Los tráileres oficiales se cargan solo al pulsar y se detienen al cerrar; también hay un enlace directo a YouTube si el proveedor impide reproducirlos dentro de la web.
 
-El resumen tiene formato de entrada, con fila y asiento destacados. Cada cruz retira una plaza; pulsar sus datos no modifica la selección. Las selecciones largas se desplazan dentro del resumen para mantener visible la confirmación.
+El resumen incluye una miniatura sincronizada con la película, el total gratuito de demostración y los datos de fila y asiento destacados. Cada cruz retira una plaza; pulsar sus datos no modifica la selección. Las selecciones largas se desplazan dentro del resumen para mantener visible la confirmación.
 
 1. Elige una película, una fecha y una hora de demostración.
 2. Pulsa una butaca libre para seleccionarla. Pulsa de nuevo para retirarla.
@@ -83,7 +83,8 @@ Las 80 butacas tienen el mismo tipo. La matriz solo guarda 0 (libre) o 1 (ocupad
 - `src/ticket.ts`: generación de entradas SVG con escape XML y ajuste de texto.
 - `public/icons.svg`: iconos vectoriales locales de trazo uniforme.
 - `src/web.ts`: interfaz y eventos; utiliza las funciones de la lógica central.
-- `src/style.css`: Tailwind y estilos de la referencia.
+- `src/style.css`: Tailwind y estilos base.
+- `src/reference.css`: composición y adaptación responsive de la referencia actual.
 - `index.html`: estructura semántica de la web.
 - `tests/cinema.test.ts`: 23 comprobaciones de casos normales y límites.
 - `tests/seat-layout.test.ts`: recuentos de escenarios, búsqueda compartida y validación previa de la selección.

@@ -1,4 +1,5 @@
 import "./style.css";
+import "./reference.css";
 import { movieDetails } from "./movie-details";
 import { createTicketSvg } from "./ticket";
 import type { Ticket } from "./ticket";
@@ -109,6 +110,8 @@ function renderContext(): void {
     `${icon("clock")}<span>${duration}</span>`;
   element("hero-year").textContent = year;
   element("hero-synopsis").textContent = synopsis;
+  element("preview-synopsis").textContent = synopsis;
+  element<HTMLImageElement>("summary-poster").src = `/posters/movie-${movie}.jpg`;
   element("movie-director").textContent = director;
   element("movie-cast").textContent = cast;
   element<HTMLAnchorElement>("movie-source").href = source;
