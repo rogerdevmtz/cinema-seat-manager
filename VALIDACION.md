@@ -1,4 +1,4 @@
-# Verificación de entrega
+# Validación del proyecto
 
 Revisión del **7 de noviembre de 2026**, contrastada con el [enunciado oficial de 4Geeks Academy](https://github.com/4GeeksAcademy/ai-engineering-syllabus/blob/main/content/projects/seats-management-typescript/README.es.md).
 
@@ -51,12 +51,3 @@ Estos son los valores **antes** de las reservas de demostración que ejecuta la 
 - **Capturas:** [escritorio](docs/screenshots/desktop.png), [sesión móvil](docs/screenshots/mobile-session.png), [mapa móvil](docs/screenshots/mobile-seats.png) y [reserva móvil](docs/screenshots/mobile-reservation.png), tomadas de la aplicación actual.
 
 Las notas sobre las herramientas de desarrollo y los vídeos externos están en [créditos y dependencias](docs/CREDITOS.md).
-
-## Cómo entregar
-
-1. El código final está subido a la rama `main` de un **repositorio público**.
-2. Envía este enlace al instructor o pégalo en la plataforma según sus indicaciones:
-
-   **https://github.com/rogerdevmtz/cinema-seat-manager**
-
-No se requiere un despliegue público de la web. La presentación en la plataforma es el único paso externo pendiente; esta revisión no la envía ni marca las tareas del curso.

@@ -19,4 +19,4 @@ Los tráileres pertenecen a los canales oficiales de Marvel Entertainment, Avata
 
 ## Dependencias de desarrollo
 
-Se conserva Vite 5 de la plantilla. La instalación comunica dos avisos de seguridad de Vite/esbuild, documentados durante la revisión; su corrección requiere una actualización mayor del entorno. `npm audit --omit=dev` no comunica vulnerabilidades. Esta entrega mantiene el stack de la plantilla y el servidor de desarrollo para uso local.
+Se conserva Vite 5 de la plantilla. La instalación comunica dos avisos de seguridad de Vite/esbuild, documentados durante la revisión; su corrección requiere una actualización mayor del entorno. `npm audit --omit=dev` no comunica vulnerabilidades. El proyecto mantiene el stack de la plantilla y el servidor de desarrollo para uso local.

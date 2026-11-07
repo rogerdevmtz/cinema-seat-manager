@@ -68,7 +68,7 @@ Los pasillos son espacios visuales después de las columnas 2 y 7 y antes de la 
 
 Es una demostración sin servidor ni pagos. Cada sesión conserva sus reservas durante la visita; recargar reinicia los datos. Las fechas son ilustrativas y las entradas no permiten acceder a un cine real.
 
-## Código y entrega
+## Estructura del proyecto
 
 - [src/cinema.ts](src/cinema.ts): lógica central compartida.
 - [src/main.ts](src/main.ts): demostración por consola.
@@ -78,8 +78,6 @@ Es una demostración sin servidor ni pagos. Cada sesión conserva sus reservas d
 - [src/style.css](src/style.css) y [src/reference.css](src/reference.css): Tailwind, estilos y adaptación responsive.
 - [tests/](tests/): comprobaciones de lógica, selección y entradas.
 
-La [verificación de entrega](ENTREGA.md) relaciona los requisitos y criterios oficiales con el código y las comprobaciones realizadas. La web es el reto opcional; la evaluación se centra en la lógica y la consola.
-
-**Enlace para entregar:** [github.com/rogerdevmtz/cinema-seat-manager](https://github.com/rogerdevmtz/cinema-seat-manager). El repositorio es público. Solo queda enviarlo al instructor o pegarlo en la plataforma según sus indicaciones; el enunciado no exige publicar la web.
+La [validación del proyecto](VALIDACION.md) relaciona los requisitos y criterios oficiales con el código y las comprobaciones realizadas. La web es el reto opcional; la evaluación se centra en la lógica y la consola.
 
 [Créditos, fuentes y notas de dependencias](docs/CREDITOS.md).
