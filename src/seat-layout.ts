@@ -6,6 +6,7 @@ export function countBookableSeats(room: Room): number {
   return countSeats(room)[1];
 }
 
+/** Devuelve el primer par horizontal usando la misma búsqueda que la consola. */
 export function findStandardPair(room: Room): [Position, Position] | null {
   return findAdjacentSeats(room);
 }

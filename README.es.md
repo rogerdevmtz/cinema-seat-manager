@@ -96,6 +96,8 @@ La funcionalidad de consola demuestra matriz bidimensional, funciones con retorn
 
 ## Entrega
 
+Ver [lista de verificación frente al enunciado oficial](./ENTREGA.md).
+
 Repositorio público de entrega: [rogerdevmtz/cinema-seat-manager](https://github.com/rogerdevmtz/cinema-seat-manager).
 
 Entrega ese enlace al instructor siguiendo sus indicaciones. El código está subido a la rama `main`, con el historial de la plantilla y los commits del proyecto.
