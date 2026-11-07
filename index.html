@@ -6,12 +6,12 @@
     <meta name="theme-color" content="#090d1d" />
     <meta
       name="description"
-      content="Prototipo de reservas de cine: selecciona asientos, encuentra una pareja y confirma tu reserva."
+      content="Elige tu película y reserva tus asientos en una sala de cine."
     />
     <title>R. Martínez · Reserva de asientos</title>
     <link rel="icon" href="/favicon.svg" />
   </head>
-  <body class="min-h-screen text-slate-100 antialiased">
+  <body>
     <a class="skip-link" href="#seats">Ir a los asientos</a>
     <header class="topbar">
       <a href="#" class="wordmark" aria-label="R. Martínez, inicio"
@@ -21,106 +21,88 @@
           width="247"
           height="73"
       /></a>
-      <nav class="flex items-center gap-7" aria-label="Navegación principal">
+      <nav aria-label="Navegación principal">
         <a href="#billboard" class="nav-active">Cartelera</a
-        ><a href="#seats">Reservar asientos</a><a href="#about">El proyecto</a>
+        ><a href="#seats">Reservar</a>
       </nav>
-      <span class="demo-badge"><span></span> Modo demostración</span>
+      <span class="demo-badge"><span></span> Demo</span>
     </header>
     <main class="shell">
-      <section
-        class="overview panel flex flex-wrap items-center justify-between gap-6"
-        aria-labelledby="page-title"
-      >
+      <div class="page-heading">
         <div>
-          <h1 id="page-title">Tu próxima historia empieza aquí.</h1>
-          <p class="muted mt-2">
-            Elige una película. Encuentra tu sitio. Disfruta del cine.
-          </p>
-          <div class="location mt-5">
-            <span aria-hidden="true">⌖</span> Cine independiente · Sala 01
-            <span class="muted">⌄</span>
-          </div>
+          <h1 id="page-title">Tu próxima sesión de cine.</h1>
+          <p>Elige una película y encuentra tu sitio.</p>
         </div>
-        <div class="service">
-          <p class="small-title">Tu experiencia</p>
-          <div class="flex flex-wrap gap-5 mt-4">
-            <span><i class="blue">☆</i> Sala digital</span
-            ><span><i class="green">☆</i> 80 butacas</span
-            ><span><i class="gold">☆</i> Reserva gratuita</span>
-          </div>
-        </div>
-      </section>
-      <section
-        class="schedule panel"
-        aria-label="Elegir sesión de demostración"
-      >
-        <div class="date-label">
-          <span class="small-title">Fecha</span
-          ><span class="brand-blue text-xs">NOVIEMBRE · DEMO</span>
-        </div>
-        <div id="dates" class="dates" role="group" aria-label="Fechas"></div>
-        <label class="session-field"
-          >Hora<select id="time">
-            <option>10:30</option>
-            <option selected>18:00</option>
-            <option>21:30</option>
-          </select></label
+        <span class="cinema-label"
+          >Sala 01 <span>·</span> Cine independiente</span
         >
-        <div class="session-field hall">
-          Sala<span>Sala 01 <span class="muted">· Estándar</span></span>
-        </div>
-      </section>
+      </div>
       <section id="billboard" aria-labelledby="billboard-title">
         <div class="section-heading">
-          <h2 id="billboard-title">Elige tu película</h2>
-          <span class="muted text-xs">Cartelera de ejemplo · 4 películas</span>
+          <div class="step-heading">
+            <span class="step-number">01</span>
+            <h2 id="billboard-title">Película</h2>
+          </div>
+          <span class="section-note">2D · VOSE</span>
         </div>
-        <div id="movies" class="movies panel"></div>
+        <div id="movies" class="movies"></div>
+      </section>
+      <section class="schedule panel" aria-labelledby="schedule-title">
+        <div class="date-label">
+          <div class="step-heading">
+            <span class="step-number">02</span>
+            <h2 id="schedule-title">Fecha y hora</h2>
+          </div>
+          <p>Noviembre</p>
+        </div>
+        <div class="schedule-options">
+          <div id="dates" class="dates" role="group" aria-label="Fechas"></div>
+          <label class="session-field"
+            >Hora<select id="time">
+              <option>10:30</option>
+              <option selected>18:00</option>
+              <option>21:30</option>
+            </select></label
+          >
+        </div>
       </section>
       <div class="booking-layout">
-        <aside class="summary panel" aria-labelledby="summary-title">
-          <div class="summary-heading">
-            <h2 id="summary-title">Tu selección</h2>
-            <span id="selection-count" class="count-badge">0</span>
-          </div>
-          <p id="summary-movie" class="mt-5 text-sm font-medium"></p>
-          <p id="summary-session" class="muted text-xs mt-2"></p>
-          <div id="selected-seats" class="selected-seats"></div>
-          <div class="summary-data">
-            <div>
-              <span>Asientos seleccionados</span
-              ><strong id="selected-total">0</strong>
-            </div>
-            <div><span>Tipo de reserva</span><strong>Estándar</strong></div>
-            <div class="summary-total">
-              <span>Total</span><strong>Sin coste <small>· demo</small></strong>
-            </div>
-          </div>
-          <button id="clear" class="button secondary w-full mt-4" disabled>
-            Limpiar selección
-          </button>
-          <button id="book" class="button primary w-full mt-3" disabled>
-            Selecciona un asiento
-          </button>
-          <p class="summary-note">
-            La reserva se confirma al pulsar el botón.<br />Datos temporales: se
-            reinician al recargar.
-          </p>
-        </aside>
-        <section id="seats" class="seat-section" aria-labelledby="seats-title">
+        <section
+          id="seats"
+          class="seat-section panel"
+          aria-labelledby="seats-title"
+        >
           <div class="seat-heading">
-            <div>
+            <div class="step-heading">
+              <span class="step-number">03</span>
               <h2 id="seats-title">Elige tus asientos</h2>
-              <p class="muted text-xs mt-2">
-                8 filas · 10 asientos por fila · índices desde 0
-              </p>
             </div>
+            <span class="availability"
+              ><span></span><strong id="available-count">48</strong> libres de
+              80</span
+            >
+          </div>
+          <div class="room-toolbar">
             <div class="legend">
               <span><i class="mini-seat available"></i>Libre</span
-              ><span><i class="mini-seat occupied"></i>Ocupado</span
-              ><span><i class="mini-seat chosen"></i>Seleccionado</span>
+              ><span><i class="mini-seat occupied">×</i>Ocupado</span
+              ><span><i class="mini-seat chosen">✓</i>Seleccionado</span>
             </div>
+            <button id="find-pair" class="button pair-button">
+              <svg
+                viewBox="0 0 24 24"
+                width="18"
+                height="18"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                aria-hidden="true"
+              >
+                <path
+                  d="M3 13v6h8v-6M4 13V7h6v6M13 13v6h8v-6M14 13V7h6v6"
+                /></svg
+              >Encontrar 2 juntos
+            </button>
           </div>
           <div class="screen" aria-label="Pantalla de cine">
             <span>PANTALLA</span>
@@ -130,43 +112,87 @@
             class="seat-map"
             role="group"
             aria-label="Mapa de 80 asientos"
+            aria-describedby="map-instructions"
           ></div>
-          <div class="seat-tools">
-            <p>
-              <strong id="available-count">0</strong> libres
-              <span class="muted">/ 80 asientos</span>
-            </p>
-            <button id="find-pair" class="button pair-button">
-              <span aria-hidden="true">♧</span> Encontrar 2 juntos
+          <p id="map-instructions" class="map-instructions">
+            Filas 0–7 · Asientos 0–9
+            <span>También puedes usar las flechas del teclado.</span>
+          </p>
+          <div
+            id="feedback"
+            class="feedback"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            <span class="feedback-icon" aria-hidden="true">i</span>
+            <p id="feedback-text">Selecciona un asiento libre para empezar.</p>
+            <button id="dismiss-feedback" aria-label="Cerrar aviso" hidden>
+              ×
             </button>
           </div>
         </section>
-      </div>
-      <div
-        id="feedback"
-        class="feedback"
-        role="status"
-        aria-live="polite"
-        aria-atomic="true"
-      >
-        <span class="feedback-icon" aria-hidden="true">i</span>
-        <p id="feedback-text">
-          Selecciona uno o varios asientos libres o encuentra una pareja.
-        </p>
-        <button id="dismiss-feedback" aria-label="Cerrar aviso" hidden>
-          ×
-        </button>
+        <aside
+          id="reservation-summary"
+          class="summary panel"
+          aria-labelledby="summary-title"
+        >
+          <div class="summary-heading">
+            <h2 id="summary-title">Tu reserva</h2>
+            <svg
+              viewBox="0 0 24 24"
+              width="22"
+              height="22"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              aria-hidden="true"
+            >
+              <path
+                d="M3 5h18v5a2 2 0 0 0 0 4v5H3v-5a2 2 0 0 0 0-4zM15 5v14"
+                stroke-dasharray="3 2"
+              />
+            </svg>
+          </div>
+          <div class="summary-film">
+            <img
+              id="summary-poster"
+              src="/posters/movie-0.jpg"
+              alt=""
+              width="500"
+              height="750"
+            />
+            <div>
+              <p id="summary-movie"></p>
+              <span class="format-label">2D · VOSE</span>
+            </div>
+          </div>
+          <p id="summary-session" class="summary-session"></p>
+          <div class="selection-heading">
+            <h3>Asientos</h3>
+            <span id="selection-count" class="count-badge">0</span>
+          </div>
+          <div id="selected-seats" class="selected-seats"></div>
+          <button id="book" class="button primary" disabled>
+            Selecciona un asiento</button
+          ><button id="clear" class="button text-button" disabled>
+            Quitar todos
+          </button>
+          <p class="summary-note">Las reservas se reinician al recargar.</p>
+        </aside>
       </div>
       <details class="demo-controls panel">
         <summary>
-          Probar los escenarios del ejercicio <span>Consola + interfaz</span>
+          <span>Zona de pruebas</span
+          ><span
+            >Escenarios del ejercicio <span aria-hidden="true">＋</span></span
+          >
         </summary>
         <div class="demo-control-body">
-          <p class="muted text-sm">
-            Carga un escenario en la sesión actual. Sustituye sus reservas y
-            borra la selección.
+          <p>
+            Sustituye los asientos de esta sesión por un escenario de prueba.
           </p>
-          <div class="flex flex-wrap gap-3 mt-4">
+          <div class="scenario-actions">
             <label class="sr-only" for="scenario">Escenario</label
             ><select id="scenario">
               <option value="0">Sala vacía · 80 libres</option>
@@ -190,13 +216,39 @@
             height="73"
         /></a>
         <p>
-          Cinema Seat Manager · Proyecto TypeScript<br /><span class="muted"
-            >Matriz, funciones y una buena sesión de cine.</span
-          >
+          Cinema Seat Manager <span>Proyecto TypeScript · 4Geeks Academy</span>
         </p>
         <a href="#page-title">Volver arriba ↑</a>
       </footer>
     </main>
+    <div id="mobile-review" class="mobile-review" hidden>
+      <div><strong id="mobile-count">0 asientos</strong></div>
+      <button id="review-selection" class="button primary">
+        Revisar reserva →
+      </button>
+    </div>
+    <dialog
+      id="booking-receipt"
+      class="receipt"
+      aria-labelledby="receipt-title"
+      aria-describedby="receipt-description"
+    >
+      <div class="receipt-content">
+        <span class="receipt-check" aria-hidden="true">✓</span>
+        <h2 id="receipt-title">Reserva confirmada</h2>
+        <p id="receipt-description">Ya tienes tu sitio.</p>
+        <div class="receipt-ticket">
+          <strong id="receipt-movie"></strong><span id="receipt-session"></span>
+          <div><span>ASIENTOS</span><strong id="receipt-seats"></strong></div>
+        </div>
+        <p class="receipt-note">
+          Reserva de demostración. Se reinicia al recargar.
+        </p>
+        <button id="close-receipt" class="button primary">
+          Volver a la sala
+        </button>
+      </div>
+    </dialog>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

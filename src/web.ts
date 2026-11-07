@@ -20,12 +20,6 @@ const movieGenres = [
   "Acción · Ciencia ficción",
   "Terror · Ciencia ficción",
 ];
-const movieTags = [
-  "MARVEL STUDIOS",
-  "UN VIAJE A PANDORA",
-  "CAMBIA TU DESTINO",
-  "TU NUEVA MEJOR AMIGA",
-];
 const dayNames = ["Sáb", "Dom", "Lun", "Mar", "Mié", "Jue", "Vie"];
 const sessions: Room[] = [];
 for (let session = 0; session < 84; session++) sessions.push(createScenario(1));
@@ -33,6 +27,8 @@ let movie = 0;
 let day = 0;
 let time = 1;
 let selected: Position[] = [];
+let focusedRow = 0;
+let focusedColumn = 0;
 
 /** Obtiene un elemento existente y mantiene su tipo de control. */
 function element<T extends HTMLElement>(id: string): T {
@@ -51,8 +47,8 @@ function currentRoom(): Room {
 
 /** Actualiza el aviso persistente y accesible después de una operación. */
 function feedback(message: string, state = "info"): void {
-  element("feedback").className = `feedback floating ${state}`;
-  element("dismiss-feedback").hidden = false;
+  element("feedback").className = `feedback ${state}`;
+  element("dismiss-feedback").hidden = true;
   element("feedback-text").textContent = message;
   element("feedback").querySelector(".feedback-icon")!.textContent =
     state === "success" ? "✓" : state === "error" ? "!" : "i";
@@ -64,8 +60,8 @@ function renderContext(): void {
     .map(
       (title, index) => `
     <button class="movie-card ${index === movie ? "active" : ""}" data-movie="${index}" aria-pressed="${index === movie}" aria-label="Elegir película: ${title}">
-      <div class="poster"><img src="/posters/movie-${index}.jpg" alt="Póster de ${title}" width="500" height="750" /><span class="movie-format">2D · VOSE</span><span class="movie-check" aria-hidden="true">✓</span></div>
-      <div class="movie-copy"><span class="movie-tag">${movieTags[index]}</span><h3>${title}</h3><p>${movieGenres[index]}</p></div>
+      <div class="poster"><img src="/posters/movie-${index}.jpg" alt="Póster de ${title}" width="500" height="750" /><span class="movie-check" aria-hidden="true">✓</span></div>
+      <div class="movie-copy"><h3>${title}</h3><p>${movieGenres[index]}</p></div>
     </button>`,
     )
     .join("");
@@ -75,6 +71,8 @@ function renderContext(): void {
         `<button class="date ${index === day ? "active" : ""}" data-day="${index}" aria-pressed="${index === day}" aria-label="${7 + index} de noviembre, ${name}"><span>Nov</span><strong>${String(7 + index).padStart(2, "0")}</strong><span>${name}</span></button>`,
     )
     .join("");
+  element<HTMLImageElement>("summary-poster").src =
+    `/posters/movie-${movie}.jpg`;
   element("summary-movie").textContent = movieTitles[movie];
   element("summary-session").textContent =
     `${7 + day} nov · ${element<HTMLSelectElement>("time").value} · Sala 01`;
@@ -97,16 +95,16 @@ function renderSeats(): void {
     }
   }
   element("seat-map").innerHTML = html;
+  updateSeatTabIndex();
   element("selected-seats").innerHTML = selected.length
     ? selected
         .map(
           (position) =>
-            `<span class="seat-chip">${position[0]} · ${position[1]}</span>`,
+            `<button class="seat-chip" data-remove-row="${position[0]}" data-remove-column="${position[1]}" aria-label="Retirar fila ${position[0]}, asiento ${position[1]}">F${position[0]} · A${position[1]}<span aria-hidden="true">×</span></button>`,
         )
         .join("")
-    : '<p class="muted text-sm">Aún no has elegido tu sitio.</p>';
+    : '<p class="muted text-sm">Elige tus asientos en el mapa.</p>';
   element("selection-count").textContent = String(selected.length);
-  element("selected-total").textContent = String(selected.length);
   const book = element<HTMLButtonElement>("book");
   book.disabled = selected.length === 0;
   book.textContent = selected.length
@@ -114,6 +112,9 @@ function renderSeats(): void {
     : "Selecciona un asiento";
   element<HTMLButtonElement>("clear").disabled = !selected.length;
   element("available-count").textContent = String(countSeats(room)[1]);
+  element("mobile-count").textContent =
+    `${selected.length} ${selected.length === 1 ? "asiento" : "asientos"}`;
+  updateMobileReview();
 }
 
 /** Cambia de sesión sin mezclar las reservas de películas, fechas u horas distintas. */
@@ -121,9 +122,7 @@ function changeSession(): void {
   selected = [];
   renderContext();
   renderSeats();
-  feedback(
-    "Sesión actualizada. Sus reservas se conservan durante esta visita; elige tus asientos.",
-  );
+  feedback("Sesión actualizada.");
 }
 
 element("movies").addEventListener("click", (event) => {
@@ -159,11 +158,10 @@ element("seat-map").addEventListener("click", (event) => {
   if (!button) return;
   const row = Number(button.dataset.row);
   const column = Number(button.dataset.column);
+  focusedRow = row;
+  focusedColumn = column;
   if (currentRoom()[row][column] === 1) {
-    feedback(
-      `El asiento ${row} · ${column} ya está ocupado. Elige un asiento libre.`,
-      "error",
-    );
+    feedback(`Fila ${row} · Asiento ${column}: ocupado.`, "error");
     return;
   }
   const existing = selected.findIndex(
@@ -179,8 +177,8 @@ element("seat-map").addEventListener("click", (event) => {
     ?.focus();
   feedback(
     existing >= 0
-      ? `Asiento ${row} · ${column} retirado de la selección.`
-      : `Asiento ${row} · ${column} seleccionado. Confirma la reserva cuando termines.`,
+      ? `Fila ${row} · Asiento ${column} retirado.`
+      : `Fila ${row} · Asiento ${column} seleccionado.`,
   );
 });
 element("find-pair").addEventListener("click", () => {
@@ -188,8 +186,8 @@ element("find-pair").addEventListener("click", () => {
   if (!pair) {
     feedback(
       countSeats(currentRoom())[1] === 0
-        ? "Sala completa. No quedan asientos disponibles en esta sesión."
-        : "No hay dos asientos libres contiguos. Puedes reservar asientos individuales.",
+        ? "Sala completa. Prueba otra sesión."
+        : "No hay dos asientos juntos. Puedes elegirlos por separado.",
       "error",
     );
     return;
@@ -197,14 +195,13 @@ element("find-pair").addEventListener("click", () => {
   selected = pair;
   renderSeats();
   feedback(
-    `Pareja encontrada: fila ${pair[0][0]}, asientos ${pair[0][1]} y ${pair[1][1]}. Pulsa Confirmar para reservar.`,
-    "success",
+    `Fila ${pair[0][0]} · Asientos ${pair[0][1]} y ${pair[1][1]} seleccionados.`,
   );
 });
 element("clear").addEventListener("click", () => {
   selected = [];
   renderSeats();
-  feedback("Selección limpiada. Las reservas confirmadas se conservan.");
+  feedback("Selección vacía.");
 });
 element("book").addEventListener("click", () => {
   if (!selected.length) return;
@@ -212,8 +209,15 @@ element("book").addEventListener("click", () => {
     .map((position) => `${position[0]} · ${position[1]}`)
     .join(", ");
   for (const [row, column] of selected) reserveSeat(currentRoom(), row, column);
+  element("receipt-movie").textContent = movieTitles[movie];
+  element("receipt-session").textContent =
+    element("summary-session").textContent;
+  element("receipt-seats").textContent = selected
+    .map((position) => `Fila ${position[0]} · Asiento ${position[1]}`)
+    .join(" / ");
   selected = [];
   renderSeats();
+  element<HTMLDialogElement>("booking-receipt").showModal();
   feedback(
     `Reserva confirmada. Tus asientos: ${labels}. ¡Disfruta de la película!`,
     "success",
@@ -238,5 +242,98 @@ element("dismiss-feedback").addEventListener("click", () => {
   element("feedback").classList.remove("floating");
   element("dismiss-feedback").hidden = true;
 });
+
+/** Mantiene una sola entrada de Tab en el mapa y permite recorrerlo con flechas. */
+function updateSeatTabIndex(): void {
+  for (const button of element("seat-map").querySelectorAll<HTMLButtonElement>(
+    "[data-row]",
+  )) {
+    button.tabIndex =
+      Number(button.dataset.row) === focusedRow &&
+      Number(button.dataset.column) === focusedColumn
+        ? 0
+        : -1;
+  }
+}
+
+/** Muestra el acceso móvil al resumen sin taparlo mientras se consulta. */
+function updateMobileReview(): void {
+  const summary = element("reservation-summary").getBoundingClientRect();
+  const visible = summary.top < window.innerHeight - 90 && summary.bottom > 100;
+  element("mobile-review").hidden = selected.length === 0 || visible;
+}
+window.addEventListener("scroll", updateMobileReview, { passive: true });
+window.addEventListener("resize", updateMobileReview);
+element("review-selection").addEventListener("click", () => {
+  element("reservation-summary").scrollIntoView({
+    block: "start",
+    behavior: "instant",
+  });
+  element("book").focus({ preventScroll: true });
+});
+element("seat-map").addEventListener("keydown", (event) => {
+  const keyboard = event as KeyboardEvent;
+  const button = (event.target as HTMLElement).closest<HTMLButtonElement>(
+    "[data-row]",
+  );
+  if (
+    !button ||
+    ![
+      "ArrowLeft",
+      "ArrowRight",
+      "ArrowUp",
+      "ArrowDown",
+      "Home",
+      "End",
+    ].includes(keyboard.key)
+  )
+    return;
+  keyboard.preventDefault();
+  focusedRow = Number(button.dataset.row);
+  focusedColumn = Number(button.dataset.column);
+  if (keyboard.key === "ArrowLeft")
+    focusedColumn = Math.max(0, focusedColumn - 1);
+  if (keyboard.key === "ArrowRight")
+    focusedColumn = Math.min(9, focusedColumn + 1);
+  if (keyboard.key === "ArrowUp") focusedRow = Math.max(0, focusedRow - 1);
+  if (keyboard.key === "ArrowDown") focusedRow = Math.min(7, focusedRow + 1);
+  if (keyboard.key === "Home") focusedColumn = 0;
+  if (keyboard.key === "End") focusedColumn = 9;
+  updateSeatTabIndex();
+  element("seat-map")
+    .querySelector<HTMLButtonElement>(
+      `[data-row="${focusedRow}"][data-column="${focusedColumn}"]`,
+    )
+    ?.focus();
+});
+element("selected-seats").addEventListener("click", (event) => {
+  const button = (event.target as HTMLElement).closest<HTMLButtonElement>(
+    "[data-remove-row]",
+  );
+  if (!button) return;
+  const row = Number(button.dataset.removeRow);
+  const column = Number(button.dataset.removeColumn);
+  selected = selected.filter(
+    (position) => position[0] !== row || position[1] !== column,
+  );
+  renderSeats();
+  const next =
+    element("selected-seats").querySelector<HTMLButtonElement>("button");
+  if (next) next.focus();
+  else
+    element("seat-map")
+      .querySelector<HTMLButtonElement>('[tabindex="0"]')
+      ?.focus();
+  feedback(`Fila ${row} · Asiento ${column} retirado.`);
+});
+element("close-receipt").addEventListener("click", () => {
+  element<HTMLDialogElement>("booking-receipt").close();
+});
+element("booking-receipt").addEventListener("close", () => {
+  element("seat-map")
+    .querySelector<HTMLButtonElement>('[tabindex="0"]')
+    ?.focus();
+});
+
 renderContext();
 renderSeats();

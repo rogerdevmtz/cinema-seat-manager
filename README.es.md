@@ -45,13 +45,13 @@ Interfaz HTML + Tailwind con el estilo de la referencia proporcionada: azul oscu
 2. Pulsa una butaca libre para seleccionarla. Pulsa de nuevo para retirarla.
 3. Puedes usar «Encontrar 2 juntos»: selecciona el primer par disponible y sustituye tu selección anterior.
 4. Revisa el resumen y pulsa «Confirmar». Solo entonces se ocupan los asientos.
-5. Los avisos muestran confirmaciones, asientos ocupados, ausencia de parejas y sala completa. Se pueden cerrar.
+5. Los avisos junto al mapa explican cada operación. La confirmación abre un comprobante con película, sesión y asientos, que se cierra con el botón o Escape.
 
 Cada sesión de ejemplo mantiene su propia matriz durante la visita; cambiar de sesión borra la selección pendiente y conserva las reservas confirmadas. No hay servidor, pagos ni persistencia: al recargar se reinician todos los datos. La cartelera y las fechas son una demostración, no programación real de un cine.
 
 La sección «Probar los escenarios del ejercicio» sustituye los datos de la sesión actual, previa confirmación. Permite comprobar visualmente los cuatro casos de la consola.
 
-Se puede operar con teclado (Tab, Enter y Espacio). La selección muestra una marca además del color, hay foco visible y los avisos se anuncian a lectores de pantalla. En móvil la cartelera se desplaza horizontalmente y el resumen aparece después del mapa.
+Se puede operar con teclado (Tab, flechas, Inicio/Fin, Enter y Espacio). Se pueden retirar asientos individualmente desde el resumen. La selección muestra una marca además del color, hay foco visible y los avisos se anuncian a lectores de pantalla. En móvil la cartelera se desplaza horizontalmente y el resumen aparece después del mapa. Un acceso fijo permite revisar la reserva y se oculta al consultar el resumen.
 
 ## Organización
 
