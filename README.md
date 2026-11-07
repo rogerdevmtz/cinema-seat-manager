@@ -43,7 +43,7 @@ Interfaz HTML + Tailwind con la marca de R. Martínez y su azul `#0047FB`. La co
 
 La ficha muestra el póster vertical completo, con un botón circular de reproducción centrado sobre su borde inferior. La pantalla conserva una línea curva sin brillo y un halo azul suave y difuminado; las acciones auxiliares tienen menor énfasis que la selección y la confirmación. «Sinopsis» y «Tráiler» se abren en diálogos sobre la reserva. Las fichas incluyen duración, año, dirección y reparto. Los tráileres oficiales se cargan solo al pulsar y se detienen al cerrar; también hay un enlace directo a YouTube si el proveedor impide reproducirlos dentro de la web.
 
-El resumen incluye una miniatura sincronizada con la película, el total gratuito de demostración y los datos de fila y asiento destacados. Cada cruz retira una plaza; pulsar sus datos no modifica la selección. Las selecciones largas se desplazan dentro del resumen para mantener visible la confirmación.
+El resumen incluye una miniatura sincronizada con la película, el total gratuito de demostración y pequeñas entradas con fila y asiento destacados. La leyenda comparte fila con la búsqueda de parejas cuando hay espacio; las butacas tienen volumen suave y la selección se aplica sobre su silueta. El progreso superior avanza a Confirmación al abrir la entrada y regresa a la selección al cerrarla. Cada cruz retira una plaza; pulsar sus datos no modifica la selección. Las selecciones largas se desplazan dentro del resumen para mantener visible la confirmación.
 
 1. Elige una película, una fecha y una hora de demostración.
 2. Pulsa una butaca libre para seleccionarla. Pulsa de nuevo para retirarla.

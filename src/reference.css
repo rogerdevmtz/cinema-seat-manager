@@ -228,3 +228,59 @@ body { background: #050e1c; background-image: radial-gradient(ellipse at 50% 100
   .progress-step { font-size: 17px; }
   .legend-items > span, .row-label, .column-label { font-size: 14px; }
 }
+/* Butacas acolchadas y selección sobre la propia silueta. */
+.seat-palette { position: absolute; pointer-events: none; }
+.seat, .mini-seat { --chair-back-paint: url(#chair-back-free); --chair-base-paint: url(#chair-base-free); }
+.seat.chosen, .mini-seat.chosen { --chair-back-paint: url(#chair-back-chosen); --chair-base-paint: url(#chair-base-chosen); }
+.seat.occupied, .mini-seat.occupied { --chair-back-paint: url(#chair-back-occupied); --chair-base-paint: url(#chair-base-occupied); }
+.cinema-chair .chair-back { fill: var(--chair-back-paint); }
+.cinema-chair .chair-cushion, .cinema-chair .chair-arm { fill: var(--chair-base-paint); }
+.cinema-chair .chair-highlight { fill: none; stroke: #ffffff80; stroke-width: 1.1; stroke-linecap: round; }
+.cinema-chair .chair-shadow { fill: #0005; }
+.seat.occupied .chair-highlight, .mini-seat.occupied .chair-highlight { stroke: #8a9cb140; }
+.seat-map .seat, .seat-map .seat.chosen { background: transparent; border-color: transparent; box-shadow: none; border-radius: 7px; }
+.seat-map .seat.chosen .cinema-chair { filter: drop-shadow(0 0 3px #0047fb50); }
+.seat-map .seat:focus-visible { outline: 2px solid #8fbeff; outline-offset: -1px; }
+.seat-map .seat .seat-state-mark { top: 8px; left: 50%; right: auto; transform: translateX(-50%); width: 13px; height: 13px; background: none; border: 0; color: #d8e8ff; }
+.seat-map .seat .seat-state-mark .icon { width: 11px; height: 11px; }
+.seat-map .seat.chosen .seat-state-mark { color: white; }
+.mini-seat .seat-state-mark { top: 5px; width: 10px; height: 10px; background: none; border: 0; }
+.mini-seat .seat-state-mark .icon { width: 8px; height: 8px; }
+/* Búsqueda y leyenda comparten fila cuando hay espacio. */
+.room-toolbar { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; justify-content: space-between; }
+.room-toolbar > .button { flex: 0 0 auto; }
+.room-toolbar .seat-legend { flex: 1 1 250px; padding: 0; margin: 0; }
+.room-toolbar .legend-items { flex-wrap: nowrap; justify-content: flex-end; gap: 10px; }
+.room-toolbar .legend-items > span { font-size: 12px; gap: 5px; }
+/* Entradas compactas: coordenadas legibles y retirada solo mediante la cruz. */
+.summary.panel { container-type: inline-size; }
+.selected-seats { display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: 9px; padding: 12px 0; min-height: 100px; }
+.ticket-seat { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr) 28px; align-items: center; gap: 7px; padding: 9px 10px; background: #10243d; border: 1px solid #355f91; border-radius: 9px; }
+.ticket-seat + .ticket-seat { border-top: 1px solid #355f91; }
+.seat-coordinate { gap: 3px; }
+.seat-coordinate > span { font-size: 12px; }
+.seat-coordinate > strong { font-size: 20px; }
+.ticket-seat .remove-seat { width: 28px; height: 32px; min-height: 32px; color: #adc6e8; }
+.ticket-seat .remove-seat > .icon { width: 14px; height: 14px; }
+.selection-empty { grid-column: 1 / -1; }
+@container (min-width: 310px) { .selected-seats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.film-sidebar.panel, .seat-section.panel, .summary.panel { background: radial-gradient(ellipse at 15% 0, #12305365, transparent 65%), linear-gradient(145deg, #0b192b, #06111f 65%); border-color: #345575; box-shadow: inset 0 1px 0 #8bc7ff18, 0 14px 28px #0002; }
+.progress-step.complete .progress-dot { color: #e2f1ff; }
+@media (hover: hover) and (pointer: fine) {
+  .seat-map .seat.available:hover { background: #16314c55; border-color: transparent; }
+  .seat-map .seat.available:hover .cinema-chair { filter: brightness(1.12); }
+  .ticket-seat .remove-seat:hover { background: #24476f; color: white; border-color: transparent; }
+}
+@media (min-width: 1400px) {
+  .film-preview .film-actions .button, .summary-session, .room-toolbar .button { font-size: 15px; }
+  .room-toolbar .legend-items > span { font-size: 14px; }
+}
+@media (max-width: 760px) {
+  .room-toolbar > .button { flex: 1 1 100%; }
+  .room-toolbar .seat-legend { flex-basis: 100%; padding-top: 2px; }
+  .room-toolbar .legend-items { justify-content: center; flex-wrap: wrap; }
+  .ticket-seat .remove-seat { width: 36px; height: 44px; }
+  .ticket-seat { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr) 36px; gap: 5px; padding-inline: 8px; }
+  .seat-map .seat .seat-state-mark { top: 7px; width: 10px; height: 10px; }
+  .seat-map .seat .seat-state-mark .icon { width: 8px; height: 8px; }
+}

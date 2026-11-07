@@ -19,10 +19,12 @@ function icon(name: string): string {
 /** Butaca vectorial compartida por el plano y la leyenda. */
 function cinemaSeat(): string {
   return `<svg class="cinema-chair" viewBox="0 0 32 32" aria-hidden="true">
-    <path class="chair-feet" d="M8 25h4v4H8zm12 0h4v4h-4z"/>
-    <rect class="chair-back" x="7" y="3" width="18" height="20" rx="5"/>
-    <path class="chair-seam" d="M11 7h10M10 19h12"/>
-    <rect class="chair-cushion" x="5" y="21" width="22" height="5" rx="2"/>
+    <ellipse class="chair-shadow" cx="16" cy="28" rx="13" ry="2"/>
+    <path class="chair-feet" d="M7 25h4v4H7zm14 0h4v4h-4z"/>
+    <path class="chair-back" d="M7 8q0-5 5-5h8q5 0 5 5v13H7Z"/>
+    <path class="chair-highlight" d="M10 8q0-2 3-2h6q3 0 3 2"/>
+    <path class="chair-seam" d="M10 19h12"/>
+    <rect class="chair-cushion" x="5" y="20" width="22" height="6" rx="2.5"/>
     <rect class="chair-arm" x="2.5" y="14" width="5" height="12" rx="2.3"/>
     <rect class="chair-arm" x="24.5" y="14" width="5" height="12" rx="2.3"/>
   </svg>`;
@@ -145,11 +147,25 @@ function renderContext(): void {
 /** Presenta los datos de la plaza como una entrada; solo la cruz permite retirarla. */
 function selectedSeatRow([row, column]: Position): string {
   return `<div class="ticket-seat">
-    <span class="ticket-seat-kind" aria-hidden="true">${icon("seats")}</span>
     <span class="seat-coordinate"><span>Fila</span><strong>${row}</strong></span>
     <span class="seat-coordinate"><span>Asiento</span><strong>${String(column).padStart(2, "0")}</strong></span>
     <button class="seat-chip remove-seat" data-remove-row="${row}" data-remove-column="${column}" aria-label="Retirar fila ${row}, asiento ${column}">${icon("close")}</button>
   </div>`;
+}
+
+/** Mantiene el progreso sincronizado con la confirmación visible. */
+function updateBookingProgress(confirmed = false): void {
+  const steps = document.querySelectorAll<HTMLElement>(".progress-step");
+  steps.forEach((step, index) => {
+    const current = index === (confirmed ? 2 : 1);
+    step.classList.toggle("current", current);
+    step.classList.toggle("complete", index < (confirmed ? 2 : 1));
+    if (current) step.setAttribute("aria-current", "step");
+    else step.removeAttribute("aria-current");
+    const dot = step.querySelector(".progress-dot");
+    if (dot) dot.textContent = index < (confirmed ? 2 : 1) ? "✓" : String(index + 1);
+  });
+  document.querySelectorAll(".progress-line")[1]?.classList.toggle("complete", confirmed);
 }
 
 /** Sincroniza el mapa de butacas y el resumen con la matriz y la selección. */
@@ -346,6 +362,7 @@ element("book").addEventListener("click", () => {
   selected = [];
   renderSeats();
   element<HTMLDialogElement>("booking-receipt").showModal();
+  updateBookingProgress(true);
   feedback(
     `Reserva confirmada. Tus asientos: ${labels}. ¡Disfruta de la película!`,
     "success",
@@ -465,6 +482,7 @@ element("close-receipt").addEventListener("click", () => {
   element<HTMLDialogElement>("booking-receipt").close();
 });
 element("booking-receipt").addEventListener("close", () => {
+  updateBookingProgress();
   if (ticketOpenedFromHeader) {
     element("open-ticket").focus();
     return;
@@ -508,6 +526,7 @@ element("open-ticket").addEventListener("click", () => {
   element("receipt-session").textContent = lastTicket[2];
   element("receipt-seats").textContent = lastTicket[3];
   element<HTMLDialogElement>("booking-receipt").showModal();
+  updateBookingProgress(true);
 });
 
 /** Descarga una entrada SVG autónoma, conservando la referencia y los asientos confirmados. */
