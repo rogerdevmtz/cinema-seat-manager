@@ -23,6 +23,7 @@ Revisión del 7 de noviembre de 2026 frente al [enunciado oficial en español](h
 - npm run console: escenarios vacía (80 libres), parcial (48), casi llena con aislados (3) y llena (0); mensajes de reservas y búsqueda correctos.
 - Navegador: 80 butacas uniformes, tres estados visuales, pareja inicial correcta, confirmación y recuento, escenarios, cambios de película/fecha/hora y deshacer, sin errores JavaScript.
 - Sinopsis, apertura/cierre del tráiler y retirada del reproductor al cerrar; entrada y descarga cubiertas por pruebas. La reproducción del vídeo depende de YouTube.
+- Revisión adicional de escritorio (1024–1920 px), tableta (768/820 px) y móvil (320–414 px), teclado y movimiento reducido. Se verificaron 80 botones y las separaciones visuales de columnas/filas; el acceso móvil a la reserva permanece hasta que la confirmación sea visible.
 - Vistas de escritorio entre 1280 × 720 y 1920 × 1080 y móvil de 360/390 px: contenido accesible sin desbordamiento horizontal; escritorio en una sola vista.
 - Herramientas de desarrollo: persisten los dos avisos de Vite/esbuild ya documentados en README. npm audit --omit=dev no comunica vulnerabilidades. No impiden ejecutar ni entregar el ejercicio.
 

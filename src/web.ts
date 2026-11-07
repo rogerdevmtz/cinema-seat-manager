@@ -412,8 +412,8 @@ function updateMobileReview(): void {
     element("feedback").classList.remove("floating");
     element("dismiss-feedback").hidden = true;
   }
-  const summary = element("reservation-summary").getBoundingClientRect();
-  const visible = summary.top < window.innerHeight - 90 && summary.bottom > 100;
+  const confirm = element("book").getBoundingClientRect();
+  const visible = confirm.top >= 0 && confirm.bottom <= window.innerHeight - 12;
   element("mobile-review").hidden = selected.length === 0 || visible;
 }
 window.addEventListener("scroll", updateMobileReview, { passive: true });

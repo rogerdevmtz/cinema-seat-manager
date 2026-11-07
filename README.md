@@ -55,7 +55,7 @@ Los tres horarios se muestran como botones, con la sesión activa identificada. 
 
 El botón «Demo» abre los escenarios del ejercicio en un diálogo separado de la reserva. Cargar un escenario sustituye los datos de la sesión actual, previa confirmación. Permite comprobar visualmente los cuatro casos de la consola.
 
-Se puede operar con teclado (Tab, flechas, Inicio/Fin, Enter y Espacio). Se pueden retirar asientos individualmente desde el resumen. La selección muestra una marca además del color, hay foco visible y los avisos se anuncian a lectores de pantalla. En móvil se mantiene el orden película y sesión → mapa → resumen. La cartelera se abre con «Cambiar» y el resumen aparece después del mapa. Un acceso fijo permite revisar la reserva y se oculta al consultar el resumen.
+Se puede operar con teclado (Tab, flechas, Inicio/Fin, Enter y Espacio). Se pueden retirar asientos individualmente desde el resumen. La selección muestra una marca además del color, hay foco visible y los avisos se anuncian a lectores de pantalla. En móvil se mantiene el orden película y sesión → mapa → resumen. La cartelera se abre con «Cambiar» y el resumen aparece después del mapa. Un acceso fijo permite revisar la reserva y se oculta cuando el botón de confirmación está completamente visible. El enlace de salto sitúa el foco en el mapa, y los controles móviles pequeños tienen un área de pulsación ampliada.
 
 ## Fichas, tráileres y entradas
 

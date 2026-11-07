@@ -284,3 +284,20 @@ body { background: #050e1c; background-image: radial-gradient(ellipse at 50% 100
   .seat-map .seat .seat-state-mark { top: 7px; width: 10px; height: 10px; }
   .seat-map .seat .seat-state-mark .icon { width: 8px; height: 8px; }
 }
+/* Acabado responsive: iconos dentro de su plaza y foco fuera de las barras fijas. */
+.seat-map .seat-visual { max-width: calc(100% - 2px); }
+.seat-map .cinema-chair { max-width: 100%; }
+.reservation-film > div { min-width: 0; }
+.summary-film-title { overflow-wrap: anywhere; }
+.preview-synopsis { text-wrap: pretty; }
+dialog { overscroll-behavior: contain; }
+#seats, #reservation-summary { scroll-margin-top: 16px; }
+#seats:focus-visible { outline: 2px solid #8fbeff; outline-offset: 3px; }
+@media (max-width: 760px) {
+  .seat-map .seat { scroll-margin-block: 100px; }
+  .film-preview .film-actions .button { min-height: 44px; }
+  .change-movie, .demo-badge { min-height: 44px; }
+  .icon-button { min-width: 44px; min-height: 44px; }
+}
+.seat-map .seat-visual, .seat-map .cinema-chair { min-width: 0; }
+.seat-map .seat { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); }
