@@ -10,6 +10,7 @@
     />
     <title>R. Martínez · Reserva de asientos</title>
     <link rel="icon" href="/favicon.svg" />
+    <link rel="preload" as="image" href="/backdrops/movie-0.jpg" />
   </head>
   <body>
     <a class="skip-link" href="#seats">Ir a los asientos</a>
@@ -28,26 +29,58 @@
       <span class="demo-badge"><span></span> Demo</span>
     </header>
     <main class="shell">
-      <div class="page-heading">
-        <div>
-          <h1 id="page-title">Tu próxima sesión de cine.</h1>
-          <p>Elige una película y encuentra tu sitio.</p>
+      <section class="cinematic-hero" aria-labelledby="page-title">
+        <img
+          id="hero-backdrop"
+          class="hero-backdrop"
+          src="/backdrops/movie-0.jpg"
+          alt=""
+          width="1280"
+          height="720"
+          fetchpriority="high"
+        />
+        <div class="hero-shade" aria-hidden="true"></div>
+        <div class="hero-content">
+          <p class="hero-kicker"><span></span> EN CARTELERA</p>
+          <h1 id="page-title">Ant-Man and The Wasp: Quantumania</h1>
+          <p class="hero-meta">
+            <span id="hero-genre">Acción · Aventura</span
+            ><span class="hero-format">2D · VOSE</span>
+          </p>
+          <a href="#schedule" id="hero-reserve" class="button primary"
+            >Elegir asientos
+            <svg
+              viewBox="0 0 24 24"
+              width="18"
+              height="18"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14m-6-6 6 6-6 6" /></svg
+          ></a>
         </div>
-        <span class="cinema-label"
-          >Sala 01 <span>·</span> Cine independiente</span
-        >
-      </div>
+        <div class="hero-bottom">
+          <span>SALA 01 <span>·</span> CINE INDEPENDIENTE</span
+          ><span id="hero-index">01 / 04</span>
+        </div>
+      </section>
       <section id="billboard" aria-labelledby="billboard-title">
         <div class="section-heading">
           <div class="step-heading">
             <span class="step-number">01</span>
-            <h2 id="billboard-title">Película</h2>
+            <h2 id="billboard-title">Elige tu película</h2>
           </div>
-          <span class="section-note">2D · VOSE</span>
+          <span class="section-note">4 películas en cartelera</span>
         </div>
         <div id="movies" class="movies"></div>
       </section>
-      <section class="schedule panel" aria-labelledby="schedule-title">
+      <section
+        id="schedule"
+        class="schedule panel"
+        aria-labelledby="schedule-title"
+      >
         <div class="date-label">
           <div class="step-heading">
             <span class="step-number">02</span>

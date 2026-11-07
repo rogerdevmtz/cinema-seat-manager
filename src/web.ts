@@ -56,6 +56,12 @@ function feedback(message: string, state = "info"): void {
 
 /** Dibuja la cartelera y las fechas, indicando el contexto seleccionado. */
 function renderContext(): void {
+  element<HTMLImageElement>("hero-backdrop").src =
+    `/backdrops/movie-${movie}.jpg`;
+  element("page-title").textContent = movieTitles[movie];
+  element("hero-genre").textContent = movieGenres[movie];
+  element("hero-index").textContent =
+    `${String(movie + 1).padStart(2, "0")} / 04`;
   element("movies").innerHTML = movieTitles
     .map(
       (title, index) => `
@@ -264,6 +270,11 @@ function updateMobileReview(): void {
 }
 window.addEventListener("scroll", updateMobileReview, { passive: true });
 window.addEventListener("resize", updateMobileReview);
+element("hero-reserve").addEventListener("click", (event) => {
+  event.preventDefault();
+  element("schedule").scrollIntoView({ block: "start", behavior: "instant" });
+  element("time").focus({ preventScroll: true });
+});
 element("review-selection").addEventListener("click", () => {
   element("reservation-summary").scrollIntoView({
     block: "start",
