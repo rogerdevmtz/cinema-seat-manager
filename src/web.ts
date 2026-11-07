@@ -19,6 +19,19 @@ function icon(name: string): string {
 }
 const wheelchairIcon = icon("wheelchair");
 
+/** Butaca vectorial compartida por el plano y la leyenda; VIP conserva su estrella en todos los estados. */
+function cinemaSeat(vip = false): string {
+  return `<svg class="cinema-chair" viewBox="0 0 32 32" aria-hidden="true">
+    <path class="chair-feet" d="M8 25h4v4H8zm12 0h4v4h-4z"/>
+    <rect class="chair-back" x="${vip ? 6 : 7}" y="3" width="${vip ? 20 : 18}" height="20" rx="5"/>
+    <path class="chair-seam" d="M11 7h10M10 19h12"/>
+    <rect class="chair-cushion" x="5" y="21" width="22" height="5" rx="2"/>
+    <rect class="chair-arm" x="2.5" y="14" width="5" height="12" rx="2.3"/>
+    <rect class="chair-arm" x="24.5" y="14" width="5" height="12" rx="2.3"/>
+    ${vip ? '<path class="chair-star" d="m16 8 1.5 3 3.3.5-2.4 2.3.6 3.2-3-1.5-3 1.5.6-3.2-2.4-2.3 3.3-.5z"/>' : ""}
+  </svg>`;
+}
+
 // Los datos propios se mantienen en arreglos. No se modelan reservas con objetos o clases.
 const movieTitles = [
   "Ant-Man and The Wasp: Quantumania",
@@ -171,11 +184,11 @@ function renderSeats(): void {
           ? `<span class="special-place">${wheelchairIcon}</span>`
           : kind === "companion"
             ? '<span class="special-place companion-symbol">A</span>'
-            : `<span class="chair"><span>${kind === "vip" ? "V" : ""}</span></span>`;
+            : cinemaSeat(kind === "vip");
       const mark = blocked
         ? `<span class="seat-state-mark">${icon("ban")}</span>`
         : occupied
-          ? `<span class="seat-state-mark">${icon("lock")}</span>`
+          ? `<span class="seat-state-mark">${icon("close")}</span>`
           : chosen
             ? `<span class="seat-state-mark">${icon("check")}</span>`
             : "";
@@ -597,5 +610,11 @@ element("download-ticket").addEventListener("click", async () => {
   }
 });
 
+// Los mismos dibujos y colores de las butacas permiten interpretar la leyenda sin traducir símbolos.
+for (const state of ["available", "chosen", "occupied", "vip"]) {
+  const sample = document.querySelector<HTMLElement>(`.mini-seat.${state}`);
+  if (sample) sample.innerHTML = cinemaSeat(state === "vip") +
+    (state === "chosen" || state === "occupied" ? `<span class="seat-state-mark">${icon(state === "chosen" ? "check" : "close")}</span>` : "");
+}
 renderContext();
 renderSeats();
