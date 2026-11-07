@@ -2,14 +2,14 @@
 
 :root {
   font-family: "Segoe UI", Arial, sans-serif;
-  color: #f3f2fa;
+  color: #f1f4fb;
   background: #090d1d;
   font-synthesis: none;
   --panel: #111528;
   --muted: #969aae;
-  --purple: #a94ef0;
+  --brand-blue: #3f75ff;
   --line: #25293d;
-  --accent: #8b2fd0;
+  --accent: #0047fb;
   color-scheme: dark;
 }
 * {
@@ -45,7 +45,7 @@ button:focus-visible,
 a:focus-visible,
 select:focus-visible,
 summary:focus-visible {
-  outline: 2px solid #dca5ff;
+  outline: 2px solid #a5beff;
   outline-offset: 5px;
 }
 button {
@@ -71,7 +71,7 @@ select {
   background: #090d1d;
   border: 1px solid var(--line);
   border-radius: 4px;
-  color: #e1deed;
+  color: #dce1ef;
   padding: 11px 13px;
   cursor: pointer;
 }
@@ -81,8 +81,8 @@ section[id] {
 .muted {
   color: var(--muted);
 }
-.purple {
-  color: #bc72f2;
+.brand-blue {
+  color: #6591ff;
 }
 .panel {
   background: var(--panel);
@@ -95,7 +95,7 @@ section[id] {
   position: absolute;
   left: 20px;
   top: -100px;
-  background: #8b2fd0;
+  background: #1752e8;
   padding: 12px;
   z-index: 20;
 }
@@ -115,27 +115,14 @@ section[id] {
 }
 .wordmark {
   display: inline-flex;
-  flex-direction: column;
-  width: 104px;
-  text-align: center;
+  flex: 0 0 auto;
+  width: 184px;
   line-height: 1;
 }
-.wordmark strong {
-  font-size: 33px;
-  letter-spacing: -3px;
-  font-weight: 900;
-  font-style: italic;
-  color: #a340d9;
-  transform: scaleX(1.1);
-}
-.wordmark > span {
-  font-size: 9px;
-  letter-spacing: 4px;
-  border-top: 1px solid #b6abc7;
-  border-bottom: 1px solid #b6abc7;
-  padding: 3px 0 4px;
-  margin-top: 3px;
-  color: #e3deed;
+.wordmark img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 .topbar nav {
   align-self: stretch;
@@ -149,8 +136,8 @@ section[id] {
 }
 .topbar nav a:hover,
 .topbar nav .nav-active {
-  color: #c87aff;
-  border-bottom-color: #9339d4;
+  color: #7aa0ff;
+  border-bottom-color: #225beb;
 }
 .demo-badge {
   font-size: 10px;
@@ -164,7 +151,7 @@ section[id] {
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: #b576ef;
+  background: #6691ff;
 }
 .shell {
   max-width: 1196px;
@@ -261,18 +248,18 @@ section[id] {
 }
 .date > span {
   font-size: 10px;
-  color: #a5a3bb;
+  color: #9fa8bf;
 }
 .date > strong {
   font-size: 14px;
   font-weight: 500;
 }
 .date.active {
-  background: #8128bb;
-  border-color: #b35ae9;
+  background: var(--accent);
+  border-color: #4579fe;
 }
 .date.active > span {
-  color: #ead2fb;
+  color: #cedcff;
 }
 .date:hover:not(.active) {
   background: #20213d;
@@ -328,11 +315,11 @@ section[id] {
   min-width: 0;
 }
 .movie-card.active {
-  border-color: #a14ade;
-  box-shadow: 0 0 0 1px #6f2f9f33;
+  border-color: #346af4;
+  box-shadow: 0 0 0 1px #1e47b033;
 }
 .movie-card:hover {
-  border-color: #73449b;
+  border-color: #3757a8;
 }
 .poster {
   height: 222px;
@@ -360,7 +347,7 @@ section[id] {
   position: absolute;
   top: 9px;
   right: 9px;
-  background: #9335d7;
+  background: #1d58ef;
   width: 23px;
   height: 23px;
   border-radius: 50%;
@@ -377,7 +364,7 @@ section[id] {
 }
 .movie-tag {
   font-size: 8px;
-  color: #bd7fe6;
+  color: #7095f5;
   letter-spacing: 0.09em;
 }
 .movie-copy h3 {
@@ -414,8 +401,8 @@ section[id] {
 }
 .count-badge {
   font-size: 10px;
-  border: 1px solid #724394;
-  background: #492167;
+  border: 1px solid #3755a0;
+  background: #163072;
   padding: 3px 7px;
   border-radius: 3px;
 }
@@ -431,9 +418,9 @@ section[id] {
   font-size: 11px;
 }
 .seat-chip {
-  background: #522078;
-  border: 1px solid #8b40bb;
-  color: #efd6ff;
+  background: #133385;
+  border: 1px solid #2e5bcd;
+  color: #d6e2ff;
   border-radius: 3px;
   padding: 8px 11px;
   font-size: 11px;
@@ -453,7 +440,7 @@ section[id] {
 .summary-data strong {
   font-size: 10px;
   font-weight: 500;
-  color: #ece8f3;
+  color: #e6eaf5;
 }
 .summary-data .summary-total {
   border-top: 1px solid var(--line);
@@ -474,21 +461,21 @@ section[id] {
   font-weight: 500;
 }
 .primary {
-  background: #8b2bce;
+  background: var(--accent);
   color: #fff;
-  border-color: #a142df;
+  border-color: #2a64f7;
 }
 .primary:hover:enabled {
-  background: #a03be3;
+  background: #2260fc;
 }
 .secondary {
   background: #0a0e20;
-  color: #d9d4e8;
+  color: #d1d8eb;
   border-color: #292c43;
 }
 .secondary:hover:enabled {
   background: #20213b;
-  border-color: #734493;
+  border-color: #38559f;
 }
 .summary-note {
   text-align: center;
@@ -520,7 +507,7 @@ section[id] {
   display: flex;
   align-items: center;
   gap: 7px;
-  color: #d5d3e1;
+  color: #d1d6e3;
 }
 .mini-seat {
   width: 12px;
@@ -539,8 +526,8 @@ section[id] {
   background: #545b70;
 }
 .mini-seat.chosen {
-  color: #b55cf0;
-  background: #b55cf0;
+  color: #4d7fff;
+  background: #4d7fff;
 }
 .screen {
   height: 99px;
@@ -553,10 +540,10 @@ section[id] {
   content: "";
   position: absolute;
   inset: 0 -12% -120px;
-  border-top: 2px solid #8c44d6;
+  border-top: 2px solid #2e64ec;
   border-radius: 50% 50% 0 0;
-  background: linear-gradient(#45217a40, #090d1d00 42%);
-  box-shadow: 0 -2px 12px #9947df0b;
+  background: linear-gradient(#14348740, #090d1d00 42%);
+  box-shadow: 0 -2px 12px #3068f60b;
 }
 .screen span {
   position: relative;
@@ -564,7 +551,7 @@ section[id] {
   margin-top: 29px;
   font-size: 13px;
   letter-spacing: 0.24em;
-  color: #b875f6;
+  color: #6c96ff;
 }
 .seat-map {
   display: grid;
@@ -629,7 +616,7 @@ section[id] {
   line-height: 13px;
   font-size: 11px;
   font-weight: 700;
-  color: #241035;
+  color: #0a183b;
 }
 .seat.occupied .chair {
   background: #43495f;
@@ -643,11 +630,11 @@ section[id] {
   font-size: 12px;
 }
 .seat.chosen .chair {
-  background: #9c41e0;
-  border-color: #9c41e0;
+  background: #2964f8;
+  border-color: #2964f8;
 }
 .seat.chosen .chair:before {
-  background: #b85bf2;
+  background: #4e80ff;
 }
 .seat.chosen .chair > span {
   color: #fff;
@@ -656,7 +643,7 @@ section[id] {
   background: #ffffff0a;
 }
 .seat.available:hover .chair:before {
-  background: #eee8fb;
+  background: #e5ecfe;
 }
 .seat[aria-disabled="true"] {
   cursor: not-allowed;
@@ -672,19 +659,19 @@ section[id] {
 }
 .seat-tools > p {
   font-size: 11px;
-  color: #c4bdd4;
+  color: #bac2d7;
 }
 .seat-tools strong {
   font-weight: 500;
-  color: #d5acf3;
+  color: #a1bbfe;
 }
 .pair-button {
-  background: #27163e;
-  border-color: #633287;
-  color: #e8c8ff;
+  background: #101f44;
+  border-color: #254594;
+  color: #c8d8ff;
 }
 .pair-button:hover {
-  background: #3b1c59;
+  background: #132962;
 }
 .pair-button > span {
   font-size: 17px;
@@ -707,8 +694,8 @@ section[id] {
   color: #cbcadd;
 }
 .feedback-icon {
-  border: 1px solid #827b9f;
-  color: #b9a6d3;
+  border: 1px solid #7683a4;
+  color: #9fb0da;
   border-radius: 50%;
   font-size: 11px;
   display: grid;
@@ -739,12 +726,12 @@ section[id] {
 .demo-controls summary {
   padding: 17px 20px;
   cursor: pointer;
-  color: #d7d2e4;
+  color: #cfd6e7;
 }
 .demo-controls summary > span {
   float: right;
   font-size: 10px;
-  color: #aaa1bb;
+  color: #9da7bf;
 }
 .demo-control-body {
   border-top: 1px solid var(--line);
@@ -762,17 +749,10 @@ footer {
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  color: #c1bdd1;
+  color: #bac1d4;
 }
 footer .small {
-  width: 70px;
-}
-footer .small strong {
-  font-size: 23px;
-}
-footer .small > span {
-  font-size: 6px;
-  letter-spacing: 2.5px;
+  width: 148px;
 }
 footer p {
   font-size: 10px;
@@ -780,7 +760,7 @@ footer p {
 }
 footer > a:last-child {
   font-size: 10px;
-  color: #b687d9;
+  color: #7b99e5;
 }
 @media (min-width: 1500px) {
   .topbar {
@@ -889,14 +869,7 @@ footer > a:last-child {
     padding: 0 20px;
   }
   .wordmark {
-    width: 84px;
-  }
-  .wordmark strong {
-    font-size: 29px;
-  }
-  .wordmark > span {
-    font-size: 7px;
-    letter-spacing: 3px;
+    width: 132px;
   }
   .topbar nav {
     gap: 16px;
@@ -1007,7 +980,7 @@ footer > a:last-child {
     gap: 12px;
     padding: 12px;
     scroll-snap-type: x proximity;
-    scrollbar-color: #7332a3 #111528;
+    scrollbar-color: #214bb4 #111528;
     scrollbar-width: thin;
   }
   .movie-card {

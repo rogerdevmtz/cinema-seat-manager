@@ -39,7 +39,7 @@ Los datos del cine se representan con arreglos, matrices, tuplas y valores simpl
 
 ## Reto extra
 
-Interfaz HTML + Tailwind con el estilo de la referencia proporcionada: azul oscuro, violeta, cartelera, resumen lateral y pantalla curva. Conserva las dimensiones 8 × 10 y los índices desde cero exigidos por el proyecto.
+Interfaz HTML + Tailwind con el estilo de la referencia proporcionada: azul oscuro, acentos azules del logo de R. Martínez, cartelera, resumen lateral y pantalla curva. Conserva las dimensiones 8 × 10 y los índices desde cero exigidos por el proyecto.
 
 1. Elige una película, una fecha y una hora de demostración.
 2. Pulsa una butaca libre para seleccionarla. Pulsa de nuevo para retirarla.
@@ -91,4 +91,4 @@ Se conserva Vite 5 de la plantilla oficial. Se aplicaron las correcciones compat
 
 ## Créditos
 
-Plantilla: ehiber y colaboradores de 4Geeks Academy. Referencia visual: captura aportada por el usuario. Pósteres obtenidos de TMDB para ilustrar el prototipo educativo; los derechos corresponden a sus respectivos titulares. Este proyecto no está afiliado a STAR Cineplex ni representa un sistema real de venta.
+Plantilla: ehiber y colaboradores de 4Geeks Academy. Referencia visual: captura aportada por el usuario. Pósteres obtenidos de TMDB para ilustrar el prototipo educativo; los derechos corresponden a sus respectivos titulares. Logo de R. Martínez aportado por el usuario; azul principal muestreado de la referencia: `#0047FB`. Este prototipo no representa un sistema real de venta.
